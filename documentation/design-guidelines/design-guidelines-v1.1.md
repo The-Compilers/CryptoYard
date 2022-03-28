@@ -34,7 +34,7 @@ For dark theme, use the right specter of the main color for backgrounds and the 
 ## 2. Typography
 
 - Sans-serif text for both headings and body text
-- Headings and other important text should use a bolder version of the fonr to create a visual hierarchy.
+- Headings and other important text should use a bolder version of the font to create a visual hierarchy.
 
 **Font:** Robot, sans-serif
 
@@ -49,6 +49,8 @@ Use whitespace to separate element from each other.
 ## 4. Icons
 
 Icons should not be used as a decorative element, rather as a replacement for text so users can more easily identify the elements of the page. E.g., the navigation on mobile devices.
+
+**Icon pack:** Font awesome
 
 ## 5. Border rounding
 
