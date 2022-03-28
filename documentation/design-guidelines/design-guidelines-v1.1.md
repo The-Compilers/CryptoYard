@@ -9,7 +9,7 @@
 ![accent color](./img/accent-color.png "Accent color")
 
 **Success color**
-![success color](./img/success-color.png "Success color")
+<img src="./img/success-color.png" alt="success color" width="200"/>
 
 **Error color**
 ![error color](./img/error-color.png "Error color")
