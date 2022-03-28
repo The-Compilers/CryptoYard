@@ -3,21 +3,25 @@
 ## 1. Color
 
 **Main color**
+
 ![main color](./img/main-color.png "Main color")
 
 **Accent color**
+
 ![accent color](./img/accent-color.png "Accent color")
 
 **Success color**
-<img src="./img/success-color.png" alt="success color" width="200"/>
+
+<img src="./img/success-color.png" alt="success color" width="400"/>
 
 **Error color**
-![error color](./img/error-color.png "Error color")
+
+<img src="./img/error-color.png" alt="error color" width="400"/>
 
 \*Example use-case of success and error color:
 
 - Display profit (success color)
-- Someone tries to login with wrong user information (error code)
+- Someone tries to login with wrong user information (error code)\*
 
 ### 1.1. Light theme
 
