@@ -3,16 +3,16 @@
 ## 1. Color
 
 **Main color**
-![main color](/img/main-color.png "Main color")
+![main color](./img/main-color.png "Main color")
 
 **Accent color**
-![accent color](/img/accent-color.png "Accent color")
+![accent color](./img/accent-color.png "Accent color")
 
 **Success color**
-![success color](/img/success-color.png "Success color")
+![success color](./img/success-color.png "Success color")
 
 **Error color**
-![error color](/img/error-color.png "Error color")
+![error color](./img/error-color.png "Error color")
 
 \*Example use-case of success and error color:
 
