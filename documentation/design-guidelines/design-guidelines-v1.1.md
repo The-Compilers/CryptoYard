@@ -18,10 +18,10 @@
 
 <img src="./img/error-color.png" alt="error color" width="400"/>
 
-\*Example use-case of success and error color:
+<em>Example use-case of success and error color:
 
 - Display profit (success color)
-- Someone tries to login with wrong user information (error code)\*
+- Someone tries to login with wrong user information (error code)</em>
 
 ### 1.1. Light theme
 
