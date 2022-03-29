@@ -1,0 +1,86 @@
+/*---------------
+    Resets
+---------------*/
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+button {
+  border: none;
+  background: transparent;
+}
+
+/*---------------
+  Global
+---------------*/
+:root {
+  /* colors */
+  --clr-light-0: #fff;
+  --clr-light-1: #f8f9fa;
+
+  --clr-dark-0: #212529;
+
+  --clr-accent: #4266eb;
+
+  --clr-success: #23d792;
+  --clr-error: #f7463c;
+
+  /* Shadow */
+  --shadow: 0px 5px 10px rgba(0, 0, 0, 0.4);
+
+  /* Border radius */
+  --border-radius: 10px;
+}
+
+html {
+  font-size: 62.5%;
+  scroll-behavior: smooth;
+}
+
+img {
+  max-width: 100%;
+}
+
+/*---------------
+  Typography
+---------------*/
+
+body {
+  font-family: "Roboto", sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 4.883rem;
+}
+
+h2 {
+  font-size: 3.906rem;
+}
+
+h3 {
+  font-size: 3.125rem;
+}
+
+h4 {
+  font-size: 2.5rem;
+}
+
+h5 {
+  font-size: 2rem;
+}
+
+p,
+a {
+  font-size: 1.6rem;
+  line-height: 1.5em;
+}
