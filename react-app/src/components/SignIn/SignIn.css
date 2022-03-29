@@ -86,17 +86,17 @@ input:focus{
     margin-right: 3%;
 }
 
-.login-footer{
+.sign-in-footer{
     text-align: center;
     margin-top: 2%;
 }
 
-.login-footer p a{
+.sign-in-footer p a{
     text-decoration: none;
     color: #fdfdfd;
 }
 
-.login-footer p a:hover{
+.sign-in-footer p a:hover{
     color: #212529;
     text-decoration: underline;
 }

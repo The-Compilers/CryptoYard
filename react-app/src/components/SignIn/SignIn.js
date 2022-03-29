@@ -22,7 +22,7 @@ function SignInForm() {
                     </form>
             </div>
 
-            <div className={"login-footer"}>
+            <div className={"sign-in-footer"}>
                 <p>
                     <a href={""}>Forgot password?</a>
                     &nbsp;·&nbsp;
