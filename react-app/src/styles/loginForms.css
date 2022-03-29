@@ -1,0 +1,47 @@
+html {
+    font-size: 62.5%;
+}
+
+/*---------------
+   Sign up sheet
+---------------*/
+
+.sign-up-form {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.sign-up-card {
+    display: flex;
+    flex-direction: column;
+    row-gap: 2.4rem;
+}
+
+.sign-up-card__element {
+    padding: 0.8rem;
+    border-radius: 0.5rem;
+    border-color: #DEE2E6;
+}
+
+.sign-up-card__create-button {
+    padding: 0.8rem;
+    border-radius: 0.5rem;
+    background-color: #4C6EF5;
+    border-color: #365FC7;
+    color: white;
+}
+
+
+.sign-up-form__wrapper {
+    margin-left: 25%;
+    margin-right: 25%;
+    outline: 2px red solid;
+}
+
+.sign-up-card__footer {
+    display: flex;
+    outline: 2px red solid;
+    justify-content: center;
+    align-items: center;
+}
