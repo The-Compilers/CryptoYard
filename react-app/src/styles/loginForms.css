@@ -2,6 +2,10 @@ html {
     font-size: 62.5%;
 }
 
+body {
+    background-color: #DEE2E6;
+}
+
 /*---------------
    Sign up sheet
 ---------------*/
@@ -16,12 +20,21 @@ html {
     display: flex;
     flex-direction: column;
     row-gap: 2.4rem;
+    background-color: white;
+    padding: 2.4rem;
+    border-radius: 0.5rem;
 }
 
 .sign-up-card__element {
     padding: 0.8rem;
     border-radius: 0.5rem;
+    border: solid;
     border-color: #DEE2E6;
+}
+
+.sign-up-card__header {
+    font-size: 1.6rem;
+    text-align: center;
 }
 
 .sign-up-card__create-button {
@@ -36,12 +49,21 @@ html {
 .sign-up-form__wrapper {
     margin-left: 25%;
     margin-right: 25%;
-    outline: 2px red solid;
+    margin-top: 25vh;
 }
 
 .sign-up-card__footer {
     display: flex;
-    outline: 2px red solid;
     justify-content: center;
     align-items: center;
+    gap: 0.4rem;
+}
+
+.sign-up-card__login {
+    text-decoration: none;
+    color: black;
+}
+
+.sign-up-card__login:hover {
+    text-decoration: underline;
 }

@@ -4,9 +4,6 @@ function SignUpSheet()
 {
     return (
         <>
-            <header className="sign-up-sheet">
-             <h1 className="sign-up-sheet">Sign up</h1>
-            </header>
             <body>
                 <section class="sign-up-form__wrapper">
                     <form class="sign-up-form" action="">
@@ -19,7 +16,7 @@ function SignUpSheet()
                             <button class="sign-up-card__create-button" type="submit">Create Account</button>
                             <div class="sign-up-card__footer">
                                 <p>Already have an account?</p>
-                                <a class="sign-up-card__log-in" href="#">Log in</a>
+                                <a class="sign-up-card__login" href="#">Log in</a>
                             </div>
                         </div>
                     </form>
