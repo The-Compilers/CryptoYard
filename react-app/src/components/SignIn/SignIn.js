@@ -11,12 +11,14 @@ function SignInForm() {
 
             <div className={"sign-in-form-wrapper"}>
                     <form className={"sign-in-form"}>
-                        <input id={"sign-in-input"} type={"text"} placeholder={"Username"}/>
-                        <input id={"sign-in-input"} type={"password"} placeholder={"Password"}/>
+                        <input className={"sign-in-input"} type={"text"} placeholder={"Username"}/>
+                        <input className={"sign-in-input"} type={"password"} placeholder={"Password"}/>
 
                         <div className={"sign-in-button-container"}>
-                            <input type={"checkbox"} id={"sign-in-checkbox"} name={"check"}/>
-                            <label for={"check"}>Keep med signed in</label>
+                            <label htmlFor={"check"}>
+                                <input type={"checkbox"} id={"sign-in-checkbox"} name={"check"}/>
+                                Keep med signed in
+                            </label>
                             <input id={"sign-in-button"} type={"submit"} value={"SIGN IN"} />
                         </div>
                     </form>
