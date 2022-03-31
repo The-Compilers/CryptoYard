@@ -19,10 +19,13 @@ button {
   /* colors */
   --clr-light-0: #fff;
   --clr-light-1: #f8f9fa;
+  --clr-light-3: #DEE2E6;
 
   --clr-dark-0: #212529;
-
+  
   --clr-accent: #4266eb;
+  --clr-accent-1: #4C6EF5;
+  --clr-accent-2: #365FC7;
 
   --clr-success: #23d792;
   --clr-error: #f7463c;
@@ -83,4 +86,9 @@ p,
 a {
   font-size: 1.6rem;
   line-height: 1.5em;
+}
+
+.box {
+  border-radius: 0.5rem;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
 }

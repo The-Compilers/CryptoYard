@@ -1,10 +1,18 @@
 import "./styles/global.css";
 
+import { Routes, Route } from "react-router-dom";
+import SignUpSheet from "./components/SignUpSheet.jsx";
+import SignIn from "./components/SignIn/SignIn";
+
 function App() {
   return (
-    <div className="App">
-      <h1 className="Hello">Hello world!</h1>
-    </div>
+
+      <div>
+          <Routes>
+              <Route path ="/signin" element = {<SignIn/>}/>
+              <Route exact path = "/signup" element = {<SignUpSheet/>}/>
+          </Routes>
+      </div>
   );
 }
 
