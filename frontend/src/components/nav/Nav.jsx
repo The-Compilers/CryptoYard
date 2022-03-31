@@ -27,10 +27,11 @@ function Nav({ username }) {
         <ul className="user__dropdown">
           <li className="user__name noselect">
             <div className="user__name--wrapper" onClick={toggleSettings}>
-              {firstName} {lastName} <span>v</span>
+              {firstName} {lastName}{" "}
+              <span className="user__name__arrow">&#10148;</span>
             </div>
             <ul
-              className="user__dropdown__list user__dropdown__list--hidden"
+              className="user__dropdown__list user__dropdown__list--hidden box"
               data-dropdown-list
             >
               <li className="user__dropdown__list__item">
@@ -41,6 +42,11 @@ function Nav({ username }) {
               <li className="user__dropdown__list__item">
                 <a to="" className="user__dropdown__list__link">
                   Settings
+                </a>
+              </li>
+              <li className="user__dropdown__list__item">
+                <a to="" className="user__dropdown__list__link">
+                  Log out
                 </a>
               </li>
             </ul>

@@ -66,6 +66,14 @@ img {
                                   supported by Chrome, Edge, Opera and Firefox */
 }
 
+.success {
+  color: var(--clr-success);
+}
+
+.error {
+  color: var(--clr-error);
+}
+
 /*---------------
   Typography
 ---------------*/

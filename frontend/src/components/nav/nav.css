@@ -40,14 +40,18 @@
   cursor: pointer;
 }
 
+.user__name__arrow {
+  display: inline-block;
+  transform: rotate(90deg);
+}
+
 .user__dropdown__list {
   display: flex;
   flex-direction: column;
-  gap: 1.6em;
+  gap: 0.8em;
   padding: 1.6em;
   list-style-type: none;
   background-color: var(--clr-light-0);
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
   position: absolute;
   right: 0;
   top: calc(100% + 0.8em);

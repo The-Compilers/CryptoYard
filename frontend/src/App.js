@@ -1,6 +1,10 @@
+// Routing
+import { Routes, Route } from "react-router-dom";
+
+// Global styles
 import "./styles/global.css";
 
-import { Routes, Route } from "react-router-dom";
+// Pages
 import SignUpSheet from "./components/SignUpSheet.jsx";
 import SignIn from "./components/SignIn/SignIn";
 import Dashboard from "./pages/dashboard/Dashboard";
