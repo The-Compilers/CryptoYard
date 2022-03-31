@@ -19,6 +19,7 @@ button {
   /* colors */
   --clr-light-0: #fff;
   --clr-light-1: #f8f9fa;
+  --clr-light-3: #DEE2E6;
 
   --clr-dark-0: #212529;
   
@@ -85,4 +86,9 @@ p,
 a {
   font-size: 1.6rem;
   line-height: 1.5em;
+}
+
+.box {
+  border-radius: 0.5rem;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
 }
