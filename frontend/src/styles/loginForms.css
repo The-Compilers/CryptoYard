@@ -1,59 +1,54 @@
-html {
-    font-size: 62.5%;
-}
-
-body {
-    background-color: #DEE2E6;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 /*---------------
    Sign up sheet
 ---------------*/
 
+.sign-up-form--wrapper {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .sign-up-form {
-    display: flex;
-    flex-direction: column;
-    row-gap: 2.4rem;
-    background-color: var(--clr-light-0);
-    padding: 2.4rem;
+  display: flex;
+  flex-direction: column;
+  row-gap: 2.4rem;
+  background-color: var(--clr-light-0);
+  padding: 2.4rem;
 }
 
 .sign-up-card__input {
-    padding: 0.8rem;
-    border-radius: 0.5rem;
-    border: solid;
-    border-color: #DEE2E6;
+  padding: 0.8rem;
+  border-radius: 0.5rem;
+  border: solid;
+  border-color: #dee2e6;
 }
 
 .sign-up-card__header {
-    font-size: 1.6rem;
-    text-align: center;
+  font-size: 1.6rem;
+  text-align: center;
 }
 
 .sign-up-card__create-button {
-    padding: 0.8rem;
-    border-radius: 0.5rem;
-    background-color: var(--clr-accent-1);
-    border-color: var(--clr-accent-2);
-    color: var(--clr-light-0);
+  padding: 0.8rem;
+  border-radius: 0.5rem;
+  background-color: var(--clr-accent-1);
+  border-color: var(--clr-accent-2);
+  color: var(--clr-light-0);
 }
 
 .sign-up-card__footer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 0.4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.4rem;
 }
 
 .sign-up-card__login {
-    text-decoration: none;
-    color: black;
+  text-decoration: none;
+  color: black;
 }
 
 .sign-up-card__login:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }

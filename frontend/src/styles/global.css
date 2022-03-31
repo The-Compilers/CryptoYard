@@ -19,13 +19,14 @@ button {
   /* colors */
   --clr-light-0: #fff;
   --clr-light-1: #f8f9fa;
-  --clr-light-3: #DEE2E6;
+  --clr-light-2: #f1f3f5;
+  --clr-light-3: #dee2e6;
 
   --clr-dark-0: #212529;
-  
+
   --clr-accent: #4266eb;
-  --clr-accent-1: #4C6EF5;
-  --clr-accent-2: #365FC7;
+  --clr-accent-1: #4c6ef5;
+  --clr-accent-2: #365fc7;
 
   --clr-success: #23d792;
   --clr-error: #f7463c;
@@ -42,8 +43,17 @@ html {
   scroll-behavior: smooth;
 }
 
+body {
+  background-color: var(--clr-light-2);
+}
+
 img {
   max-width: 100%;
+}
+
+.logo {
+  font-size: 2.5rem;
+  color: var(--clr-accent);
 }
 
 /*---------------
