@@ -21,8 +21,10 @@ button {
   --clr-light-1: #f8f9fa;
 
   --clr-dark-0: #212529;
-
+  
   --clr-accent: #4266eb;
+  --clr-accent-1: #4C6EF5;
+  --clr-accent-2: #365FC7;
 
   --clr-success: #23d792;
   --clr-error: #f7463c;

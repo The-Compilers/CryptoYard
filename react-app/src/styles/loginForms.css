@@ -40,9 +40,9 @@ body {
 .sign-up-card__create-button {
     padding: 0.8rem;
     border-radius: 0.5rem;
-    background-color: #4C6EF5;
-    border-color: #365FC7;
-    color: white;
+    background-color: var(--clr-accent-1);
+    border-color: var(--clr-accent-2);
+    color: var(--clr-light-0);
 }
 
 
