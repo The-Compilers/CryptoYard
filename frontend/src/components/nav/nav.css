@@ -37,6 +37,7 @@
 
 .user__name {
   font-size: 1.6rem;
+  cursor: pointer;
 }
 
 .user__dropdown__list {
@@ -54,4 +55,14 @@
 
 .user__dropdown__list--hidden {
   display: none;
+}
+
+.user__dropdown__list__link {
+  color: var(--clr-dark-0);
+  text-decoration: none;
+}
+
+.user__dropdown__list__link:hover,
+.user__dropdown__list__link:focus {
+  text-decoration: underline;
 }

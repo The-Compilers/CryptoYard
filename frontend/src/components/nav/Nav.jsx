@@ -25,7 +25,7 @@ function Nav({ username }) {
           alt="Profile images"
         />
         <ul className="user__dropdown">
-          <li className="user__name">
+          <li className="user__name noselect">
             <div className="user__name--wrapper" onClick={toggleSettings}>
               {firstName} {lastName} <span>v</span>
             </div>
@@ -34,10 +34,14 @@ function Nav({ username }) {
               data-dropdown-list
             >
               <li className="user__dropdown__list__item">
-                <a href="">View profile</a>
+                <Link to="" className="user__dropdown__list__link">
+                  View profile
+                </Link>
               </li>
               <li className="user__dropdown__list__item">
-                <a href="">Settings</a>
+                <a to="" className="user__dropdown__list__link">
+                  Settings
+                </a>
               </li>
             </ul>
           </li>
