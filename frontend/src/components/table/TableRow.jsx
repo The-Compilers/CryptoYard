@@ -1,11 +1,4 @@
-function CryptoTableRow({
-  coin,
-  balance,
-  profit,
-  price,
-  lastDay,
-  lastSevenHours,
-}) {
+function TableRow({ coin, balance, profit, price, lastDay, lastSevenHours }) {
   return (
     <tr className="table__row">
       <td className="table__column">{coin}</td>
@@ -39,4 +32,4 @@ function CryptoTableRow({
   );
 }
 
-export default CryptoTableRow;
+export default TableRow;
