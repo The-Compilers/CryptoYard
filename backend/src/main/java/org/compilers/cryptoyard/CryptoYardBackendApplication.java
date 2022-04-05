@@ -1,4 +1,4 @@
-package org.the_compilers.cryptoyard;
+package org.compilers.cryptoyard;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

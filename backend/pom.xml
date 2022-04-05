@@ -8,8 +8,8 @@
 		<version>2.6.5</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>org.the_compilers</groupId>
-	<artifactId>cryptoyard_backend</artifactId>
+	<groupId>org.compilers</groupId>
+	<artifactId>cryptoyard-backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>crypto-yard-backend</name>
 	<description>Spring Boot backend for CryptoYard</description>
