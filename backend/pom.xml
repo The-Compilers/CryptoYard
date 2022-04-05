@@ -11,8 +11,8 @@
 	<groupId>org.the_compilers</groupId>
 	<artifactId>cryptoyard_backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>cryptoyard_backend</name>
-	<description>Spring Boot backend for Cryptoyard</description>
+	<name>crypto-yard-backend</name>
+	<description>Spring Boot backend for CryptoYard</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>

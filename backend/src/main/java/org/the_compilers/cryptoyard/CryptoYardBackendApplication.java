@@ -1,13 +1,13 @@
-package org.the_compilers.cryptoyard_backend;
+package org.the_compilers.cryptoyard;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class CryptoyardBackendApplication {
+public class CryptoYardBackendApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CryptoyardBackendApplication.class, args);
+		SpringApplication.run(CryptoYardBackendApplication.class, args);
 	}
 
 }

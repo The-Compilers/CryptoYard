@@ -1,4 +1,4 @@
-package org.the_compilers.cryptoyard_backend;
+package org.the_compilers.cryptoyard;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
