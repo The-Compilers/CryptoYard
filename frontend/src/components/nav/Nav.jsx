@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import "./nav.css";
 
 function Nav({ username }) {
-  const URL = "/dashboard/" + username;
+  const HOME_URL = "/dashboard/" + username;
   const [firstName, lastName] = username.split("-");
 
   function toggleSettings(event) {
@@ -15,7 +15,7 @@ function Nav({ username }) {
 
   return (
     <nav className="nav">
-      <Link to={URL} className="logo--link">
+      <Link to={HOME_URL} className="logo--link">
         <h1 className="logo">CryptoYard</h1>
       </Link>
       <div className="user">
@@ -27,7 +27,7 @@ function Nav({ username }) {
         <ul className="user__dropdown">
           <li className="user__name noselect">
             <div className="user__name--wrapper" onClick={toggleSettings}>
-              {firstName} {lastName}{" "}
+              {firstName} {lastName}
               <span className="user__name__arrow">&#10148;</span>
             </div>
             <ul
