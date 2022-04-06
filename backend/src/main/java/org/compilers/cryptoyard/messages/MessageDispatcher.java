@@ -3,12 +3,14 @@ package org.compilers.cryptoyard.messages;
 import org.compilers.cryptoyard.services.CYService;
 import org.springframework.stereotype.Component;
 
+import java.util.Set;
+
 /**
  * Responsible for managing subscriptions and forwarding messages to necessary services.
  */
 @Component
 public class MessageDispatcher {
-    Subscriptions subscriptions = new Subscriptions();
+    private final Subscriptions subscriptions = new Subscriptions();
     /**
      * Register listener for a specific topic. All messages of the current topic will be forwarded to the listener
      * @param topic Topic to subscribe to - a message class
@@ -27,5 +29,16 @@ public class MessageDispatcher {
      */
     public <C extends Message> void unsubscribe(Class<C> topic, CYService subscriber) {
         subscriptions.remove(topic, subscriber);
+    }
+
+    /**
+     * Send a message to all listeners
+     * @param message
+     */
+    public void send(Message message) {
+        Set<CYService> subscribers = subscriptions.getSubscribersFor(message);
+        for (CYService subscriber: subscribers) {
+            subscriber.onMessage(message);
+        }
     }
 }
