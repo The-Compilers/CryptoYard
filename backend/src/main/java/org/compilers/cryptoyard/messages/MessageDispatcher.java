@@ -1,5 +1,6 @@
 package org.compilers.cryptoyard.messages;
 
+import org.compilers.cryptoyard.services.CYService;
 import org.springframework.stereotype.Component;
 
 /**
@@ -7,4 +8,24 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class MessageDispatcher {
+    Subscriptions subscriptions = new Subscriptions();
+    /**
+     * Register listener for a specific topic. All messages of the current topic will be forwarded to the listener
+     * @param topic Topic to subscribe to - a message class
+     * @param subscriber The service to which all the messages on the given topic will be forwarded
+     * @param <C> A subclass for Message
+     */
+    public <C extends Message> void subscribe(Class<C> topic, CYService subscriber) {
+        subscriptions.add(topic, subscriber);
+    }
+
+    /**
+     * Unregister listener for a specific topic. All messages of the current topic will be forwarded to the listener
+     * @param topic Topic to subscribe to - a message class
+     * @param subscriber The listener service which will no longer get all messages forwarded
+     * @param <C> A subclass for Message
+     */
+    public <C extends Message> void unsubscribe(Class<C> topic, CYService subscriber) {
+        subscriptions.remove(topic, subscriber);
+    }
 }
