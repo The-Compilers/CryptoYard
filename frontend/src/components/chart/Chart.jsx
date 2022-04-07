@@ -45,6 +45,7 @@ export const data = {
     {
       label: "Fake crypto currency",
       data: labels.map(() => faker.datatype.number({ min: 0, max: 50000 })),
+      // TODO: Should try and get color from css file
       borderColor: "rgb(35, 215, 146)",
       backgroundColor: "rgb(35, 215, 146)",
     },
