@@ -3,6 +3,9 @@
   =============== */
 
 .main {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6em;
   padding: 2.4em;
   font-size: 1.6rem;
 }

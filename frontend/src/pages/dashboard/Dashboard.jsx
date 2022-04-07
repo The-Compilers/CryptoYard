@@ -4,6 +4,7 @@ import "./dashboard.css";
 
 import Nav from "../../components/nav/Nav";
 import Table from "../../components/table/Table";
+import ChartBox from "../../components/chart/ChartBox";
 
 function Dashboard() {
   const { username } = useParams();
@@ -13,6 +14,7 @@ function Dashboard() {
       <Nav username={username} />
       <main className="main">
         <Table />
+        <ChartBox />
       </main>
     </>
   );
