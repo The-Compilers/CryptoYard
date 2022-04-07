@@ -9,6 +9,7 @@
   padding: 2.4em;
   font-size: 1.6rem;
   max-width: 1000px;
+  min-height: calc(100vh - 15rem);
 }
 
 .table {
