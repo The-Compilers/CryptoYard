@@ -8,4 +8,13 @@
   gap: 1.6em;
   padding: 2.4em;
   font-size: 1.6rem;
+  max-width: 1000px;
+}
+
+.table {
+  grid-area: table;
+}
+
+.graph {
+  grid-area: graph;
 }

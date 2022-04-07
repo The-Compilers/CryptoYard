@@ -2,3 +2,23 @@
   background-color: var(--clr-light-0);
   padding: 1.6em;
 }
+
+.chart-nav {
+  margin-bottom: 1.6em;
+}
+
+.chart-nav__list {
+  display: flex;
+  gap: 1.2em;
+  list-style-type: none;
+}
+
+.chart-nav__item {
+  font-size: 1.2rem;
+  opacity: 0.4;
+  cursor: pointer;
+}
+
+.chart-nav__item--active {
+  text-decoration: underline;
+}

@@ -13,8 +13,8 @@ function Dashboard() {
     <>
       <Nav username={username} />
       <main className="main">
-        <Table />
-        <ChartBox />
+        <Table className="table" />
+        <ChartBox className="graph" />
       </main>
     </>
   );

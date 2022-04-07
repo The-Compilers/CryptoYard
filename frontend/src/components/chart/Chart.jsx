@@ -28,11 +28,10 @@ export const options = {
   responsive: true,
   plugins: {
     legend: {
-      position: "top",
+      position: "bottom",
     },
     title: {
-      display: true,
-      text: "Crypto Graph",
+      display: false,
     },
   },
 };
