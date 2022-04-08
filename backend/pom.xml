@@ -15,6 +15,7 @@
 	<description>Spring Boot backend for CryptoYard</description>
 	<properties>
 		<java.version>11</java.version>
+		<com.squareup.retrofit2.version>2.9.0</com.squareup.retrofit2.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -26,6 +27,37 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<!-- Binance API and all it's dependencies. The lib is not available on Maven... -->
+		<!-- Source: https://github.com/binance-exchange/binance-java-api -->
+		<dependency>
+			<groupId>com.binance.api</groupId>
+			<artifactId>binance-api-client</artifactId>
+			<version>1.0.1</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/binance-api-client-1.0.1.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>com.squareup.retrofit2</groupId>
+			<artifactId>retrofit</artifactId>
+			<version>${com.squareup.retrofit2.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.squareup.retrofit2</groupId>
+			<artifactId>converter-jackson</artifactId>
+			<version>${com.squareup.retrofit2.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.15</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.12.0</version>
+		</dependency>
+
+
 	</dependencies>
 
 	<build>
