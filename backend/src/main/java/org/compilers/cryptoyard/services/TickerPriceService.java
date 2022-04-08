@@ -29,7 +29,7 @@ public class TickerPriceService extends CYService {
             }
         }
         if (!handled) {
-            logger.error("An event not handled: " + event); // TODO - handle the event here
+            logger.error("An event not handled: " + event);
         }
         return handled;
     }
