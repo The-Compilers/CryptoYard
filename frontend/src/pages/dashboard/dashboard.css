@@ -11,11 +11,3 @@
   max-width: 1000px;
   min-height: calc(100vh - 15rem);
 }
-
-.table {
-  grid-area: table;
-}
-
-.graph {
-  grid-area: graph;
-}
