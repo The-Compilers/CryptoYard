@@ -36,6 +36,12 @@ public class ExchangeApiService extends CYService {
         subscribeTo(CApiSubscribe.class);
     }
 
+    /**
+     * This method is called when another service sends a command to this service
+     *
+     * @param command The received command
+     * @return True when command processed, false otherwise
+     */
     @Override
     protected boolean onCommand(Command command) {
         boolean handled = super.onCommand(command);
@@ -47,6 +53,12 @@ public class ExchangeApiService extends CYService {
         return handled;
     }
 
+    /**
+     * Subscribe to a WebSocket stream
+     *
+     * @param stream The stream to subscribe to
+     * @return
+     */
     private boolean subscribeToStream(WSApiStream stream) {
         logger.info("Subscribe to " + stream);
         switch (stream) {
@@ -60,6 +72,11 @@ public class ExchangeApiService extends CYService {
         return true;
     }
 
+    /**
+     * Get a comma-separated market symbols for coins in our "watchlist"
+     *
+     * @return Comma-separated symbols
+     */
     private String getWatchedCoinSymbols() {
         return Arrays.stream(this.watchedCoins).map(s -> s.toLowerCase() + "usdt")
                 .collect(Collectors.joining(","));
@@ -68,7 +85,7 @@ public class ExchangeApiService extends CYService {
     /**
      * This method is called when new ticker price is received from the exchange.
      *
-     * @param event
+     * @param event Ticker price event from the exchange
      */
     private void onTickerPriceUpdate(TickerEvent event) {
         dispatcher.send(new ETickerPriceUpdate(convertEventToTickerPrice(event)));
