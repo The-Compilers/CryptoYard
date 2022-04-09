@@ -1,4 +1,4 @@
-import "../styles/loginForms.css"
+import "../signUp/signUp.css"
 
 function SignUpSheet()
 {

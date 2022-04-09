@@ -3,7 +3,7 @@ html {
 }
 
 body {
-    background-color: #DEE2E6;
+    background-color: var(--clr-light-3);
     min-height: 100vh;
     display: flex;
     justify-content: center;

@@ -1,7 +1,7 @@
 import "./styles/global.css";
 
 import { Routes, Route } from "react-router-dom";
-import SignUpSheet from "./components/SignUpSheet.jsx";
+import SignUpSheet from "./components/signUp/signUpSheet";
 import SignIn from "./components/SignIn/SignIn";
 
 function App() {
