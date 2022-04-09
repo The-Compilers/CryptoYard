@@ -50,7 +50,7 @@ public class TickerPriceService extends CYService {
     }
 
     /**
-     * Initialize subscriptions. This method is called when the app is strated
+     * Initialize subscriptions. This method is called when the app is started
      */
     @Override
     protected void onStart() {
