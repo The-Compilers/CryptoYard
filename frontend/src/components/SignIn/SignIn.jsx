@@ -5,11 +5,10 @@ function SignInForm() {
 
         <div className={"sign-in-container"}>
 
-            <h2 className={"sign-in-header"}>
-                Sign In
-            </h2>
-
-            <div className={"sign-in-form-wrapper"}>
+            <div className={"sign-in-form-wrapper box"}>
+                <h2 className={"sign-in-header"}>
+                    Sign In
+                </h2>
                     <form className={"sign-in-form"}>
                         <input className={"sign-in-input"} type={"text"} placeholder={"Username"}/>
                         <input className={"sign-in-input"} type={"password"} placeholder={"Password"}/>
