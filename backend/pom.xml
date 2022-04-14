@@ -8,13 +8,14 @@
 		<version>2.6.5</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>org.the_compilers</groupId>
-	<artifactId>cryptoyard_backend</artifactId>
+	<groupId>org.compilers</groupId>
+	<artifactId>cryptoyard-backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>cryptoyard_backend</name>
-	<description>Spring Boot backend for Cryptoyard</description>
+	<name>crypto-yard-backend</name>
+	<description>Spring Boot backend for CryptoYard</description>
 	<properties>
 		<java.version>11</java.version>
+		<com.squareup.retrofit2.version>2.9.0</com.squareup.retrofit2.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -22,20 +23,41 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.kafka</groupId>
-			<artifactId>spring-kafka</artifactId>
-		</dependency>
-
-		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<!-- Binance API and all it's dependencies. The lib is not available on Maven... -->
+		<!-- Source: https://github.com/binance-exchange/binance-java-api -->
 		<dependency>
-			<groupId>org.springframework.kafka</groupId>
-			<artifactId>spring-kafka-test</artifactId>
-			<scope>test</scope>
+			<groupId>com.binance.api</groupId>
+			<artifactId>binance-api-client</artifactId>
+			<version>1.0.1</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/binance-api-client-1.0.1.jar</systemPath>
 		</dependency>
+		<dependency>
+			<groupId>com.squareup.retrofit2</groupId>
+			<artifactId>retrofit</artifactId>
+			<version>${com.squareup.retrofit2.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.squareup.retrofit2</groupId>
+			<artifactId>converter-jackson</artifactId>
+			<version>${com.squareup.retrofit2.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.15</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.12.0</version>
+		</dependency>
+
+
 	</dependencies>
 
 	<build>
