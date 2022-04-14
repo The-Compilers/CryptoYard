@@ -15,7 +15,6 @@ public class MessageDispatcher {
      * Register listener for a specific topic. All messages of the current topic will be forwarded to the listener
      * @param topic Topic to subscribe to - a message class
      * @param subscriber The service to which all the messages on the given topic will be forwarded
-     * @param <C> A subclass for Message
      */
     public <C extends Message> void subscribe(Class<C> topic, CYService subscriber) {
         subscriptions.add(topic, subscriber);
@@ -33,7 +32,7 @@ public class MessageDispatcher {
 
     /**
      * Send a message to all listeners
-     * @param message
+     * @param message The message to send
      */
     public void send(Message message) {
         Set<CYService> subscribers = subscriptions.getSubscribersFor(message);
