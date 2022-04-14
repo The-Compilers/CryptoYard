@@ -1,0 +1,22 @@
+/* ==============
+  Crypto Table
+  =============== */
+
+.table {
+  width: 100%;
+  border-spacing: 1.6em;
+  background-color: var(--clr-light-0);
+}
+
+.table__column {
+  text-align: left;
+  padding: 0 0.4em;
+}
+
+.table__column--title {
+  font-weight: bold;
+}
+
+.table__column--align-right {
+  text-align: right;
+}
