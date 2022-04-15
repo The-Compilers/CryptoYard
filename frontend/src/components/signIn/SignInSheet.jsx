@@ -1,8 +1,7 @@
-import React from 'react';
 import './SignIn.css'
 import {useNavigate} from "react-router";
 
-function SignInForm() {
+function SignInSheet() {
 
     const navigate = useNavigate();
 
@@ -27,5 +26,4 @@ function SignInForm() {
     )
 }
 
-
-export default SignInForm;
+export default SignInSheet;

@@ -1,4 +1,3 @@
-import React from "react";
 import "../signUp/signUp.css"
 import {useNavigate} from "react-router";
 
@@ -22,7 +21,7 @@ function SignUpSheet()
                             <button className="sign-up-card__create-button" type="submit">Create Account</button>
                             <div className="sign-up-card__footer">
                                 <p>Already have an account?</p>
-                                <a onClick={() => navigate("/signin")} className="sign-up-card__login" href="#">Log in</a>
+                                <a onClick={() => (navigate("/signin"))} className="sign-up-card__login" href="#">Log in</a>
                             </div>
 
                     </form>
