@@ -1,6 +1,11 @@
+import React from 'react';
 import './SignIn.css'
+import {useNavigate} from "react-router";
 
 function SignInForm() {
+
+    const navigate = useNavigate();
+
     return (
 
         <div className={"sign-in-container"}>
@@ -9,26 +14,14 @@ function SignInForm() {
                 <h2 className={"sign-in-header"}>
                     Sign In
                 </h2>
-                    <form className={"sign-in-form"}>
-                        <input className={"sign-in-input"} type={"text"} placeholder={"Username"}/>
-                        <input className={"sign-in-input"} type={"password"} placeholder={"Password"}/>
-
-                        <div className={"sign-in-button-container"}>
-                            <label htmlFor={"check"}>
-                                <input type={"checkbox"} id={"sign-in-checkbox"} name={"check"}/>
-                                Keep med signed in
-                            </label>
-                            <input id={"sign-in-button"} type={"submit"} value={"SIGN IN"} />
-                        </div>
-                    </form>
-            </div>
-
-            <div className={"sign-in-footer"}>
-                <p>
-                    <a href={""}>Forgot password?</a>
-                    &nbsp;·&nbsp;
-                    <a href={""}>Dont have an account?</a>
-                </p>
+                <form className={"sign-in-form"}>
+                    <input className={"sign-in-input"} type={"text"} placeholder={"Username"}/>
+                    <input className={"sign-in-input"} type={"password"} placeholder={"Password"}/>
+                    <input id={"sign-in-button"} type={"submit"} value={"SIGN IN"}/>
+                </form>
+                <div className={"sign-in-footer"}>
+                    <a onClick={() => (navigate("/signup"))} href={""}>Don't have an account? Sign up</a>
+                </div>
             </div>
         </div>
     )
