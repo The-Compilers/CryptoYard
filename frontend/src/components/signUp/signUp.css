@@ -22,27 +22,27 @@ body {
     padding: 2.4rem;
 }
 
-.sign-up-card__input {
+.sign-up-form__input {
     padding: 0.8rem;
     border-radius: 0.5rem;
     border: solid;
     border-color: var(--clr-light-3);
 }
 
-.sign-up-card__header {
+.sign-up-form__header {
     font-size: 1.6rem;
     text-align: center;
+    color: black;
 }
 
-.sign-up-card__create-button {
+.sign-up-form__create-button {
     padding: 0.8rem;
     border-radius: 0.5rem;
     background-color: var(--clr-accent-1);
-    border-color: var(--clr-accent-2);
     color: var(--clr-light-0);
 }
 
-.sign-up-card__footer {
+.sign-up-form__footer {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -50,15 +50,11 @@ body {
     color: black;
 }
 
-.sign-up-card__login {
+.sign-up-form__login {
     text-decoration: none;
     color: black;
 }
 
-.sign-up-card__login:hover {
+.sign-up-form__login:hover {
     text-decoration: underline;
-}
-
-.sign-up-card__header {
-    color: black;
 }
