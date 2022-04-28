@@ -1,18 +1,14 @@
-html {
-    font-size: 62.5%;
-}
+/*---------------
+   Sign up sheet
+---------------*/
 
-body {
+.sign-up-form__background {
     background-color: var(--clr-light-3);
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
 }
-
-/*---------------
-   Sign up sheet
----------------*/
 
 .sign-up-form {
     display: flex;

@@ -10,6 +10,7 @@
 button {
   border: none;
   background: transparent;
+  cursor: pointer;
 }
 
 /*---------------
@@ -31,10 +32,10 @@ button {
   --clr-error: #f7463c;
 
   /* Shadow */
-  --shadow: 0px 5px 10px rgba(0, 0, 0, 0.4);
+  --shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.4);
 
   /* Border radius */
-  --border-radius: 10px;
+  --border-radius: 1rem;
 }
 
 html {
@@ -90,9 +91,5 @@ a {
 
 .box {
   border-radius: 0.5rem;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-}
-
-button {
-  cursor: pointer;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
 }

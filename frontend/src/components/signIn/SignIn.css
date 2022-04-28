@@ -1,15 +1,6 @@
-html{
-    font-size: 62.5%;
-}
-
 /**
 Sign-in Styles
  */
-
-body{
-    color: black; /*temporary*/
-    min-height: 100vh;
-}
 
 .sign-in-container{
     display: flex;
