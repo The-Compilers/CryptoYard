@@ -12,8 +12,8 @@ function Dashboard() {
   return (
     <>
       <Nav username={username} />
-      <main className="main">
-        <Table className="table" />
+      <main>
+        <Table />
       </main>
       <Footer />
     </>

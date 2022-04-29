@@ -50,6 +50,28 @@ button {
 
   /* Border radius */
   --border-radius: 1rem;
+
+  --font-size-tinyest: 0.8rem;
+  --font-size-tiny: 1rem;
+  --font-size-small: 1.3rem;
+  --font-size-medium: 1.6rem;
+  --font-size-larger: 2.0rem;
+  --font-size-large: 2.5rem;
+  --font-size-extra-large: 3.2rem;
+  --font-size-xxl: 4.0rem;
+  --font-size-xxxl: 4.8rem;
+
+  --spacing-tinyest: 0.2rem;
+  --spacing-tiny: 0.4rem;
+  --spacing-small: 0.8rem;
+  --spacing-medium: 1.6rem;
+  --spacing-larger: 2.4rem;
+  --spacing-large: 3.2rem;
+  --spacing-extra-large: 4.8rem;
+  --spacing-xxl: 6.4rem;
+  --spacing-xxxl: 8.0rem;
+  --spacing-huge: 9.6rem;
+  --spacing-gigantic: 12.8rem;
 }
 
 html {
@@ -66,7 +88,7 @@ img {
 }
 
 .logo {
-  font-size: 2.5rem;
+  font-size: var(--font-size-large);
   color: var(--clr-accent-dark-1);
 }
 
@@ -104,28 +126,28 @@ h5 {
 }
 
 h1 {
-  font-size: 4.883rem;
+  font-size: var(--font-size-xxxl);
 }
 
 h2 {
-  font-size: 3.906rem;
+  font-size: var(--font-size-xxl);
 }
 
 h3 {
-  font-size: 3.125rem;
+  font-size: var(--font-size-extra-large);
 }
 
 h4 {
-  font-size: 2.5rem;
+  font-size: var(--font-size-large);
 }
 
 h5 {
-  font-size: 2rem;
+  font-size: var(--font-size-larger);
 }
 
 p,
 a {
-  font-size: 1.6rem;
+  font-size: var(--font-size-medium);
   line-height: 1.5em;
 }
 
