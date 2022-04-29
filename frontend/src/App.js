@@ -1,15 +1,14 @@
 import "./styles/global.css";
 
 import {Routes, Route} from "react-router-dom";
-import SignUpSheet from "./components/signUp/signUpSheet";
-import SignInSheet from "./components/signIn/SignInSheet";
+import {SignInUpForm} from "./components/sign-inup-form/SignInUpForm";
 
 
 function App() {
     return (
         <Routes>
-            <Route path="/signin" element={<SignInSheet/>}/>
-            <Route path="/signup" element={<SignUpSheet/>}/>
+            <Route path="/signin" element={<SignInUpForm isSignIn={true}/>}/>
+            <Route path="/signup" element={<SignInUpForm isSignIn={false}/>}/>
         </Routes>
     );
 }

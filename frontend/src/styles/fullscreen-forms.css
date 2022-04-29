@@ -1,8 +1,8 @@
-/*---------------
-   Sign up sheet
----------------*/
 
-.sign-up-form__background {
+/*-----------------------------------------
+  Full-screen forms: Sign up, Sign in
+-----------------------------------------*/
+.fullscreen-form__background {
     background-color: var(--clr-light-3);
     min-height: 100vh;
     display: flex;
@@ -10,35 +10,42 @@
     align-items: center;
 }
 
-.sign-up-form {
+.fullscreen-form {
     display: flex;
     flex-direction: column;
     row-gap: 2.4rem;
     background-color: var(--clr-light-0);
     padding: 2.4rem;
+    border-radius: 1rem;
 }
 
-.sign-up-form__input {
+.fullscreen-form__input {
+    font-size: 2rem;
     padding: 0.8rem;
     border-radius: 0.5rem;
     border: solid;
     border-color: var(--clr-light-3);
 }
 
-.sign-up-form__header {
-    font-size: 1.6rem;
+.fullscreen-form__header {
+    font-size: 3.2rem;
     text-align: center;
     color: black;
 }
 
-.sign-up-form__create-button {
+.fullscreen-form__action-button {
+    font-size: 2rem;
     padding: 0.8rem;
     border-radius: 0.5rem;
-    background-color: var(--clr-accent-1);
+    background-color: var(--clr-accent-2);
     color: var(--clr-light-0);
 }
 
-.sign-up-form__footer {
+.fullscreen-form__action-button:hover {
+    background-color: var(--clr-accent-1);
+}
+
+.fullscreen-form__footer {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -46,11 +53,12 @@
     color: black;
 }
 
-.sign-up-form__login {
+.fullscreen-form__anchor {
     text-decoration: none;
     color: black;
 }
 
-.sign-up-form__login:hover {
+.fullscreen-form__anchor:hover {
     text-decoration: underline;
+    color: var(--clr-accent-2);
 }
