@@ -4,7 +4,7 @@ import Row from "./TableRow";
 
 function CryptoTable() {
   return (
-    <table className="table box">
+    <table className="box">
       <thead>
         <tr className="table__row">
           <th className="table__column table__column--title">Coin</th>

@@ -3,7 +3,6 @@
   Full-screen forms: Sign up, Sign in
 -----------------------------------------*/
 .fullscreen-form__background {
-  background-color: var(--clr-light-3);
   min-height: 100vh;
   display: flex;
   justify-content: center;
@@ -20,7 +19,7 @@
 }
 
 .fullscreen-form__input {
-  font-size: 2rem;
+  font-size: var(--font-size-larger);
   padding: 0.8rem;
   border-radius: 0.5rem;
   border: solid;
@@ -34,7 +33,7 @@
 }
 
 .fullscreen-form__action-button {
-  font-size: 2rem;
+  font-size: var(--font-size-larger);
   padding: 0.8rem;
   border-radius: 0.5rem;
   background-color: var(--clr-accent-dark-1);

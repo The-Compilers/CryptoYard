@@ -2,7 +2,7 @@
   Crypto Table
   =============== */
 
-.table {
+table {
   width: 100%;
   border-spacing: 1.6em;
   background-color: var(--clr-light-6);

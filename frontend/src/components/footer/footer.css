@@ -5,6 +5,6 @@
 }
 
 .footer__body {
-  font-size: 1.28rem;
+  font-size: var(--font-size-small);
   color: var(--clr-dark-5);
 }

@@ -36,7 +36,7 @@
 }
 
 .user__name {
-  font-size: 1.6rem;
+  font-size: var(--font-size-medium);
   cursor: pointer;
 }
 
