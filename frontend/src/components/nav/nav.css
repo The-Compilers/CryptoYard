@@ -1,0 +1,73 @@
+/* ==============
+  Nav
+  =============== */
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--clr-light-0);
+  padding: 1.6em;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.logo--link {
+  text-decoration: none;
+}
+
+/* User */
+
+.user {
+  display: flex;
+  align-items: center;
+  gap: 1.6em;
+}
+
+.user__img {
+  display: block;
+  aspect-ratio: 1 / 1;
+  width: 50px;
+  object-fit: cover;
+  border-radius: 100vh;
+}
+
+.user__dropdown {
+  list-style: none;
+  position: relative;
+}
+
+.user__name {
+  font-size: 1.6rem;
+  cursor: pointer;
+}
+
+.user__name__arrow {
+  display: inline-block;
+  transform: rotate(90deg);
+}
+
+.user__dropdown__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8em;
+  width: max-content;
+  padding: 1.6em;
+  list-style-type: none;
+  background-color: var(--clr-light-0);
+  position: absolute;
+  right: 0;
+  top: calc(100% + 0.8em);
+}
+
+.user__dropdown__list--hidden {
+  display: none;
+}
+
+.user__dropdown__list__link {
+  color: var(--clr-dark-0);
+  text-decoration: none;
+}
+
+.user__dropdown__list__link:hover,
+.user__dropdown__list__link:focus {
+  text-decoration: underline;
+}

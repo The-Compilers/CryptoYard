@@ -1,0 +1,13 @@
+/* ==============
+  Dashboard
+  =============== */
+
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6em;
+  padding: 2.4em;
+  font-size: 1.6rem;
+  max-width: 1000px;
+  min-height: calc(100vh - 13.3rem);
+}

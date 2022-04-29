@@ -1,10 +1,10 @@
-package org.the_compilers.cryptoyard_backend;
+package org.compilers.cryptoyard;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class CryptoyardBackendApplicationTests {
+class CryptoYardBackendApplicationTests {
 
 	@Test
 	void contextLoads() {

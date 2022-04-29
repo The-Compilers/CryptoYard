@@ -20,13 +20,17 @@ button {
   /* colors */
   --clr-light-0: #fff;
   --clr-light-1: #f8f9fa;
-  --clr-light-3: #DEE2E6;
+  --clr-light-2: #f1f3f5;
+  --clr-light-3: #dee2e6;
 
   --clr-dark-0: #212529;
-  
-  --clr-accent: #edf2ff;
-  --clr-accent-1: #748ffc;
-  --clr-accent-2: #364fc7;
+  --clr-dark-1: #343a40;
+  --clr-dark-2: #495057;
+  --clr-dark-3: #868e96;
+
+  --clr-accent: #4266eb;
+  --clr-accent-1: #4c6ef5;
+  --clr-accent-2: #365fc7;
 
   --clr-success: #23d792;
   --clr-error: #f7463c;
@@ -43,8 +47,35 @@ html {
   scroll-behavior: smooth;
 }
 
+body {
+  background-color: var(--clr-light-2);
+}
+
 img {
   max-width: 100%;
+}
+
+.logo {
+  font-size: 2.5rem;
+  color: var(--clr-accent);
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+
+.success {
+  color: var(--clr-success);
+}
+
+.error {
+  color: var(--clr-error);
 }
 
 /*---------------
