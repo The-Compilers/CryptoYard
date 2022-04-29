@@ -1,0 +1,64 @@
+
+/*-----------------------------------------
+  Full-screen forms: Sign up, Sign in
+-----------------------------------------*/
+.fullscreen-form__background {
+  background-color: var(--clr-light-3);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.fullscreen-form {
+  display: flex;
+  flex-direction: column;
+  row-gap: 2.4rem;
+  background-color: var(--clr-light-0);
+  padding: 2.4rem;
+  border-radius: 1rem;
+}
+
+.fullscreen-form__input {
+  font-size: 2rem;
+  padding: 0.8rem;
+  border-radius: 0.5rem;
+  border: solid;
+  border-color: var(--clr-light-3);
+}
+
+.fullscreen-form__header {
+  font-size: 3.2rem;
+  text-align: center;
+  color: black;
+}
+
+.fullscreen-form__action-button {
+  font-size: 2rem;
+  padding: 0.8rem;
+  border-radius: 0.5rem;
+  background-color: var(--clr-accent-2);
+  color: var(--clr-light-0);
+}
+
+.fullscreen-form__action-button:hover {
+  background-color: var(--clr-accent-1);
+}
+
+.fullscreen-form__footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.4rem;
+  color: black;
+}
+
+.fullscreen-form__anchor {
+  text-decoration: none;
+  color: black;
+}
+
+.fullscreen-form__anchor:hover {
+  text-decoration: underline;
+  color: var(--clr-accent-2);
+}
