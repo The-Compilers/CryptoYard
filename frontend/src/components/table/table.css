@@ -5,7 +5,7 @@
 .table {
   width: 100%;
   border-spacing: 1.6em;
-  background-color: var(--clr-light-0);
+  background-color: var(--clr-light-6);
 }
 
 .table__column {
