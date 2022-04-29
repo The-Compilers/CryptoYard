@@ -1,10 +1,10 @@
 .footer {
   padding: 1.6em;
   text-align: center;
-  background-color: var(--clr-light-0);
+  background-color: var(--clr-light-6);
 }
 
 .footer__body {
   font-size: 1.28rem;
-  color: var(--clr-dark-3);
+  color: var(--clr-dark-5);
 }

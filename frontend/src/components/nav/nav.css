@@ -5,7 +5,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: var(--clr-light-0);
+  background-color: var(--clr-light-6);
   padding: 1.6em;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
 }
@@ -52,7 +52,7 @@
   width: max-content;
   padding: 1.6em;
   list-style-type: none;
-  background-color: var(--clr-light-0);
+  background-color: var(--clr-light-6);
   position: absolute;
   right: 0;
   top: calc(100% + 0.8em);
@@ -63,7 +63,7 @@
 }
 
 .user__dropdown__list__link {
-  color: var(--clr-dark-0);
+  color: var(--clr-dark-2);
   text-decoration: none;
 }
 
