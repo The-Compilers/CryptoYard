@@ -44,7 +44,7 @@ For dark theme, use the right specter of the main color for backgrounds and the 
 
 Use whitespace to separate element from each other.
 
-**Spaceing guideline:** 2px – 4px – 8px – 16px – 24px – 32px – 48px – 64px – 80px – 96px – 128px
+**Spacing guideline:** 2px – 4px – 8px – 16px – 24px – 32px – 48px – 64px – 80px – 96px – 128px
 
 ## 4. Icons
 
