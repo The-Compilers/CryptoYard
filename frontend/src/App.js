@@ -5,17 +5,16 @@ import { Routes, Route } from "react-router-dom";
 import "./styles/global.css";
 
 // Pages
-import SignUpSheet from "./components/SignUpSheet.jsx";
-import SignIn from "./components/SignIn/SignIn";
 import Dashboard from "./pages/dashboard/Dashboard";
+import { SignInUpForm } from "./components/sign-inup-form/SignInUpForm";
 
 function App() {
   return (
     <div>
       <Routes>
         <Route path="dashboard/:username" element={<Dashboard />} />
-        <Route path="/signin" element={<SignIn />} />
-        <Route exact path="/signup" element={<SignUpSheet />} />
+        <Route path="/signin" element={<SignInUpForm isSignIn={true} />} />
+        <Route path="/signup" element={<SignInUpForm isSignIn={false} />} />
       </Routes>
     </div>
   );
