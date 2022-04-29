@@ -5,8 +5,8 @@
 main {
   display: flex;
   flex-direction: column;
-  gap: 1.6em;
-  padding: 2.4em;
+  gap: var(--spacing-medium);
+  padding: var(--spacing-larger);
   font-size: var(--font-size-medium);
   max-width: 100rem;
   min-height: calc(100vh - 13.3rem);

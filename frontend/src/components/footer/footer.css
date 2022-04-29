@@ -1,5 +1,5 @@
 .footer {
-  padding: 1.6em;
+  padding: var(--spacing-medium);
   text-align: center;
   background-color: var(--clr-light-6);
 }

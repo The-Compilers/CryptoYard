@@ -6,7 +6,7 @@
   justify-content: space-between;
   align-items: center;
   background-color: var(--clr-light-6);
-  padding: 1.6em;
+  padding: var(--spacing-medium);
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -48,9 +48,9 @@
 .user__dropdown__list {
   display: flex;
   flex-direction: column;
-  gap: 0.8em;
+  gap: var(--spacing-small);
   width: max-content;
-  padding: 1.6em;
+  padding: var(--spacing-medium);
   list-style-type: none;
   background-color: var(--clr-light-6);
   position: absolute;
