@@ -38,7 +38,7 @@ For dark theme, use the right specter of the main color for backgrounds and the 
 
 **Font:** Robot, sans-serif
 
-**Font size:** 8.19px - 10.24px - 12.80px - 16.00px - 20.00px - 25.00px - 31.25px - 39.06px - 48.83px
+**Font size:** 8px - 10px - 13px - 16px - 20px - 25px - 32px - 40px - 48px
 
 ## 3. Whitespace
 
