@@ -14,7 +14,7 @@
   display: flex;
   flex-direction: column;
   row-gap: 2.4rem;
-  background-color: var(--clr-light-0);
+  background-color: var(--clr-light-6);
   padding: 2.4rem;
   border-radius: 1rem;
 }
@@ -37,12 +37,12 @@
   font-size: 2rem;
   padding: 0.8rem;
   border-radius: 0.5rem;
-  background-color: var(--clr-accent-2);
-  color: var(--clr-light-0);
+  background-color: var(--clr-accent-dark-1);
+  color: var(--clr-light-6);
 }
 
 .fullscreen-form__action-button:hover {
-  background-color: var(--clr-accent-1);
+  background-color: var(--clr-accent-dark-3);
 }
 
 .fullscreen-form__footer {
@@ -60,5 +60,5 @@
 
 .fullscreen-form__anchor:hover {
   text-decoration: underline;
-  color: var(--clr-accent-2);
+  color: var(--clr-accent-dark-1);
 }
