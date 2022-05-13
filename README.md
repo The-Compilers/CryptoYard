@@ -25,7 +25,7 @@ The system is described in the `docker-compose.yml` file, therefore, to run it:
 * Describe the necessary environment variables in an environment file (`.env`). 
   See `env.template` file as a reference on the necessary variables.
 * Run the system by executing the following command inside the root directory of the
-  project: `docker-compose --env-file .env up --build` (replace the `.env` with the name of your environment file)
+  project: `docker compose --env-file .env up --build --detach` (replace the `.env` with the name of your environment file)
 
 ### Local development
 
