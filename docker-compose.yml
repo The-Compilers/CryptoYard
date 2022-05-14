@@ -5,7 +5,7 @@ services:
   nginx:
     # Alpine is a minimalistic image. We don't need much functionality, just a web server + web proxy
     image: nginx:1.20.2-alpine
-    container_name: nginx_proxy
+    container_name: cyproxy
     # Copy the nginx.conf file which contains the forwarding configuration
     volumes:
       - ./container-config/global-nginx-proxy.conf:/etc/nginx/nginx.conf
@@ -53,7 +53,7 @@ services:
       - MYSQL_HOST=cydb
       - MYSQL_PORT=${MYSQL_PORT}
       - MYSQL_DATABASE=${MYSQL_DATABASE}
-#    restart: always
+    restart: unless-stopped
     networks:
       - default
 
@@ -62,6 +62,7 @@ services:
     build:
       context: ./frontend
       dockerfile: ./prod.Dockerfile
+    restart: unless-stopped
     networks:
       - default
 
