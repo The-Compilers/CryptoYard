@@ -22,15 +22,17 @@ Here are the instructions for running the system.
 
 The system is described in the `docker-compose.yml` file, therefore, to run it:
 
-* Describe the necessary environment variables in an environment file (`.env`)
+* Describe the necessary environment variables in an environment file (`.env`). 
+  See `env.template` file as a reference on the necessary variables.
 * Run the system by executing the following command inside the root directory of the
-  project: `docker-compose up --build --env-file .env` (replace the `.env` with the name of your environment file)
+  project: `docker compose --env-file .env up --build --detach` (replace the `.env` with the name of your environment file)
 
 ### Local development
 
 During development, you can run the parts of the system in the _usual way_:
 
-* Run a MySQL database either in a Docker container or as a standalone server
+* Run a MySQL database either in a Docker container or as a standalone server. If you want to run the MySQL database inside a container:
+    `docker run --name cy_db_dev -p 3306:3306 --env-file your-env-file.env  mysql:8.0.29-oracle`
 * Describe access to MySQL (and other necessary environment variables) in an environment file (`.env`).
   See `env.template` file as a reference on the necessary variables.
 * Run the backend as a Spring Boot project: either directly from your IDE or `mvn spring-boot:run`

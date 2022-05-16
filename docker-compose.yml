@@ -1,0 +1,70 @@
+# A Docker-compose file describing all the services for the CryptoYard solution
+# Each service will run as a separate Docker container
+
+services:
+  nginx:
+    # Alpine is a minimalistic image. We don't need much functionality, just a web server + web proxy
+    image: nginx:1.20.2-alpine
+    container_name: cyproxy
+    # Copy the nginx.conf file which contains the forwarding configuration
+    volumes:
+      - ./container-config/global-nginx-proxy.conf:/etc/nginx/nginx.conf
+    ports:
+      - "80:80"
+    depends_on:
+      - frontend
+      - api
+    networks:
+      - default
+
+  database:
+    container_name: cydb
+    image: mysql:8.0.29-oracle
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_RANDOM_ROOT_PASSWORD=true
+    ports:
+    - "3306:3306"
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      timeout: 5s
+      retries: 20
+    networks:
+      - default
+
+  api:
+    # Don't use _ in container name, otherwise the hostname will be wrong!
+    container_name: cyapi
+    build:
+      context: ./backend
+      dockerfile: ./prod.Dockerfile
+    depends_on:
+      database:
+        # This is important! Without it application will fail because MySQL has not started properly!
+        condition: service_healthy
+    environment:
+      # Pass the environment variables from .env file to the container
+      - ENV=${ENV}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_HOST=cydb
+      - MYSQL_PORT=${MYSQL_PORT}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+    restart: unless-stopped
+    networks:
+      - default
+
+  frontend:
+    container_name: cyfrontend
+    build:
+      context: ./frontend
+      dockerfile: ./prod.Dockerfile
+    restart: unless-stopped
+    networks:
+      - default
+
+networks:
+    default:

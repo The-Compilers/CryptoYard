@@ -26,7 +26,9 @@ echo \
   $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 apt update
 apt install --yes docker-ce docker-ce-cli containerd.io
-apt install --yes docker-compose
+apt install --yes docker-compose-plugin
+sudo groupadd -f docker
+sudo usermod -aG docker ubuntu
 
 # HTTP Certificates with "Let's Encrypt" Certbot
 apt install --yes certbot python3-certbot-nginx
