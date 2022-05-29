@@ -15,9 +15,23 @@ function Nav({ username }) {
 
   return (
     <nav className="nav">
-      <Link to={HOME_URL} className="logo--link">
-        <h1 className="logo">CryptoYard</h1>
-      </Link>
+      <div className="menu--wrapper">
+        <Link to={HOME_URL} className="logo--link">
+          <h1 className="logo">CryptoYard</h1>
+        </Link>
+        <ul className="menu">
+          <li className="menu__item">
+            Markets
+            <ul className="menu menu--sub box">
+              <li className="menu__item menu__item--sub">
+                <Link to="/markets" className="menu__link">
+                  Coin list
+                </Link>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
       <div className="user">
         <img
           className="user__img"
