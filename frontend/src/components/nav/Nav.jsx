@@ -19,7 +19,7 @@ function Nav({ username }) {
       label: "Market",
       subItems: [
         {
-          link: "/markets/coins",
+          link: "/markets",
           label: "Coint list",
         },
       ],
@@ -50,7 +50,7 @@ function Nav({ username }) {
           <li className="user__name noselect">
             <p className="user__name__text" onClick={toggleSettings}>
               {firstName} {lastName}
-              <i class="material-icons">arrow_drop_down</i>
+              <i className="material-icons">arrow_drop_down</i>
             </p>
             <ul
               className="user__dropdown__list user__dropdown__list--hidden box"

@@ -5,7 +5,7 @@ export default function MenuItem({ item }) {
     <li className="menu__item">
       {item.subItems ? (
         <Link to={item.link} className="menu__link">
-          {item.label} <i class="material-icons">arrow_drop_down</i>
+          {item.label} <i className="material-icons">arrow_drop_down</i>
         </Link>
       ) : (
         <Link to={item.link} className="menu__link">
