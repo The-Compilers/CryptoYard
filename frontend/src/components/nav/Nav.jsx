@@ -48,10 +48,10 @@ function Nav({ username }) {
         />
         <ul className="user__dropdown">
           <li className="user__name noselect">
-            <div className="user__name--wrapper" onClick={toggleSettings}>
+            <p className="user__name__text" onClick={toggleSettings}>
               {firstName} {lastName}
-              <span className="user__name__arrow">&#10148;</span>
-            </div>
+              <i class="material-icons">arrow_drop_down</i>
+            </p>
             <ul
               className="user__dropdown__list user__dropdown__list--hidden box"
               data-dropdown-list

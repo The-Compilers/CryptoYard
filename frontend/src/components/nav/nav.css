@@ -25,6 +25,10 @@
   border-radius: 100vh;
 }
 
+.user__name__text {
+  display: flex;
+}
+
 .user__dropdown {
   list-style: none;
   position: relative;
