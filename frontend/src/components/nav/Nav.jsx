@@ -1,11 +1,30 @@
 import { Link } from "react-router-dom";
 
+// Components
+import Menu from "./components/Menu";
+
 // styles
 import "./nav.css";
 
 function Nav({ username }) {
   const HOME_URL = "/dashboard/" + username;
   const [firstName, lastName] = username.split("-");
+  const menuItems = [
+    {
+      link: HOME_URL,
+      label: "Home",
+    },
+    {
+      link: "/markets",
+      label: "Market",
+      subItems: [
+        {
+          link: "/markets/coins",
+          label: "Coint list",
+        },
+      ],
+    },
+  ];
 
   function toggleSettings(event) {
     document
@@ -19,18 +38,7 @@ function Nav({ username }) {
         <Link to={HOME_URL} className="logo--link">
           <h1 className="logo">CryptoYard</h1>
         </Link>
-        <ul className="menu">
-          <li className="menu__item">
-            Markets
-            <ul className="menu menu--sub box">
-              <li className="menu__item menu__item--sub">
-                <Link to="/markets" className="menu__link">
-                  Coin list
-                </Link>
-              </li>
-            </ul>
-          </li>
-        </ul>
+        <Menu menuItems={menuItems} />
       </div>
       <div className="user">
         <img

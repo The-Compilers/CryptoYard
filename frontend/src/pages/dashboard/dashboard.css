@@ -9,6 +9,6 @@ main {
   padding: var(--spacing-larger);
   font-size: var(--font-size-medium);
   max-width: 100rem;
-  min-height: calc(100vh - 13.3rem);
+  min-height: calc(200vh - 13.3rem);
   margin: auto;
 }
