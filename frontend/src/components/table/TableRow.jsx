@@ -13,6 +13,7 @@ function TableRow({ values }) {
   /* Regex for testing if a string is a number and starts with either
   a pluss or a minus */
   const reg = /^[+-](?:\d{1,3}(?:,\d{3})*|\d+)(?:\.\d+)?$/;
+  const num = /^(?:\d{1,3}(?:,\d{3})*|\d+)(?:\.\d+)?$/;
 
   return (
     <tr className="table__row">
@@ -30,7 +31,7 @@ function TableRow({ values }) {
               : "")
           }
         >
-          {value}
+          {num.test(value) ? "$" + value : value}
         </td>
       ))}
     </tr>
