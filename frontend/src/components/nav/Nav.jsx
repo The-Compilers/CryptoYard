@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 // Components
@@ -6,9 +7,10 @@ import Menu from "./components/Menu";
 // styles
 import "./nav.css";
 
-function Nav({ username }) {
-  const home_url = "/dashboard/" + username;
-  const [firstName, lastName] = username.split("-");
+function Nav({ user }) {
+  const [firstName, setFristName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const home_url = "/dashboard/" + firstName + "-" + lastName;
   const menuItems = [
     {
       link: home_url,
@@ -25,6 +27,13 @@ function Nav({ username }) {
       ],
     },
   ];
+
+  useEffect(() => {
+    if (user) {
+      setFristName(user.firstName);
+      setLastName(user.lastName);
+    }
+  }, [user]);
 
   function toggleSettings(event) {
     document
