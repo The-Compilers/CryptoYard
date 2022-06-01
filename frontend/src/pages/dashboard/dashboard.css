@@ -12,3 +12,8 @@ main {
   min-height: calc(200vh - 13.3rem);
   margin: auto;
 }
+
+.box__title {
+  margin: var(--spacing-small) 0 var(--spacing-medium) var(--spacing-small);
+  color: var(--clr-accent-dark-4);
+}

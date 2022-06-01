@@ -17,7 +17,7 @@ import Row from "./TableRow";
  */
 function CryptoTable({ tableHeaders, rows }) {
   return (
-    <table className="box">
+    <table>
       <thead>
         <tr className="table__row">
           {tableHeaders.map((header, index) =>

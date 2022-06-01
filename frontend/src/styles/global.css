@@ -95,10 +95,16 @@ img {
 .box {
   border-radius: 0.5rem;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+  background-color: var(--clr-light-6);
+  padding: var(--spacing-medium);
 }
 
 .box--square-top {
   border-radius: 0 0 0.5rem 0.5rem;
+}
+
+.box--no-padding {
+  padding: 0;
 }
 
 .noselect {
@@ -139,19 +145,19 @@ h1 {
 }
 
 h2 {
-  font-size: var(--font-size-xxl);
-}
-
-h3 {
   font-size: var(--font-size-extra-large);
 }
 
-h4 {
+h3 {
   font-size: var(--font-size-large);
 }
 
-h5 {
+h4 {
   font-size: var(--font-size-larger);
+}
+
+h5 {
+  font-size: var(--font-size-medium);
 }
 
 p,

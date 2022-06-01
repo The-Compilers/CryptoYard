@@ -10,30 +10,41 @@
  * @param {*} values the values that is to be displayed in the row
  */
 function TableRow({ values }) {
+  const CHECKBOX = "checkbox";
   /* Regex for testing if a string is a number and starts with either
   a pluss or a minus */
   const reg = /^[+-](?:\d{1,3}(?:,\d{3})*|\d+)(?:\.\d+)?$/;
   const num = /^(?:\d{1,3}(?:,\d{3})*|\d+)(?:\.\d+)?$/;
 
+  function toggleCoinSubscription(event) {
+    // TODO: ...
+  }
+
   return (
     <tr className="table__row">
-      {values.map((value, index) => (
-        <td
-          key={index}
-          className={
-            "table__column" +
-            " " +
-            (index === 0 ? "" : "table__column--align-right ") +
-            (reg.test(value)
-              ? parseFloat(value) > 0
-                ? "success"
-                : "error"
-              : "")
-          }
-        >
-          {num.test(value) ? "$" + value : value}
-        </td>
-      ))}
+      {values.map((value, index) =>
+        value === CHECKBOX ? (
+          <td key={index}>
+            <input type="checkbox" onClick={toggleCoinSubscription} />
+          </td>
+        ) : (
+          <td
+            key={index}
+            className={
+              "table__column" +
+              " " +
+              (index === 0 ? "" : "table__column--align-right ") +
+              (reg.test(value)
+                ? parseFloat(value) > 0
+                  ? "success"
+                  : "error"
+                : "")
+            }
+          >
+            {value}
+          </td>
+        )
+      )}
     </tr>
   );
 }

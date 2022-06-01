@@ -13,7 +13,7 @@ export default function MenuItem({ item }) {
         </Link>
       )}
       {item.subItems ? (
-        <ul className="sub-menu box box--square-top">
+        <ul className="sub-menu box box--square-top box--no-padding">
           {item.subItems.map((subItem, index) => (
             <li key={index} className="sub-menu__item">
               <Link to={subItem.link} className="sub-menu__link">

@@ -4,13 +4,11 @@
 
 table {
   width: 100%;
-  border-spacing: var(--spacing-medium);
-  background-color: var(--clr-light-6);
 }
 
 .table__column {
   text-align: left;
-  padding: 0 var(--spacing-tiny);
+  padding: var(--spacing-small);
 }
 
 .table__column--title {
