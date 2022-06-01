@@ -7,11 +7,11 @@ import Menu from "./components/Menu";
 import "./nav.css";
 
 function Nav({ username }) {
-  const HOME_URL = "/dashboard/" + username;
+  const home_url = "/dashboard/" + username;
   const [firstName, lastName] = username.split("-");
   const menuItems = [
     {
-      link: HOME_URL,
+      link: home_url,
       label: "Home",
     },
     {
@@ -35,7 +35,7 @@ function Nav({ username }) {
   return (
     <nav className="nav">
       <div className="menu--wrapper">
-        <Link to={HOME_URL} className="logo--link">
+        <Link to={home_url} className="logo--link">
           <h1 className="logo">CryptoYard</h1>
         </Link>
         <Menu menuItems={menuItems} />
