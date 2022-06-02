@@ -7,43 +7,64 @@
  * If a value can be enterpreted as a number with a pluss or a minus
  * symbol in front, it will be given a styling based on if its positiv
  * or negative.
- * @param {*} values the values that is to be displayed in the row
+ * @param {*} rowIndex, the index of the row
+ * @param {*} values, the values that is to be displayed in the row
+ * @param {*} togglable, true if the row should be togglable, false otherwise. When
+ * a row is togglable, a checkbox is added at the end of the row
+ * @param {*} toggleFunction, the function to be called when the checkbox is toggled.
+ * The function take in a param with the index of the row.
  */
-function TableRow({ values }) {
-  const CHECKBOX = "checkbox";
+function TableRow({ rowIndex, values, toggleable, toggleFunction }) {
   /* Regex for testing if a string is a number and starts with either
   a pluss or a minus */
   const reg = /^[+-](?:\d{1,3}(?:,\d{3})*|\d+)(?:\.\d+)?$/;
 
-  function toggleCoinSubscription(event) {
-    // TODO: ...
+  function handleToggle(event) {
+    toggleFunction(event.target.value);
   }
 
-  return (
+  return toggleable ? (
     <tr className="table__row">
-      {values.map((value, index) =>
-        value === CHECKBOX ? (
-          <td key={index}>
-            <input type="checkbox" onClick={toggleCoinSubscription} />
-          </td>
-        ) : (
-          <td
-            key={index}
-            className={
-              "table__column" +
-              " " +
-              (index === 0 ? "" : "table__column--align-right ") +
-              (reg.test(value)
-                ? parseFloat(value) > 0
-                  ? "success"
-                  : "error"
-                : "")
-            }
-          >
-            {value}
-          </td>
-        )
-      )}
+      {values.map((value, index) => (
+        <td
+          key={index}
+          className={
+            "table__column" +
+            " " +
+            (index === 0 ? "" : "table__column--align-right ") +
+            (reg.test(value)
+              ? parseFloat(value) > 0
+                ? "success"
+                : "error"
+              : "")
+          }
+        >
+          {value}
+        </td>
+      ))}
+      <td>
+        <input type="checkbox" onChange={handleToggle} value={rowIndex} />
+      </td>
+    </tr>
+  ) : (
+    <tr className="table__row">
+      {values.map((value, index) => (
+        <td
+          key={index}
+          className={
+            "table__column" +
+            " " +
+            (index === 0 ? "" : "table__column--align-right ") +
+            (reg.test(value)
+              ? parseFloat(value) > 0
+                ? "success"
+                : "error"
+              : "")
+          }
+        >
+          {value}
+        </td>
+      ))}
     </tr>
   );
 }

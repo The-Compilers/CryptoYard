@@ -17,10 +17,12 @@ function Dashboard({ user }) {
     <>
       <Nav user={user} />
       <main>
-        <div className="box">
-          <h2 className="box__title">Your coins</h2>
-          <Table tableHeaders={tableHeaders} rows={tmpCoins} />
-        </div>
+        <Table
+          title="Your coins"
+          tableHeaders={tableHeaders}
+          rows={tmpCoins}
+          toggleable={false}
+        />
       </main>
       <Footer />
     </>

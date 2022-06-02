@@ -11,32 +11,25 @@ export default function Market({ user }) {
     "Market Cap",
   ];
   const tmpCoins = [
-    [
-      "BTC Bitcoin",
-      "$29,628.42",
-      "-6.72",
-      "35,911.22M",
-      "$564,910.68M",
-      "checkbox",
-    ],
-    [
-      "ETH Ethereum",
-      "$1,801.12",
-      "-7.57",
-      "18,424.01M",
-      "$218,099.98M",
-      "checkbox",
-    ],
+    ["BTC Bitcoin", "$29,628.42", "-6.72", "35,911.22M", "$564,910.68M"],
+    ["ETH Ethereum", "$1,801.12", "-7.57", "18,424.01M", "$218,099.98M"],
   ];
+
+  function toggleSubscription(coin) {
+    console.log("Toggling subsrciption " + coin);
+  }
 
   return (
     <>
       <Nav user={user} />
       <main>
-        <div className="box">
-          <h2 className="box__title">All coins</h2>
-          <Table tableHeaders={tableHeaders} rows={tmpCoins} />
-        </div>
+        <Table
+          title="All coins"
+          tableHeaders={tableHeaders}
+          rows={tmpCoins}
+          toggleable={true}
+          toggleFunction={toggleSubscription}
+        />
       </main>
     </>
   );
