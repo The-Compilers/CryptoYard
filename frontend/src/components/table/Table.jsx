@@ -2,64 +2,57 @@ import "./table.css";
 
 import Row from "./TableRow";
 
-function CryptoTable() {
+/**
+ * Creates a table where the header for each column are the ones specified
+ * by passing in an array of strings to tableHeaders. The rows displayed
+ * are the ones specified by passing in an array of rows which again are an
+ * array of values to be displayed in the rows.
+ * @param {*} title, the title of the table
+ * @param {*} tableHeaders an array containing string values for the headers in
+ * the table. The order of the array should be the order the header should be
+ * displayed from left to right.
+ * @param {*} rows an array of rows. A row is another array with string values
+ * for each column in that row. The rows are displayed from top down, meaning the
+ * first row in the array is placed on the top of the table (under the headers).
+ * @param {*} toggleable, a condition stating if the rows in the table should be togglabe
+ * or not. A toggleable row gets a checkbox added at the end.
+ * @param {*} toggleFunction, a function to be called when the row is toggled. Null if
+ * row is not toggleable
+ */
+function CryptoTable({
+  title,
+  tableHeaders,
+  rows,
+  toggleable,
+  toggleFunction,
+}) {
   return (
-    <table className="box">
-      <thead>
-        <tr className="table__row">
-          <th className="table__column table__column--title">Coin</th>
-          <th className="table__column table__column--title table__colum--big table__column--align-right">
-            Balance
-          </th>
-          <th className="table__column table__column--title table__column--align-right">
-            Profit
-          </th>
-          <th className="table__column table__column--title table__column--align-right">
-            Price
-          </th>
-          <th className="table__column table__column--title table__column--align-right">
-            24h%
-          </th>
-          <th className="table__column table__column--title table__column--align-right">
-            7h%
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <Row
-          coin="BitCoin"
-          balance="134,708.65"
-          profit="+87,108.42"
-          price="47,600.23"
-          lastDay="-0.82"
-          lastSevenHours="+11.27"
-        />
-        <Row
-          coin="Ethereum"
-          balance="4,149.48"
-          profit="-952.34"
-          price="3,401.21"
-          lastDay="+0.08"
-          lastSevenHours="+13.13"
-        />
-        <Row
-          coin="Tether"
-          balance="53.45"
-          profit="+3.45"
-          price="1.00"
-          lastDay="0.00"
-          lastSevenHours="0.00"
-        />
-        <Row
-          coin="USD Coin"
-          balance="154.81"
-          profit="-83.05"
-          price="0.9999"
-          lastDay="-0.03"
-          lastSevenHours="+0.02"
-        />
-      </tbody>
-    </table>
+    <div className="box">
+      <h2 className="box__title">{title}</h2>
+      <table>
+        <thead>
+          <tr className="table__row">
+            {tableHeaders.map((header, index) =>
+              <th key={index} className={"table__column table__column--title "
+                + (index > 0 ? "table__column--align-right" : "")}>
+                {header}
+              </th>
+            )}
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row, index) => (
+            <Row
+              key={index}
+              coinIndex={index}
+              values={row}
+              toggleable={toggleable}
+              toggleFunction={toggleFunction}
+            />
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }
 
