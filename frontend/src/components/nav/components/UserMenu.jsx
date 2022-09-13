@@ -20,8 +20,8 @@ export function UserMenu({
     />
     <ul className="user__dropdown">
       <li className="user__name noselect">
-        <p className="user__name__text" onClick={props.onClick}>
-          {props.firstName} {props.lastName}
+        <p className="user__name__text" onClick={onClick}>
+          {firstName} {lastName}
           <i className="material-icons">arrow_drop_down</i>
         </p>
         <ul
