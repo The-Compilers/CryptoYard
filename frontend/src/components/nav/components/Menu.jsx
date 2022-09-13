@@ -1,5 +1,3 @@
-import { Link } from "react-router-dom";
-
 // components
 import MenuItem from "./MenuItem";
 

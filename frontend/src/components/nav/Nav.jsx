@@ -71,14 +71,14 @@ function Nav({ user }) {
                 </Link>
               </li>
               <li className="user__dropdown__list__item">
-                <a to="" className="user__dropdown__list__link">
+                <Link to="" className="user__dropdown__list__link">
                   Settings
-                </a>
+                </Link>
               </li>
               <li className="user__dropdown__list__item">
-                <a to="" className="user__dropdown__list__link">
+                <Link to="" className="user__dropdown__list__link">
                   Log out
-                </a>
+                </Link>
               </li>
             </ul>
           </li>
