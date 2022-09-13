@@ -14,10 +14,10 @@ import Row from "./TableRow";
  * @param {*} rows an array of rows. A row is another array with string values
  * for each column in that row. The rows are displayed from top down, meaning the
  * first row in the array is placed on the top of the table (under the headers).
- * @param {*} togglable, a condition stating if the rows in the table should be togglabe
- * or not. A togglable row gets a checkbox added at the end.
+ * @param {*} toggleable, a condition stating if the rows in the table should be togglabe
+ * or not. A toggleable row gets a checkbox added at the end.
  * @param {*} toggleFunction, a function to be called when the row is toggled. Null if
- * row is not togglable
+ * row is not toggleable
  */
 function CryptoTable({
   title,
@@ -33,18 +33,10 @@ function CryptoTable({
         <thead>
           <tr className="table__row">
             {tableHeaders.map((header, index) =>
-              index === 0 ? (
-                <th key={index} className="table__column table__column--title">
-                  {header}
-                </th>
-              ) : (
-                <th
-                  key={index}
-                  className="table__column table__column--title table__column--align-right"
-                >
-                  {header}
-                </th>
-              )
+              <th key={index} className={"table__column table__column--title "
+                + (index > 0 ? "table__column--align-right" : "")}>
+                {header}
+              </th>
             )}
           </tr>
         </thead>
