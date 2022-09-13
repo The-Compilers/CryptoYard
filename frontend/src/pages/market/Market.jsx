@@ -2,6 +2,12 @@
 import Nav from "../../components/nav/Nav";
 import Table from "../../components/table/Table";
 
+/**
+ * A page showing market data
+ * @param user
+ * @returns {JSX.Element}
+ * @constructor
+ */
 export default function Market({ user }) {
   const tableHeaders = [
     "Name",
@@ -16,7 +22,7 @@ export default function Market({ user }) {
   ];
 
   function toggleSubscription(coin) {
-    console.log("Toggling subsrciption " + coin);
+    console.log("Toggling subscription " + coin);
   }
 
   return (

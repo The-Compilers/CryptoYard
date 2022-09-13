@@ -4,6 +4,13 @@ import Nav from "../../components/nav/Nav";
 import Footer from "../../components/footer/Footer";
 import Table from "../../components/table/Table";
 
+/**
+ * Dashboard page for a logged-in user.
+ * @param user The logged-in user
+ * @returns {JSX.Element}
+ * @constructor
+ */
+
 function Dashboard({ user }) {
   const tableHeaders = ["Coin", "Balance", "Profit", "Price", "24h%", "7h%"];
   const tmpCoins = [
