@@ -1,8 +1,17 @@
 import { Link } from "react-router-dom";
 import "./usermenu.css";
 
-// Shows the menu for the user (profile, setting,s etc)
-export function UserMenu(props) {
+/**
+ * Shows the menu for the user (profile, settings, etc.)
+ * @param firstName First name of the user
+ * @param lastName Last name of the user
+ * @param onClick Function to call when the user menu is clicked
+ * @returns {JSX.Element}
+ * @constructor
+ */
+export function UserMenu({
+  firstName, lastName, onClick
+}) {
   return <div className="user">
     <img
       className="user__img"
