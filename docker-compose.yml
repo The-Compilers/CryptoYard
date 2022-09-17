@@ -65,6 +65,8 @@ services:
     restart: unless-stopped
     networks:
       - default
+    depends_on:
+      - api
 
 networks:
     default:
