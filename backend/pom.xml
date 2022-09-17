@@ -27,6 +27,17 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <!-- For accessing SQL database with JPA -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
         <!-- Binance API and all it's dependencies. The lib is not available on Maven... -->
         <!-- Source: https://github.com/binance-exchange/binance-java-api -->
         <dependency>

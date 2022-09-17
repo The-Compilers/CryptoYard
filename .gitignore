@@ -61,3 +61,5 @@ build/
 
 
 *.env
+
+backend/src/main/resources/application-dev.properties
