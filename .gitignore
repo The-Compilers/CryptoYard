@@ -63,3 +63,5 @@ build/
 *.env
 
 backend/src/main/resources/application-dev.properties
+backend/doc/.$messaging.drawio.bkp
+backend/doc/.$messaging.drawio.dtmp
