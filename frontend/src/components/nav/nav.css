@@ -1,0 +1,10 @@
+/* ==============
+  Nav
+  =============== */
+.nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 var(--spacing-medium);
+  background-color: var(--clr-light-6);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}

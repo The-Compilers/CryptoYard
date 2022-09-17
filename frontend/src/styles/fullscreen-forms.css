@@ -1,0 +1,63 @@
+
+/*-----------------------------------------
+  Full-screen forms: Sign up, Sign in
+-----------------------------------------*/
+.fullscreen-form__background {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.fullscreen-form {
+  display: flex;
+  flex-direction: column;
+  row-gap: var(--spacing-larger);
+  background-color: var(--clr-light-6);
+  padding: var(--spacing-larger);
+  border-radius: 1rem;
+}
+
+.fullscreen-form__input {
+  font-size: var(--font-size-larger);
+  padding: var(--spacing-small);
+  border-radius: 0.5rem;
+  border: solid;
+  border-color: var(--clr-light-3);
+}
+
+.fullscreen-form__header {
+  font-size: var(--font-size-extra-large);
+  text-align: center;
+  color: black;
+}
+
+.fullscreen-form__action-button {
+  font-size: var(--font-size-larger);
+  padding: var(--spacing-small);
+  border-radius: 0.5rem;
+  background-color: var(--clr-accent-dark-1);
+  color: var(--clr-light-6);
+}
+
+.fullscreen-form__action-button:hover {
+  background-color: var(--clr-accent-dark-3);
+}
+
+.fullscreen-form__footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-tiny);
+  color: black;
+}
+
+.fullscreen-form__anchor {
+  text-decoration: none;
+  color: black;
+}
+
+.fullscreen-form__anchor:hover {
+  text-decoration: underline;
+  color: var(--clr-accent-dark-1);
+}
