@@ -39,6 +39,12 @@ Whenever a `EAppLifecycle` is received by a service, it is processed by the `CYS
 returned from the method `CYService.onEvent`, therefore, a child class overriding the `onEvent` method must NOT process
 the received `EAppLifecycle` event.
 
+## Direct service-service communication
+
+Services are allowed to call methods for each other directly, as long as method calls are immutable - read-only
+operations which don't make any changes to the state of the service. For example, a `TraderService` could call a method
+from `TickerPriceService` to find actual price for a specific coin.
+
 ## Current state and possible future extensions
 
 Currently, message class is used as a topic, but later there could be hierarchical topics.
