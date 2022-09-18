@@ -26,7 +26,7 @@ services:
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
       - MYSQL_RANDOM_ROOT_PASSWORD=true
     ports:
-    - "3306:3306"
+    - "33066:3306"
     restart: unless-stopped
     healthcheck:
       test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
@@ -53,6 +53,7 @@ services:
       - MYSQL_HOST=cydb
       - MYSQL_PORT=${MYSQL_PORT}
       - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
     restart: unless-stopped
     networks:
       - default
