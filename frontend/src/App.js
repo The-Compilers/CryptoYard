@@ -22,6 +22,16 @@ function App() {
   };
   const loggedIn = false;
 
+  function handleSignIn() {
+    // TODO
+    console.log("Signing in...");
+  }
+
+  function handleSignUp() {
+    // TODO
+    console.log("Signing up...");
+  }
+
   return (
     <div>
       <Routes>
@@ -34,8 +44,8 @@ function App() {
           path="/dashboard/:username"
           element={<Dashboard user={tmpUser} />}
         />
-        <Route path="/signin" element={<SignInUpForm isSignIn={true} />} />
-        <Route path="/signup" element={<SignInUpForm isSignIn={false} />} />
+        <Route path="/signin" element={<SignInUpForm isSignIn={true} onSubmit={handleSignIn} />} />
+        <Route path="/signup" element={<SignInUpForm isSignIn={false} onSubmit={handleSignUp} />} />
         <Route path="/markets" element={<Market user={tmpUser} />} />
       </Routes>
     </div>

@@ -44,6 +44,10 @@
   background-color: var(--clr-accent-dark-3);
 }
 
+.fullscreen-form__action-button:disabled {
+  background-color: var(--clr-dark-6);
+}
+
 .fullscreen-form__footer {
   display: flex;
   justify-content: center;
