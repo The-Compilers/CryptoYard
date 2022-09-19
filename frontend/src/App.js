@@ -6,7 +6,7 @@ import "./styles/global.css";
 
 // Pages
 import Dashboard from "./pages/dashboard/Dashboard";
-import { SignInUpForm } from "./components/sign-inup-form/SignInUpForm";
+import { SignInUpForm } from "./pages/signin-signup/SignInUpForm";
 import Market from "./pages/market/Market";
 
 /**
