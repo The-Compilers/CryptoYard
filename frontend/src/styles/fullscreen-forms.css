@@ -18,6 +18,11 @@
   border-radius: 1rem;
 }
 
+.fullscreen-form__error {
+  color: var(--clr-error);
+  margin: auto;
+}
+
 .fullscreen-form__input {
   font-size: var(--font-size-larger);
   padding: var(--spacing-small);

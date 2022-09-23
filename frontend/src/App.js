@@ -1,13 +1,19 @@
 // Routing
-import { Routes, Route, Navigate } from "react-router-dom";
+import {Routes, Route, Navigate} from "react-router-dom";
 
 // Global styles
 import "./styles/global.css";
 
 // Pages
 import Dashboard from "./pages/dashboard/Dashboard";
-import { SignInUpForm } from "./pages/signin-signup/SignInUpForm";
+import {SignInUpForm} from "./pages/signin-signup/SignInUpForm";
 import Market from "./pages/market/Market";
+
+// Services
+import {UserContext} from "./state/UserContext";
+import {deleteAuthorizationCookies, getAuthenticatedUser} from "./services/authentication";
+import {useState} from "react";
+import Nav from "./components/nav/Nav";
 
 /**
  * The main application component
@@ -15,40 +21,47 @@ import Market from "./pages/market/Market";
  * @constructor
  */
 function App() {
-  const tmpUser = {
-    firstName: "Adam",
-    lastName: "Jensen",
-    username: "adam"
-  };
-  const loggedIn = false;
+  let [user, setUser] = useState(getAuthenticatedUser());
 
-  function handleSignIn() {
-    // TODO
-    console.log("Signing in...");
+  function onSignInSuccess(userData) {
+    console.log("User authenticated!");
+    setUser(userData);
   }
 
-  function handleSignUp() {
-    // TODO
-    console.log("Signing up...");
+  function onSignUpSuccess(userData) {
+    console.log("Signed up!");
+    return onSignInSuccess(userData);
+  }
+
+  /**
+   * Perform user logout
+   */
+  function handleLogOut() {
+    console.log("Signed out");
+    deleteAuthorizationCookies();
+    setUser(null);
   }
 
   return (
-    <div>
-      <Routes>
-        <Route exact path="/" element={
-          loggedIn
-            ? <Navigate to={"/dashboard/" + tmpUser.username} />
-            : <Navigate to="/signin" />
-        } />
-        <Route
-          path="/dashboard/:username"
-          element={<Dashboard user={tmpUser} />}
-        />
-        <Route path="/signin" element={<SignInUpForm isSignIn={true} onSubmit={handleSignIn} />} />
-        <Route path="/signup" element={<SignInUpForm isSignIn={false} onSubmit={handleSignUp} />} />
-        <Route path="/markets" element={<Market user={tmpUser} />} />
-      </Routes>
-    </div>
+    <UserContext.Provider value={user}>
+      {
+        user ?
+          <>
+            <Nav onLogOut={handleLogOut}/>
+            <Routes>
+              <Route path="/dashboard/" element={<Dashboard/>}/>
+              <Route path="/markets" element={<Market/>}/>
+              <Route path="*" element={<Navigate to="/dashboard"/>}/>
+            </Routes>
+          </>
+          :
+          <Routes>
+            <Route path="/signin" element={<SignInUpForm isSignIn={true} onSuccess={onSignInSuccess}/>}/>
+            <Route path="/signup" element={<SignInUpForm isSignIn={false} onSuccess={onSignUpSuccess}/>}/>
+            <Route path="*" element={<Navigate to="/signin"/>}/>
+          </Routes>
+      }
+    </UserContext.Provider>
   );
 }
 

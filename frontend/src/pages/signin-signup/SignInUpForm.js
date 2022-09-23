@@ -1,13 +1,15 @@
 import "../../styles/fullscreen-forms.css"
 import {useState} from "react";
+import {FormErrorMessage} from "../../components/sign-inup-form/FormErrorMessage";
+import {sendAuthenticationRequest} from "../../services/authentication";
 
 /**
  * A form that is used for both sign-in and sign-up
  * @param isSignIn - when true, show Sign-In form, otherwise - Sign-Up form
- * @param onSubmit - callback function called when the submission button is clicked
+ * @param onSuccess - callback function called when the submission button is clicked
  * @constructor
  */
-export function SignInUpForm({isSignIn, onSubmit}) {
+export function SignInUpForm({isSignIn, onSuccess}) {
   let formTitle;
   let emailInput = null;
   let repeatPasswordInput = null;
@@ -16,8 +18,8 @@ export function SignInUpForm({isSignIn, onSubmit}) {
   let alternativeLinkText;
   let alternativeUrl;
   let usernamePlaceholder;
-  let [email, setEmail] = useState("");
-  let [password, setPassword] = useState("");
+  let [error, setError] = useState("");
+  let [buttonDisabled, setButtonDisabled] = useState(false);
 
   if (isSignIn) {
     formTitle = "Sign in";
@@ -29,55 +31,46 @@ export function SignInUpForm({isSignIn, onSubmit}) {
   } else {
     formTitle = "Sign up";
     usernamePlaceholder = "Username";
-    emailInput = <input className="fullscreen-form__input" type="text" placeholder="Email"/>;
-    repeatPasswordInput = <input className="fullscreen-form__input" type="text" placeholder="Repeat Password"/>;
+    emailInput = <input className="fullscreen-form__input" type="text" placeholder="Email" id="signinup_email"/>;
+    repeatPasswordInput = <input className="fullscreen-form__input" type="text" placeholder="Repeat Password"
+                                 id="signinup_repeated_password"/>;
     submitButtonTitle = "Create Account";
     alternativeDescription = "Already have an account?";
     alternativeLinkText = "Sign in";
     alternativeUrl = "/signin";
   }
 
-  const ALPHA_NUMERIC_REGEX = /^[a-zA-Z0-9_]+$/;
-
   /**
-   * Return true if the username/email field is valid (is not empty and does not contain non-allowed characters)
-   * @return {boolean}
+   * Handle form submission
+   * @param event The click-event
    */
-  function isUsernameValid() {
-    return "" !== email && email.match(ALPHA_NUMERIC_REGEX);
-  }
-
-  /**
-   * Returns true if current password value meets the minimums security requirements
-   * @return {boolean}
-   */
-  function isPasswordValid() {
-    // Regex from https://www.w3resource.com/javascript/form/password-validation.php
-    const LOWERCASE_UPPERCASE_DIGITS__6_TO_20_CHARS = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
-    return !!password.match(LOWERCASE_UPPERCASE_DIGITS__6_TO_20_CHARS);
-  }
-
-  let submitButtonEnabled = !isSignIn || (isUsernameValid() && isPasswordValid());
-
   function handleSubmit(event) {
     event.preventDefault();
-    if (onSubmit) {
-      onSubmit();
+    setButtonDisabled(true);
+    const username = document.getElementById("signinup_username").value;
+    const password = document.getElementById("signinup_password").value;
+    if (isSignIn) {
+      sendAuthenticationRequest(username, password, onSuccess,
+        (errorCode, errorMessage) => {
+          setError(errorMessage);
+          setButtonDisabled(false);
+        }
+      );
+    } else {
+      // TODO apiSignUp(username, email, password, repeatPassword);
     }
   }
 
   return <main className="fullscreen-form__background">
     <form className="fullscreen-form box">
       <h1 className="fullscreen-form__header">{formTitle}</h1>
-      <input className="fullscreen-form__input" type="text" placeholder={usernamePlaceholder} value={email}
-             onChange={(e) => setEmail(e.target.value)}/>
+      <input className="fullscreen-form__input" type="text" placeholder={usernamePlaceholder} id="signinup_username"/>
       {emailInput}
-      <input className="fullscreen-form__input" type="password" placeholder="Password" value={password}
-             onChange={(e) => setPassword(e.target.value)}/>
+      <input className="fullscreen-form__input" type="password" placeholder="Password" id="signinup_password"/>
       {repeatPasswordInput}
-      <button className="fullscreen-form__action-button" type="submit" disabled={!submitButtonEnabled}
-              onClick={handleSubmit}>
-        {submitButtonTitle}</button>
+      {error ? <FormErrorMessage error={error}/> : <></>}
+      <button className="fullscreen-form__action-button" type="submit" disabled={buttonDisabled}
+              onClick={handleSubmit}>{submitButtonTitle}</button>
       <div className="fullscreen-form__footer">
         <p>{alternativeDescription}</p>
         <a href={alternativeUrl} className="fullscreen-form__anchor">
