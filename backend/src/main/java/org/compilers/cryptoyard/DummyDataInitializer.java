@@ -4,6 +4,7 @@ import org.compilers.cryptoyard.model.Role;
 import org.compilers.cryptoyard.model.User;
 import org.compilers.cryptoyard.repositories.RoleRepository;
 import org.compilers.cryptoyard.repositories.UserRepository;
+import org.compilers.cryptoyard.services.RoleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class DummyDataInitializer implements ApplicationListener<ApplicationRead
     private UserRepository userRepository;
 
     @Autowired
-    private RoleRepository roleRepository;
+    private RoleService roleService;
 
     private final Logger logger = LoggerFactory.getLogger("DummyInit");
 
@@ -38,14 +39,11 @@ public class DummyDataInitializer implements ApplicationListener<ApplicationRead
             logger.info("Importing test data...");
             User chuck = new User("chuck", "microsoft@chuck.com", "$2a$12$/NoknpFFPDlzL3kBryJfsur0yeYC2JFqAs7Fd79ypMP6PN/mtSYmC");
             User dave = new User("dave", "dangerous@dave.com", "$2a$10$nwbEjYKgcomq2rjUPge2JegqI.y4zEcNqRMPdqwFnd1ytorNCQM/y");
-            Role user = new Role("ROLE_USER");
-            Role admin = new Role("ROLE_ADMIN");
+            Role user = roleService.getRegularUserRole();
+            Role admin = roleService.getAdminRole();
             chuck.addRole(user);
             chuck.addRole(admin);
             dave.addRole(user);
-
-            roleRepository.save(user);
-            roleRepository.save(admin);
 
             userRepository.save(chuck);
             userRepository.save(dave);

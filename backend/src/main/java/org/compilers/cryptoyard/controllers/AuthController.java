@@ -1,8 +1,7 @@
 package org.compilers.cryptoyard.controllers;
 
-import org.compilers.cryptoyard.security.AuthenticationRequest;
-import org.compilers.cryptoyard.security.AuthenticationResponse;
-import org.compilers.cryptoyard.security.JwtUtil;
+import org.compilers.cryptoyard.model.User;
+import org.compilers.cryptoyard.security.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Optional;
+
 /**
  * Controller responsible for authentication
  */
@@ -25,7 +26,7 @@ public class AuthController {
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
-    private UserDetailsService userService;
+    private AccessUserService userService;
     @Autowired
     private JwtUtil jwtUtil;
 
@@ -48,5 +49,18 @@ public class AuthController {
         final UserDetails userDetails = userService.loadUserByUsername(authenticationRequest.username());
         final String jwt = jwtUtil.generateToken(userDetails);
         return ResponseEntity.ok(new AuthenticationResponse(jwt));
+    }
+
+    @PostMapping("/signup")
+    public ResponseEntity<?> signup(@RequestBody SignUpRequest request) {
+        if (request.repeatedPassword() == null || !request.repeatedPassword().equals(request.password())) {
+            return new ResponseEntity<>("Password's must match", HttpStatus.BAD_REQUEST);
+        }
+        try {
+            User user = userService.createNewUser(request.username(), request.email(), request.password());
+            return ResponseEntity.ok(user);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 }

@@ -11,6 +11,9 @@ import java.util.Set;
 @Entity(name = "roles")
 @Data
 public class Role {
+    public static String REGULAR_USER = "ROLE_USER";
+    public static String ADMIN = "ROLE_ADMIN";
+
     @Id
     @GeneratedValue
     private Long id;
