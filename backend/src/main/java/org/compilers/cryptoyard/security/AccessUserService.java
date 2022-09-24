@@ -21,10 +21,13 @@ public class AccessUserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> user = userRepository.findByUsername(username);
-        if (user.isPresent()) {
-            return new AccessUserDetails(user.get());
-        } else {
-            throw new UsernameNotFoundException("User " + username + "not found");
+        if (user.isEmpty()) {
+            // Did not find the user by username? Try email! The sign-in form allows to enter either username or email!
+            user = userRepository.findByEmail(username);
+            if (user.isEmpty()) {
+                throw new UsernameNotFoundException("User " + username + "not found");
+            }
         }
+        return new AccessUserDetails(user.get());
     }
 }
