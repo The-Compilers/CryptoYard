@@ -32,13 +32,13 @@ public class JwtUtil {
     public String generateToken(UserDetails userDetails) {
         final long TIME_NOW = System.currentTimeMillis();
         final long MILLISECONDS_IN_HOUR = 60 * 60 * 1000;
-        final long TIME_AFTER_ONE_HOUR = TIME_NOW + MILLISECONDS_IN_HOUR;
+        final long TIME_AFTER_24_HOURS = TIME_NOW + 24 * MILLISECONDS_IN_HOUR;
 
         return Jwts.builder()
                 .setSubject(userDetails.getUsername())
                 .claim(JWT_AUTH_KEY, userDetails.getAuthorities())
                 .setIssuedAt(new Date(TIME_NOW))
-                .setExpiration(new Date(TIME_AFTER_ONE_HOUR))
+                .setExpiration(new Date(TIME_AFTER_24_HOURS))
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
                 .compact();
     }
