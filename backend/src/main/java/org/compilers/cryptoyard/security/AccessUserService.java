@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 /**
  * Provides AccessUserDetails needed for authentication
@@ -40,6 +41,17 @@ public class AccessUserService implements UserDetailsService {
     }
 
     public User createNewUser(String username, String email, String password) throws Exception {
+        if (username == null || "".equals(username)) {
+            throw new Exception("Username can't be empty");
+        }
+        if (email == null || "".equals(email)) {
+            throw new Exception("Email can't be empty");
+        }
+        if (password == null || "".equals(password)) {
+            throw new Exception("Password can't be empty");
+        }
+        checkPasswordRequirements(password);
+        checkEmailFormat(email);
         Optional<User> existingUser = userRepository.findByUsername(username);
         if (existingUser.isPresent()) {
             throw new Exception("Username already taken");
@@ -53,8 +65,38 @@ public class AccessUserService implements UserDetailsService {
         user = userRepository.save(user);
         Role userRole = roleService.getRegularUserRole();
         user.addRole(userRole);
-        user = userRepository.save(user);
+        return userRepository.save(user);
+    }
 
-        return user;
+    // Email-matching regex, from https://www.baeldung.com/java-email-validation-regex
+    final static Pattern EMAIL_REGEX = Pattern.compile(
+            "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$",
+            Pattern.CASE_INSENSITIVE);
+
+    /**
+     * Checks if the provided email is in correct format
+     *
+     * @param email Email to check
+     * @throws Exception Throws exception on error, does nothing on success.
+     */
+    private void checkEmailFormat(String email) throws Exception {
+        if (!EMAIL_REGEX.matcher(email).matches()) {
+            throw new Exception("Email in incorrect format");
+        }
+    }
+
+    // 6-20 chars, lowercase, uppercase, digits
+    final static Pattern PASSWORD_REGEX = Pattern.compile("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$");
+
+    /**
+     * Checks if the provided password meets the minimum requirements. Throws and exception on error
+     *
+     * @param password The password to check
+     * @throws Exception Throws exception on error, does nothing on success.
+     */
+    private void checkPasswordRequirements(String password) throws Exception {
+        if (!PASSWORD_REGEX.matcher(password).matches()) {
+            throw new Exception("Password must be 6-20 characters long and include lowercase, uppercase and digits");
+        }
     }
 }

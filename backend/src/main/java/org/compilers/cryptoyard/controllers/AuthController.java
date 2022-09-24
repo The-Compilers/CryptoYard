@@ -3,6 +3,7 @@ package org.compilers.cryptoyard.controllers;
 import org.compilers.cryptoyard.model.User;
 import org.compilers.cryptoyard.security.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -53,14 +54,19 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody SignUpRequest request) {
+        if (request.password() == null || "".equals(request.password())) {
+            return new ResponseEntity<>("Password can't be empty", HttpStatus.BAD_REQUEST);
+        }
         if (request.repeatedPassword() == null || !request.repeatedPassword().equals(request.password())) {
-            return new ResponseEntity<>("Password's must match", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Passwords must match", HttpStatus.BAD_REQUEST);
         }
         try {
             User user = userService.createNewUser(request.username(), request.email(), request.password());
             return ResponseEntity.ok(user);
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            String error = e instanceof DataIntegrityViolationException ? "Data integrity requirements not met!"
+                    : e.getMessage();
+            return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
         }
     }
 }
