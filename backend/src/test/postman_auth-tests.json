@@ -1,1 +1,1209 @@
-{"info":{"_postman_id":"2513bd10-86cc-44ab-89ee-ad17be2e1c7c","name":"Authentication","schema":"https://schema.getpostman.com/json/collection/v2.0.0/collection.json"},"item":[{"name":"Unauthorized access","event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 403\", function () {\r","    pm.response.to.have.status(403);\r","});"]}}],"id":"7aa189b2-1810-431c-9b76-c264177bf92a","request":{"method":"GET","header":[],"url":"{{API_URL}}/dashboard"},"response":[]},{"name":"Access public endpoint","event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", function () {\r","    pm.response.to.have.status(200);\r","});"]}}],"id":"2be9f8ae-19ed-4661-998d-8708d098140c","request":{"method":"GET","header":[],"url":"{{API_URL}}/public/hello"},"response":[]},{"name":"Auth with no data","event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 400\", function () {\r","    pm.response.to.have.status(400);\r","});"]}}],"id":"5f5649f0-fb05-4a51-b6bc-8293c8f660c9","request":{"method":"POST","header":[],"body":{"mode":"raw","raw":"","options":{"raw":{"language":"json"}}},"url":"{{API_URL}}/authenticate"},"response":[]},{"name":"Auth with no username","event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 401\", function () {\r","    pm.response.to.have.status(401);\r","});"]}}],"id":"faef6ca5-ef43-4849-b7c6-1e4f0abd278c","request":{"method":"POST","header":[],"body":{"mode":"raw","raw":"{\"password\": \"Biscuits\"}","options":{"raw":{"language":"json"}}},"url":"{{API_URL}}/authenticate"},"response":[]},{"name":"Auth with no password","event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 401\", function () {\r","    pm.response.to.have.status(401);\r","});"]}}],"id":"a9d01933-9ed7-413a-b849-2b16230c7f05","request":{"method":"POST","header":[],"body":{"mode":"raw","raw":"{\"username\": \"john\"}","options":{"raw":{"language":"json"}}},"url":"{{API_URL}}/authenticate"},"response":[]},{"name":"Auth with incorrect password","event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 401\", function () {\r","    pm.response.to.have.status(401);\r","});"]}}],"id":"3bbe2278-edc8-45c8-ac4b-8466b3de06fa","request":{"method":"POST","header":[],"body":{"mode":"raw","raw":"{\"username\": \"chuck\", \"password\": \"Roundhouse\"}","options":{"raw":{"language":"json"}}},"url":"{{API_URL}}/authenticate"},"response":[]},{"name":"Correct auth with username","event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", function () {\r","    pm.response.to.have.status(200);\r","});\r","\r","pm.test(\"jwt present\", function () {\r","    var jsonData = pm.response.json();\r","    pm.expect(jsonData).to.haveOwnProperty(\"jwt\");    \r","    pm.environment.set(\"jwt\", jsonData.jwt);\r","});\r","\r",""]}}],"id":"29a023c2-c35e-4493-8522-a44a845af603","request":{"method":"POST","header":[],"body":{"mode":"raw","raw":"{\"username\": \"chuck\", \"password\": \"Nunchucks\"}","options":{"raw":{"language":"json"}}},"url":"{{API_URL}}/authenticate"},"response":[]},{"name":"Correct auth with email","event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", function () {\r","    pm.response.to.have.status(200);\r","});\r","\r","pm.test(\"jwt present\", function () {\r","    var jsonData = pm.response.json();\r","    pm.expect(jsonData).to.haveOwnProperty(\"jwt\");    \r","    pm.environment.set(\"jwt\", jsonData.jwt);\r","    pm.environment.set(\"jwt_broken_signature\", jsonData.jwt.slice(0, -3) + \"Ddd\");\r","});\r","\r",""]}}],"id":"9ab90381-38d2-4c82-83b3-563aca2d920f","request":{"method":"POST","header":[],"body":{"mode":"raw","raw":"{\"username\": \"microsoft@chuck.com\", \"password\": \"Nunchucks\"}","options":{"raw":{"language":"json"}}},"url":"{{API_URL}}/authenticate"},"response":[]},{"name":"Correct access with JWT token","event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", function () {\r","    pm.response.to.have.status(200);\r","});"]}}],"id":"1576d1af-de27-443a-ad40-7d6b5ec2b3b6","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"auth":{"type":"bearer","bearer":{"token":"{{jwt}}"}},"method":"GET","header":[],"body":{"mode":"raw","raw":"","options":{"raw":{"language":"json"}}},"url":"{{API_URL}}/prices/ticker"},"response":[]},{"name":"Try access with expired token","event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 403\", function () {\r","    pm.response.to.have.status(403);\r","});"]}}],"id":"747f8747-da08-4277-bff6-46c5ce80c79e","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"auth":{"type":"bearer","bearer":{"token":"{{expired_jwt}}"}},"method":"GET","header":[],"body":{"mode":"raw","raw":"","options":{"raw":{"language":"json"}}},"url":"{{API_URL}}/prices/ticker"},"response":[]},{"name":"Try access with broken-signature JWT","event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 403\", function () {\r","    pm.response.to.have.status(403);\r","});"]}}],"id":"50ef8187-f3f2-47dc-9dc4-16ea6cea1dfd","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"auth":{"type":"bearer","bearer":{"token":"{{jwt_broken_signature}}"}},"method":"GET","header":[],"body":{"mode":"raw","raw":"","options":{"raw":{"language":"json"}}},"url":"{{API_URL}}/prices/ticker"},"response":[]},{"name":"Incorrect sign-up: username missing","event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 400\", function () {\r","    pm.response.to.have.status(400);\r","});\r",""]}},{"listen":"prerequest","script":{"type":"text/javascript","exec":["const unique_part = Date.now();\r","const email = \"microsoft_\" + unique_part + \"@chuck.com\";\r","const body = JSON.stringify({\"email\": email, \"password\": \"Nunchucks9\", \"repeatedPassword\": \"Nunchucks9\"});\r","pm.environment.set(\"signup_request_body\", body);\r",""]}}],"id":"b5323498-db9c-4378-afd4-40cd1a281dab","request":{"method":"POST","header":[],"body":{"mode":"raw","raw":"{{signup_request_body}}","options":{"raw":{"language":"json"}}},"url":"{{API_URL}}/signup"},"response":[]},{"name":"Incorrect sign-up: email missing","event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 400\", function () {\r","    pm.response.to.have.status(400);\r","});\r",""]}},{"listen":"prerequest","script":{"type":"text/javascript","exec":["const unique_part = Date.now();\r","const username = \"chuck_\" + unique_part;\r","const body = JSON.stringify({\"username\": username, \"password\": \"Nunchucks9\", \"repeatedPassword\": \"Nunchucks9\"});\r","pm.environment.set(\"signup_request_body\", body);\r",""]}}],"id":"1c8f9f6f-9594-4c97-beba-95ef875f9197","request":{"method":"POST","header":[],"body":{"mode":"raw","raw":"{{signup_request_body}}","options":{"raw":{"language":"json"}}},"url":"{{API_URL}}/signup"},"response":[]},{"name":"Incorrect sign-up: password missing","event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 400\", function () {\r","    pm.response.to.have.status(400);\r","});\r",""]}},{"listen":"prerequest","script":{"type":"text/javascript","exec":["const unique_part = Date.now();\r","const username = \"chuck_\" + unique_part;\r","const email = \"microsoft_\" + unique_part + \"@chuck.com\";\r","const body = JSON.stringify({\"username\": username, \"email\": email});\r","pm.environment.set(\"signup_request_body\", body);\r",""]}}],"id":"f4648302-ac9c-4174-8937-28f8947fa94e","request":{"method":"POST","header":[],"body":{"mode":"raw","raw":"{{signup_request_body}}","options":{"raw":{"language":"json"}}},"url":"{{API_URL}}/signup"},"response":[]},{"name":"Incorrect sign-up: repeated password missing","event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 400\", function () {\r","    pm.response.to.have.status(400);\r","});\r",""]}},{"listen":"prerequest","script":{"type":"text/javascript","exec":["const unique_part = Date.now();\r","const username = \"chuck_\" + unique_part;\r","const email = \"microsoft_\" + unique_part + \"@chuck.com\";\r","const body = JSON.stringify({\"username\": username, \"email\": email, \"password\": \"Nunchucks9\"});\r","pm.environment.set(\"signup_request_body\", body);\r",""]}}],"id":"594250dc-49db-41c3-9407-efc80b1e62e0","request":{"method":"POST","header":[],"body":{"mode":"raw","raw":"{{signup_request_body}}","options":{"raw":{"language":"json"}}},"url":"{{API_URL}}/signup"},"response":[]},{"name":"Incorrect sign-up: repeated password wrong","event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 400\", function () {\r","    pm.response.to.have.status(400);\r","});\r",""]}},{"listen":"prerequest","script":{"type":"text/javascript","exec":["const unique_part = Date.now();\r","const username = \"chuck_\" + unique_part;\r","const email = \"microsoft_\" + unique_part + \"@chuck.com\";\r","const body = JSON.stringify({\"username\": username, \"email\": email, \"password\": \"Nunchucks9\", \"repeatedPassword\": \"Kick\"});\r","pm.environment.set(\"signup_request_body\", body);\r",""]}}],"id":"cbb5bffa-a509-4325-b5ce-061dbc1d69ba","request":{"method":"POST","header":[],"body":{"mode":"raw","raw":"{{signup_request_body}}","options":{"raw":{"language":"json"}}},"url":"{{API_URL}}/signup"},"response":[]},{"name":"Incorrect sign-up: username is already taken","event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 400\", function () {\r","    pm.response.to.have.status(400);\r","});\r",""]}},{"listen":"prerequest","script":{"type":"text/javascript","exec":["const unique_part = Date.now();\r","const username = \"chuck\";\r","const email = \"microsoft_\" + unique_part + \"@chuck.com\";\r","const body = JSON.stringify({\"username\": username, \"email\": email, \"password\": \"Nunchucks9\", \"repeatedPassword\": \"Nunchucks9\"});\r","pm.environment.set(\"signup_request_body\", body);\r",""]}}],"id":"10a50d1f-9015-4984-a19b-d17fdc1b2753","request":{"method":"POST","header":[],"body":{"mode":"raw","raw":"{{signup_request_body}}","options":{"raw":{"language":"json"}}},"url":"{{API_URL}}/signup"},"response":[]},{"name":"Incorrect sign-up: email is already taken","event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 400\", function () {\r","    pm.response.to.have.status(400);\r","});\r",""]}},{"listen":"prerequest","script":{"type":"text/javascript","exec":["const unique_part = Date.now();\r","const username = \"chuck_\" + unique_part;\r","const email = \"microsoft@chuck.com\";\r","const body = JSON.stringify({\"username\": username, \"email\": email, \"password\": \"Nunchucks9\", \"repeatedPassword\": \"Nunchucks9\"});\r","pm.environment.set(\"signup_request_body\", body);\r",""]}}],"id":"a7526bef-7d41-4308-a2c8-f804b8e69c92","request":{"method":"POST","header":[],"body":{"mode":"raw","raw":"{{signup_request_body}}","options":{"raw":{"language":"json"}}},"url":"{{API_URL}}/signup"},"response":[]},{"name":"Incorrect sign-up: email in incorrect format","event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 400\", function () {\r","    pm.response.to.have.status(400);\r","});\r",""]}},{"listen":"prerequest","script":{"type":"text/javascript","exec":["const unique_part = Date.now();\r","const username = \"chuck_\" + unique_part;\r","const email = \"microsoft_\" + unique_part;\r","const body = JSON.stringify({\"username\": username, \"email\": email, \"password\": \"Nunchucks9\", \"repeatedPassword\": \"Nunchucks9\"});\r","pm.environment.set(\"signup_request_body\", body);\r",""]}}],"id":"a13017c2-f27b-4ba0-b6e4-b6fbb0e0b982","request":{"method":"POST","header":[],"body":{"mode":"raw","raw":"{{signup_request_body}}","options":{"raw":{"language":"json"}}},"url":"{{API_URL}}/signup"},"response":[]},{"name":"Incorrect sign-up: password too short","event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 400\", function () {\r","    pm.response.to.have.status(400);\r","});\r",""]}},{"listen":"prerequest","script":{"type":"text/javascript","exec":["const unique_part = Date.now();\r","const username = \"chuck_\" + unique_part;\r","const email = \"microsoft_\" + unique_part + \"@chuck.com\";\r","const body = JSON.stringify({\"username\": username, \"email\": email, \"password\": \"Nn8\", \"repeatedPassword\": \"Nn8\"});\r","pm.environment.set(\"signup_request_body\", body);\r",""]}}],"id":"935f9664-6094-4f68-bd28-64481a82d77e","request":{"method":"POST","header":[],"body":{"mode":"raw","raw":"{{signup_request_body}}","options":{"raw":{"language":"json"}}},"url":"{{API_URL}}/signup"},"response":[]},{"name":"Incorrect sign-up: password has no lowercase","event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 400\", function () {\r","    pm.response.to.have.status(400);\r","});\r",""]}},{"listen":"prerequest","script":{"type":"text/javascript","exec":["const unique_part = Date.now();\r","const username = \"chuck_\" + unique_part;\r","const email = \"microsoft_\" + unique_part + \"@chuck.com\";\r","const body = JSON.stringify({\"username\": username, \"email\": email, \"password\": \"NNNN8888\", \"repeatedPassword\": \"NNNN8888\"});\r","pm.environment.set(\"signup_request_body\", body);\r",""]}}],"id":"6d1e5ad5-f8e4-4a2f-9281-92511fd299be","request":{"method":"POST","header":[],"body":{"mode":"raw","raw":"{{signup_request_body}}","options":{"raw":{"language":"json"}}},"url":"{{API_URL}}/signup"},"response":[]},{"name":"Incorrect sign-up: password has no uppercase","event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 400\", function () {\r","    pm.response.to.have.status(400);\r","});\r",""]}},{"listen":"prerequest","script":{"type":"text/javascript","exec":["const unique_part = Date.now();\r","const username = \"chuck_\" + unique_part;\r","const email = \"microsoft_\" + unique_part + \"@chuck.com\";\r","const body = JSON.stringify({\"username\": username, \"email\": email, \"password\": \"dddd6666\", \"repeatedPassword\": \"dddd6666\"});\r","pm.environment.set(\"signup_request_body\", body);\r",""]}}],"id":"9b3d6a69-454c-4c7e-9270-75a4b45c0d10","request":{"method":"POST","header":[],"body":{"mode":"raw","raw":"{{signup_request_body}}","options":{"raw":{"language":"json"}}},"url":"{{API_URL}}/signup"},"response":[]},{"name":"Correct sign-up","event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", function () {\r","    pm.response.to.have.status(200);\r","});\r","\r","pm.test(\"Correct user returned\", function () {\r","    var jsonData = pm.response.json();\r","    pm.expect(jsonData.id).to.be.greaterThan(0);\r","    pm.expect(jsonData.username).equals(pm.environment.get(\"signup_username\"));\r","    pm.expect(jsonData.email).equals(pm.environment.get(\"signup_email\"));\r","    pm.expect(jsonData.active).equals(true);\r","});\r","\r","pm.test(\"No password returned\", function () {\r","    var jsonData = pm.response.json();\r","    pm.expect(jsonData.password).equals(undefined);\r","});\r","\r","pm.test(\"Regular user role assigned\", function () {\r","    var jsonData = pm.response.json();\r","    pm.expect(jsonData.roles.length).equals(1);\r","    var role = jsonData.roles[0];\r","    pm.expect(role.id).equals(1);\r","    pm.expect(role.name).equals(\"ROLE_USER\");\r","});\r",""]}},{"listen":"prerequest","script":{"type":"text/javascript","exec":["const unique_part = Date.now();\r","const username = \"chuck_\" + unique_part;\r","const email = \"microsoft_\" + unique_part + \"@chuck.com\";\r","const body = JSON.stringify({\"username\": username, \"email\": email, \"password\": \"Nunchucks9\", \"repeatedPassword\": \"Nunchucks9\"});\r","pm.environment.set(\"signup_username\", username);\r","pm.environment.set(\"signup_email\", email);\r","pm.environment.set(\"signup_request_body\", body);\r",""]}}],"id":"520a46f6-2059-4a10-b109-1225e3ebb72b","request":{"method":"POST","header":[],"body":{"mode":"raw","raw":"{{signup_request_body}}","options":{"raw":{"language":"json"}}},"url":"{{API_URL}}/signup"},"response":[]},{"name":"Correct auth with the new user","event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", function () {\r","    pm.response.to.have.status(200);\r","});\r","\r","pm.test(\"jwt present\", function () {\r","    var jsonData = pm.response.json();\r","    pm.expect(jsonData).to.haveOwnProperty(\"jwt\");    \r","    pm.environment.set(\"new_jwt\", jsonData.jwt);\r","});\r","\r",""]}},{"listen":"prerequest","script":{"type":"text/javascript","exec":["const email = pm.environment.get(\"signup_email\");\r","const username = pm.environment.get(\"signup_username\");\r","const password = \"Nunchucks9\";\r","const body = JSON.stringify({\"username\": username, \"email\": email, \"password\": password, \"repeatedPassword\": password});\r","pm.environment.set(\"new_auth_request_body\", body);\r",""]}}],"id":"bd4bdb50-b5f5-4193-9474-637e9e9e8a72","request":{"method":"POST","header":[],"body":{"mode":"raw","raw":"{{new_auth_request_body}}","options":{"raw":{"language":"json"}}},"url":"{{API_URL}}/authenticate"},"response":[]},{"name":"Correct access with new JWT token","event":[{"listen":"test","script":{"type":"text/javascript","exec":["pm.test(\"Status code is 200\", function () {\r","    pm.response.to.have.status(200);\r","});"]}}],"id":"5037526a-ef65-45e0-b377-cc1e5f633fc8","protocolProfileBehavior":{"disableBodyPruning":true},"request":{"auth":{"type":"bearer","bearer":{"token":"{{new_jwt}}"}},"method":"GET","header":[],"body":{"mode":"raw","raw":"","options":{"raw":{"language":"json"}}},"url":"{{API_URL}}/prices/ticker"},"response":[]}],"variable":[{"id":"a7adb708-009b-41a4-bc3b-cec46fb8bf38","key":"signup_request_body","value":""}]}
+{
+  "info": {
+    "_postman_id": "2513bd10-86cc-44ab-89ee-ad17be2e1c7c",
+    "name": "Authentication",
+    "schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Unauthorized access",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 403\", function () {\r",
+              "    pm.response.to.have.status(403);\r",
+              "});"
+            ]
+          }
+        }
+      ],
+      "id": "7aa189b2-1810-431c-9b76-c264177bf92a",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{API_URL}}/dashboard"
+      },
+      "response": []
+    },
+    {
+      "name": "Access public endpoint",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});"
+            ]
+          }
+        }
+      ],
+      "id": "2be9f8ae-19ed-4661-998d-8708d098140c",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{API_URL}}/public/hello"
+      },
+      "response": []
+    },
+    {
+      "name": "Auth with no data",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 400\", function () {\r",
+              "    pm.response.to.have.status(400);\r",
+              "});"
+            ]
+          }
+        }
+      ],
+      "id": "5f5649f0-fb05-4a51-b6bc-8293c8f660c9",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{API_URL}}/authenticate"
+      },
+      "response": []
+    },
+    {
+      "name": "Auth with no username",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 401\", function () {\r",
+              "    pm.response.to.have.status(401);\r",
+              "});"
+            ]
+          }
+        }
+      ],
+      "id": "faef6ca5-ef43-4849-b7c6-1e4f0abd278c",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"password\": \"Biscuits\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{API_URL}}/authenticate"
+      },
+      "response": []
+    },
+    {
+      "name": "Auth with no password",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 401\", function () {\r",
+              "    pm.response.to.have.status(401);\r",
+              "});"
+            ]
+          }
+        }
+      ],
+      "id": "a9d01933-9ed7-413a-b849-2b16230c7f05",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"username\": \"john\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{API_URL}}/authenticate"
+      },
+      "response": []
+    },
+    {
+      "name": "Auth with incorrect password",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 401\", function () {\r",
+              "    pm.response.to.have.status(401);\r",
+              "});"
+            ]
+          }
+        }
+      ],
+      "id": "3bbe2278-edc8-45c8-ac4b-8466b3de06fa",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"username\": \"chuck\", \"password\": \"Roundhouse\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{API_URL}}/authenticate"
+      },
+      "response": []
+    },
+    {
+      "name": "Correct auth with username",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"jwt present\", function () {\r",
+              "    var jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData).to.haveOwnProperty(\"jwt\");    \r",
+              "    pm.environment.set(\"jwt\", jsonData.jwt);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Right user in the jwt\", function () {\r",
+              "    const user = parseJwtUser(pm.environment.get(\"jwt\"));\r",
+              "    pm.expect(user.username).equals(\"chuck\");\r",
+              "    pm.expect(user.password).equals(undefined);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Right permission roles in the jwt\", function () {\r",
+              "    const user = parseJwtUser(pm.environment.get(\"jwt\"));\r",
+              "    pm.expect(user.roles.length).equals(2);\r",
+              "    pm.expect(user.roles.includes(\"ROLE_USER\")).equals(true);\r",
+              "    pm.expect(user.roles.includes(\"ROLE_ADMIN\")).equals(true);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"JWT expires in the future\", function () {\r",
+              "    const token = parseJwt(pm.environment.get(\"jwt\"));\r",
+              "    const timeNowSeconds = Math.floor(Date.now() / 1000);\r",
+              "    pm.expect(token.exp).greaterThan(timeNowSeconds);    \r",
+              "});\r",
+              "\r",
+              "// Helper functions from the frontend project\r",
+              "\r",
+              "/**\r",
+              " * Parse JWT string, extract information from it\r",
+              " * Code copied from https://stackoverflow.com/questions/38552003/how-to-decode-jwt-token-in-javascript-without-using-a-library\r",
+              " * @param token JWT token string\r",
+              " * @returns {any} Decoded JWT object\r",
+              " */\r",
+              "function parseJwt(token) {\r",
+              "  const base64Url = token.split('.')[1];\r",
+              "  const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');\r",
+              "  const jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {\r",
+              "    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);\r",
+              "  }).join(''));\r",
+              "\r",
+              "  return JSON.parse(jsonPayload);\r",
+              "}\r",
+              "\r",
+              "/**\r",
+              " * Parse JWT string, extract a User object\r",
+              " * @param jwtString\r",
+              " * @return User object\r",
+              " */\r",
+              "function parseJwtUser(jwtString) {\r",
+              "  let user = null;\r",
+              "  const jwtObject = parseJwt(jwtString);\r",
+              "  if (jwtObject) {\r",
+              "    user = {\r",
+              "      \"username\": jwtObject.sub,\r",
+              "      \"roles\": jwtObject.roles.map(r => r.authority)\r",
+              "    }\r",
+              "  }\r",
+              "  return user;\r",
+              "}\r",
+              ""
+            ]
+          }
+        }
+      ],
+      "id": "29a023c2-c35e-4493-8522-a44a845af603",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"username\": \"chuck\", \"password\": \"Nunchucks\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{API_URL}}/authenticate"
+      },
+      "response": []
+    },
+    {
+      "name": "Correct auth with email",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"jwt present\", function () {\r",
+              "    var jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData).to.haveOwnProperty(\"jwt\");    \r",
+              "    pm.environment.set(\"jwt\", jsonData.jwt);\r",
+              "    pm.environment.set(\"jwt_broken_signature\", jsonData.jwt.slice(0, -3) + \"Ddd\");\r",
+              "});\r",
+              "\r",
+              ""
+            ]
+          }
+        }
+      ],
+      "id": "9ab90381-38d2-4c82-83b3-563aca2d920f",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"username\": \"microsoft@chuck.com\", \"password\": \"Nunchucks\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{API_URL}}/authenticate"
+      },
+      "response": []
+    },
+    {
+      "name": "Correct access with JWT token",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});"
+            ]
+          }
+        }
+      ],
+      "id": "1576d1af-de27-443a-ad40-7d6b5ec2b3b6",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "token": "{{jwt}}"
+          }
+        },
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{API_URL}}/prices/ticker"
+      },
+      "response": []
+    },
+    {
+      "name": "Try access with expired token",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 403\", function () {\r",
+              "    pm.response.to.have.status(403);\r",
+              "});"
+            ]
+          }
+        }
+      ],
+      "id": "747f8747-da08-4277-bff6-46c5ce80c79e",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjaHVjayIsInJvbGVzIjpbeyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn0seyJhdXRob3JpdHkiOiJST0xFX1VTRVIifV0sImlhdCI6MTY2NDAwOTYzNywiZXhwIjoxNjY0MDA5NjM3fQ.QUEBYk4lOGaN82MagVo0pJ0RQB5xSgpQx2o_meinw3o"
+          }
+        },
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{API_URL}}/prices/ticker"
+      },
+      "response": []
+    },
+    {
+      "name": "Try access with broken-signature JWT",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 403\", function () {\r",
+              "    pm.response.to.have.status(403);\r",
+              "});"
+            ]
+          }
+        }
+      ],
+      "id": "50ef8187-f3f2-47dc-9dc4-16ea6cea1dfd",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "token": "{{jwt_broken_signature}}"
+          }
+        },
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{API_URL}}/prices/ticker"
+      },
+      "response": []
+    },
+    {
+      "name": "Incorrect sign-up: username missing",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 400\", function () {\r",
+              "    pm.response.to.have.status(400);\r",
+              "});\r",
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const unique_part = Date.now();\r",
+              "const email = \"microsoft_\" + unique_part + \"@chuck.com\";\r",
+              "const body = JSON.stringify({\"email\": email, \"password\": \"Nunchucks9\", \"repeatedPassword\": \"Nunchucks9\"});\r",
+              "pm.environment.set(\"signup_request_body\", body);\r",
+              ""
+            ]
+          }
+        }
+      ],
+      "id": "b5323498-db9c-4378-afd4-40cd1a281dab",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{{signup_request_body}}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{API_URL}}/signup"
+      },
+      "response": []
+    },
+    {
+      "name": "Incorrect sign-up: email missing",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 400\", function () {\r",
+              "    pm.response.to.have.status(400);\r",
+              "});\r",
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const unique_part = Date.now();\r",
+              "const username = \"chuck_\" + unique_part;\r",
+              "const body = JSON.stringify({\"username\": username, \"password\": \"Nunchucks9\", \"repeatedPassword\": \"Nunchucks9\"});\r",
+              "pm.environment.set(\"signup_request_body\", body);\r",
+              ""
+            ]
+          }
+        }
+      ],
+      "id": "1c8f9f6f-9594-4c97-beba-95ef875f9197",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{{signup_request_body}}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{API_URL}}/signup"
+      },
+      "response": []
+    },
+    {
+      "name": "Incorrect sign-up: password missing",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 400\", function () {\r",
+              "    pm.response.to.have.status(400);\r",
+              "});\r",
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const unique_part = Date.now();\r",
+              "const username = \"chuck_\" + unique_part;\r",
+              "const email = \"microsoft_\" + unique_part + \"@chuck.com\";\r",
+              "const body = JSON.stringify({\"username\": username, \"email\": email});\r",
+              "pm.environment.set(\"signup_request_body\", body);\r",
+              ""
+            ]
+          }
+        }
+      ],
+      "id": "f4648302-ac9c-4174-8937-28f8947fa94e",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{{signup_request_body}}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{API_URL}}/signup"
+      },
+      "response": []
+    },
+    {
+      "name": "Incorrect sign-up: repeated password missing",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 400\", function () {\r",
+              "    pm.response.to.have.status(400);\r",
+              "});\r",
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const unique_part = Date.now();\r",
+              "const username = \"chuck_\" + unique_part;\r",
+              "const email = \"microsoft_\" + unique_part + \"@chuck.com\";\r",
+              "const body = JSON.stringify({\"username\": username, \"email\": email, \"password\": \"Nunchucks9\"});\r",
+              "pm.environment.set(\"signup_request_body\", body);\r",
+              ""
+            ]
+          }
+        }
+      ],
+      "id": "594250dc-49db-41c3-9407-efc80b1e62e0",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{{signup_request_body}}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{API_URL}}/signup"
+      },
+      "response": []
+    },
+    {
+      "name": "Incorrect sign-up: repeated password wrong",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 400\", function () {\r",
+              "    pm.response.to.have.status(400);\r",
+              "});\r",
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const unique_part = Date.now();\r",
+              "const username = \"chuck_\" + unique_part;\r",
+              "const email = \"microsoft_\" + unique_part + \"@chuck.com\";\r",
+              "const body = JSON.stringify({\"username\": username, \"email\": email, \"password\": \"Nunchucks9\", \"repeatedPassword\": \"Kick\"});\r",
+              "pm.environment.set(\"signup_request_body\", body);\r",
+              ""
+            ]
+          }
+        }
+      ],
+      "id": "cbb5bffa-a509-4325-b5ce-061dbc1d69ba",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{{signup_request_body}}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{API_URL}}/signup"
+      },
+      "response": []
+    },
+    {
+      "name": "Incorrect sign-up: username is already taken",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 400\", function () {\r",
+              "    pm.response.to.have.status(400);\r",
+              "});\r",
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const unique_part = Date.now();\r",
+              "const username = \"chuck\";\r",
+              "const email = \"microsoft_\" + unique_part + \"@chuck.com\";\r",
+              "const body = JSON.stringify({\"username\": username, \"email\": email, \"password\": \"Nunchucks9\", \"repeatedPassword\": \"Nunchucks9\"});\r",
+              "pm.environment.set(\"signup_request_body\", body);\r",
+              ""
+            ]
+          }
+        }
+      ],
+      "id": "10a50d1f-9015-4984-a19b-d17fdc1b2753",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{{signup_request_body}}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{API_URL}}/signup"
+      },
+      "response": []
+    },
+    {
+      "name": "Incorrect sign-up: email is already taken",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 400\", function () {\r",
+              "    pm.response.to.have.status(400);\r",
+              "});\r",
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const unique_part = Date.now();\r",
+              "const username = \"chuck_\" + unique_part;\r",
+              "const email = \"microsoft@chuck.com\";\r",
+              "const body = JSON.stringify({\"username\": username, \"email\": email, \"password\": \"Nunchucks9\", \"repeatedPassword\": \"Nunchucks9\"});\r",
+              "pm.environment.set(\"signup_request_body\", body);\r",
+              ""
+            ]
+          }
+        }
+      ],
+      "id": "a7526bef-7d41-4308-a2c8-f804b8e69c92",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{{signup_request_body}}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{API_URL}}/signup"
+      },
+      "response": []
+    },
+    {
+      "name": "Incorrect sign-up: email in incorrect format",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 400\", function () {\r",
+              "    pm.response.to.have.status(400);\r",
+              "});\r",
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const unique_part = Date.now();\r",
+              "const username = \"chuck_\" + unique_part;\r",
+              "const email = \"microsoft_\" + unique_part;\r",
+              "const body = JSON.stringify({\"username\": username, \"email\": email, \"password\": \"Nunchucks9\", \"repeatedPassword\": \"Nunchucks9\"});\r",
+              "pm.environment.set(\"signup_request_body\", body);\r",
+              ""
+            ]
+          }
+        }
+      ],
+      "id": "a13017c2-f27b-4ba0-b6e4-b6fbb0e0b982",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{{signup_request_body}}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{API_URL}}/signup"
+      },
+      "response": []
+    },
+    {
+      "name": "Incorrect sign-up: password too short",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 400\", function () {\r",
+              "    pm.response.to.have.status(400);\r",
+              "});\r",
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const unique_part = Date.now();\r",
+              "const username = \"chuck_\" + unique_part;\r",
+              "const email = \"microsoft_\" + unique_part + \"@chuck.com\";\r",
+              "const body = JSON.stringify({\"username\": username, \"email\": email, \"password\": \"Nn8\", \"repeatedPassword\": \"Nn8\"});\r",
+              "pm.environment.set(\"signup_request_body\", body);\r",
+              ""
+            ]
+          }
+        }
+      ],
+      "id": "935f9664-6094-4f68-bd28-64481a82d77e",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{{signup_request_body}}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{API_URL}}/signup"
+      },
+      "response": []
+    },
+    {
+      "name": "Incorrect sign-up: password has no lowercase",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 400\", function () {\r",
+              "    pm.response.to.have.status(400);\r",
+              "});\r",
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const unique_part = Date.now();\r",
+              "const username = \"chuck_\" + unique_part;\r",
+              "const email = \"microsoft_\" + unique_part + \"@chuck.com\";\r",
+              "const body = JSON.stringify({\"username\": username, \"email\": email, \"password\": \"NNNN8888\", \"repeatedPassword\": \"NNNN8888\"});\r",
+              "pm.environment.set(\"signup_request_body\", body);\r",
+              ""
+            ]
+          }
+        }
+      ],
+      "id": "6d1e5ad5-f8e4-4a2f-9281-92511fd299be",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{{signup_request_body}}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{API_URL}}/signup"
+      },
+      "response": []
+    },
+    {
+      "name": "Incorrect sign-up: password has no uppercase",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 400\", function () {\r",
+              "    pm.response.to.have.status(400);\r",
+              "});\r",
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const unique_part = Date.now();\r",
+              "const username = \"chuck_\" + unique_part;\r",
+              "const email = \"microsoft_\" + unique_part + \"@chuck.com\";\r",
+              "const body = JSON.stringify({\"username\": username, \"email\": email, \"password\": \"dddd6666\", \"repeatedPassword\": \"dddd6666\"});\r",
+              "pm.environment.set(\"signup_request_body\", body);\r",
+              ""
+            ]
+          }
+        }
+      ],
+      "id": "9b3d6a69-454c-4c7e-9270-75a4b45c0d10",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{{signup_request_body}}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{API_URL}}/signup"
+      },
+      "response": []
+    },
+    {
+      "name": "Correct sign-up",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"jwt present\", function () {\r",
+              "    var jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData).to.haveOwnProperty(\"jwt\");    \r",
+              "    pm.environment.set(\"new_jwt\", jsonData.jwt);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Right user in the jwt\", function () {\r",
+              "    var jwt = pm.response.json().jwt;\r",
+              "    const user = parseJwtUser(jwt);\r",
+              "    pm.expect(user.username).equals(pm.environment.get(\"signup_username\"));\r",
+              "    pm.expect(user.password).equals(undefined);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Right permission roles in the jwt\", function () {\r",
+              "    var jwt = pm.response.json().jwt;\r",
+              "    const user = parseJwtUser(jwt);\r",
+              "    pm.expect(user.roles.length).equals(1);\r",
+              "    pm.expect(user.roles.includes(\"ROLE_USER\")).equals(true);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"JWT expires in the future\", function () {\r",
+              "    var jwt = pm.response.json().jwt;\r",
+              "    const token = parseJwt(jwt);\r",
+              "    const timeNowSeconds = Math.floor(Date.now() / 1000);\r",
+              "    pm.expect(token.exp).greaterThan(timeNowSeconds);    \r",
+              "});\r",
+              "\r",
+              "// Helper functions from the frontend project\r",
+              "\r",
+              "/**\r",
+              " * Parse JWT string, extract information from it\r",
+              " * Code copied from https://stackoverflow.com/questions/38552003/how-to-decode-jwt-token-in-javascript-without-using-a-library\r",
+              " * @param token JWT token string\r",
+              " * @returns {any} Decoded JWT object\r",
+              " */\r",
+              "function parseJwt(token) {\r",
+              "  const base64Url = token.split('.')[1];\r",
+              "  const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');\r",
+              "  const jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {\r",
+              "    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);\r",
+              "  }).join(''));\r",
+              "\r",
+              "  return JSON.parse(jsonPayload);\r",
+              "}\r",
+              "\r",
+              "/**\r",
+              " * Parse JWT string, extract a User object\r",
+              " * @param jwtString\r",
+              " * @return User object\r",
+              " */\r",
+              "function parseJwtUser(jwtString) {\r",
+              "  let user = null;\r",
+              "  const jwtObject = parseJwt(jwtString);\r",
+              "  if (jwtObject) {\r",
+              "    user = {\r",
+              "      \"username\": jwtObject.sub,\r",
+              "      \"roles\": jwtObject.roles.map(r => r.authority)\r",
+              "    }\r",
+              "  }\r",
+              "  return user;\r",
+              "}\r",
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const unique_part = Date.now();\r",
+              "const username = \"chuck_\" + unique_part;\r",
+              "const email = \"microsoft_\" + unique_part + \"@chuck.com\";\r",
+              "const body = JSON.stringify({\"username\": username, \"email\": email, \"password\": \"Nunchucks9\", \"repeatedPassword\": \"Nunchucks9\"});\r",
+              "pm.environment.set(\"signup_username\", username);\r",
+              "pm.environment.set(\"signup_email\", email);\r",
+              "pm.environment.set(\"signup_request_body\", body);\r",
+              ""
+            ]
+          }
+        }
+      ],
+      "id": "520a46f6-2059-4a10-b109-1225e3ebb72b",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{{signup_request_body}}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{API_URL}}/signup"
+      },
+      "response": []
+    },
+    {
+      "name": "Correct access with new JWT token",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});"
+            ]
+          }
+        }
+      ],
+      "id": "5037526a-ef65-45e0-b377-cc1e5f633fc8",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "token": "{{new_jwt}}"
+          }
+        },
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{API_URL}}/prices/ticker"
+      },
+      "response": []
+    },
+    {
+      "name": "Correct auth with the new user",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"jwt present\", function () {\r",
+              "    var jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData).to.haveOwnProperty(\"jwt\");    \r",
+              "    pm.environment.set(\"new_jwt_again\", jsonData.jwt);\r",
+              "});\r",
+              "\r",
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const email = pm.environment.get(\"signup_email\");\r",
+              "const username = pm.environment.get(\"signup_username\");\r",
+              "const password = \"Nunchucks9\";\r",
+              "const body = JSON.stringify({\"username\": username, \"email\": email, \"password\": password, \"repeatedPassword\": password});\r",
+              "pm.environment.set(\"new_auth_request_body\", body);\r",
+              ""
+            ]
+          }
+        }
+      ],
+      "id": "bd4bdb50-b5f5-4193-9474-637e9e9e8a72",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{{new_auth_request_body}}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{API_URL}}/authenticate"
+      },
+      "response": []
+    },
+    {
+      "name": "Correct access with new JWT token again",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});"
+            ]
+          }
+        }
+      ],
+      "id": "3f69d5a9-313c-42b9-a55a-17084ba4458c",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "token": "{{new_jwt_again}}"
+          }
+        },
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{API_URL}}/prices/ticker"
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "id": "aac33645-9142-4986-abe3-529c277594ec",
+      "key": "signup_request_body",
+      "value": ""
+    }
+  ]
+}
