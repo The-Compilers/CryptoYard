@@ -37,7 +37,7 @@ export function isAdmin(user) {
  * @param username Username
  * @param password Password, plain text
  * @param successCallback Function to call on success
- * @param errorCallback Function to call on error, with response text as the parameter
+ * @param errorCallback Function to call on error, with error code and response text as parameters
  */
 export function sendAuthenticationRequest(username, password, successCallback, errorCallback) {
   const postData = {
@@ -46,18 +46,47 @@ export function sendAuthenticationRequest(username, password, successCallback, e
   };
   sendApiPostRequest(
     "/authenticate",
-    function (jwtResponse) {
-      setCookie("jwt", jwtResponse.jwt);
-      const userData = parseJwtUser(jwtResponse.jwt);
-      if (userData) {
-        setCookie("current_username", userData.username);
-        setCookie("current_user_roles", userData.roles.join(","));
-        successCallback(userData);
-      }
-    },
+    (jwtResponse) => onAuthSuccess(jwtResponse, successCallback),
     postData,
     errorCallback
   );
+}
+
+/**
+ * Send a SignUp request
+ * @param {string} username
+ * @param {string} email
+ * @param {string} password
+ * @param {string} repeatPassword
+ * @param {function} successCallback Function to call on success
+ * @param {function} errorCallback Function to call on error, with error code and response text as parameters
+ */
+export function sendSignUpRequest(username, email, password, repeatPassword, successCallback, errorCallback) {
+  const postData = {
+    "username": username,
+    "email": email,
+    "password": password,
+    "repeatedPassword": repeatPassword
+  };
+  sendApiPostRequest("/signup", (jwtResponse) => onAuthSuccess(jwtResponse, successCallback),
+    postData, errorCallback);
+}
+
+
+/**
+ * Function called when authentication has been successful and JWT is received from the API
+ * @param {object} jwtResponse The HTTP response from the API, contains an object with `jwt` property
+ * @property jwt JWT token, as a string
+ * @param {function} callback A callback function provided by the invoker, to be called at the end
+ */
+function onAuthSuccess(jwtResponse, callback) {
+  setCookie("jwt", jwtResponse.jwt);
+  const userData = parseJwtUser(jwtResponse.jwt);
+  if (userData) {
+    setCookie("current_username", userData.username);
+    setCookie("current_user_roles", userData.roles.join(","));
+    callback(userData);
+  }
 }
 
 /**
