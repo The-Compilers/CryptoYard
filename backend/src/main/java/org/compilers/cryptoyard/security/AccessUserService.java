@@ -5,6 +5,8 @@ import org.compilers.cryptoyard.model.User;
 import org.compilers.cryptoyard.repositories.UserRepository;
 import org.compilers.cryptoyard.services.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -40,7 +42,10 @@ public class AccessUserService implements UserDetailsService {
         return new AccessUserDetails(user.get());
     }
 
-    public User createNewUser(String username, String email, String password) throws Exception {
+    public User createNewUser(SignUpRequest request) throws Exception {
+        String username = request.username();
+        String email = request.email();
+        String password = request.password();
         if (username == null || "".equals(username)) {
             throw new Exception("Username can't be empty");
         }
@@ -49,6 +54,9 @@ public class AccessUserService implements UserDetailsService {
         }
         if (password == null || "".equals(password)) {
             throw new Exception("Password can't be empty");
+        }
+        if (request.repeatedPassword() == null || !request.repeatedPassword().equals(request.password())) {
+            throw new Exception("Passwords must match");
         }
         checkPasswordRequirements(password);
         checkEmailFormat(email);

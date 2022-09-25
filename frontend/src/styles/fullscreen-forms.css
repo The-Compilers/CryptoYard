@@ -16,6 +16,7 @@
   background-color: var(--clr-light-6);
   padding: var(--spacing-larger);
   border-radius: 1rem;
+  width: 35rem;
 }
 
 .fullscreen-form__error {
