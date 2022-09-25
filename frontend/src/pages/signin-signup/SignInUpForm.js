@@ -1,7 +1,7 @@
 import "../../styles/fullscreen-forms.css"
 import {useState} from "react";
 import {FormErrorMessage} from "../../components/sign-inup-form/FormErrorMessage";
-import {sendAuthenticationRequest} from "../../services/authentication";
+import {sendAuthenticationRequest, sendSignUpRequest} from "../../services/authentication";
 
 /**
  * A form that is used for both sign-in and sign-up
@@ -32,7 +32,7 @@ export function SignInUpForm({isSignIn, onSuccess}) {
     formTitle = "Sign up";
     usernamePlaceholder = "Username";
     emailInput = <input className="fullscreen-form__input" type="text" placeholder="Email" id="signinup_email"/>;
-    repeatPasswordInput = <input className="fullscreen-form__input" type="text" placeholder="Repeat Password"
+    repeatPasswordInput = <input className="fullscreen-form__input" type="password" placeholder="Repeat Password"
                                  id="signinup_repeated_password"/>;
     submitButtonTitle = "Create Account";
     alternativeDescription = "Already have an account?";
@@ -50,15 +50,22 @@ export function SignInUpForm({isSignIn, onSuccess}) {
     const username = document.getElementById("signinup_username").value;
     const password = document.getElementById("signinup_password").value;
     if (isSignIn) {
-      sendAuthenticationRequest(username, password, onSuccess,
-        (errorCode, errorMessage) => {
-          setError(errorMessage);
-          setButtonDisabled(false);
-        }
-      );
+      sendAuthenticationRequest(username, password, onSuccess, onApiError);
     } else {
-      // TODO apiSignUp(username, email, password, repeatPassword);
+      const email = document.getElementById("signinup_email").value;
+      const repeatPassword = document.getElementById("signinup_repeated_password").value;
+      sendSignUpRequest(username, email, password, repeatPassword, onSuccess, onApiError);
     }
+  }
+
+  /**
+   * Response from the API contains error
+   * @param {number} errorCode 400 (Bad request), etc
+   * @param {string} errorMessage Body of the response - the error message
+   */
+  function onApiError(errorCode, errorMessage) {
+    setError(errorMessage);
+    setButtonDisabled(false);
   }
 
   return <main className="fullscreen-form__background">
