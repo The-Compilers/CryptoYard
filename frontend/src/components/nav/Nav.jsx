@@ -1,18 +1,20 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 
 // Components
 import Menu from "./components/Menu";
 
 // styles
 import "./nav.css";
-import { UserMenu } from "./components/UserMenu";
+import {UserMenu} from "./components/UserMenu";
 
-// Top navigation bar
-function Nav({ user }) {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const home_url = "/dashboard/" + firstName + "-" + lastName;
+/**
+ * Top navigation bar
+ * @param onSignOut - a function to call when the "Log out" link has been pressed
+ * @return {JSX.Element}
+ */
+function Nav({onLogOut}) {
+
+  const home_url = "/dashboard";
   const menuItems = [
     {
       link: home_url,
@@ -30,13 +32,6 @@ function Nav({ user }) {
     },
   ];
 
-  useEffect(() => {
-    if (user) {
-      setFirstName(user.firstName);
-      setLastName(user.lastName);
-    }
-  }, [user]);
-
   function toggleSettings(event) {
     document
       .querySelector("[data-dropdown-list]")
@@ -49,9 +44,9 @@ function Nav({ user }) {
         <Link to={home_url} className="logo--link">
           <h1 className="logo">CryptoYard</h1>
         </Link>
-        <Menu menuItems={menuItems} />
+        <Menu menuItems={menuItems}/>
       </div>
-      <UserMenu onClick={toggleSettings} firstName={firstName} lastName={lastName} />
+      <UserMenu onClick={toggleSettings} onLogOut={onLogOut}/>
     </nav>
   );
 }

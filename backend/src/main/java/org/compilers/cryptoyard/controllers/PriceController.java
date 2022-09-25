@@ -3,6 +3,7 @@ package org.compilers.cryptoyard.controllers;
 import com.binance.api.client.domain.market.TickerPrice;
 import org.compilers.cryptoyard.services.TickerPriceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,6 +13,7 @@ import java.util.Collection;
 /**
  * REST API controller exposing public prices
  */
+@CrossOrigin
 @RestController
 @RequestMapping("prices")
 public class PriceController {

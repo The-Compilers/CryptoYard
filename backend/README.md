@@ -51,3 +51,10 @@ Currently, message class is used as a topic, but later there could be hierarchic
 
 Inter-service communication with messages could be extended by adding a inter-process message bus, such as Apache Kafka.
 Currently, all the messages are exchanged internally, inside the same process, on the same thread!
+
+## Testing
+Postman test sets are available, snapshots of those are saved also in the `src/test` folder:
+* [Authentication](https://www.postman.com/collections/30a9ad48d8f72939faaa)
+
+To run the tests, you need to provide the following environment variables for Postman:
+* `API_URL` - the URL of your backend, including the protocol. Examples: `http://localhost:8080` or `http://localhost/api`.

@@ -1,17 +1,18 @@
 import "./dashboard.css";
 
-import Nav from "../../components/nav/Nav";
 import Footer from "../../components/footer/Footer";
 import Table from "../../components/table/Table";
+import {UserContext} from "../../state/UserContext";
+import {useContext} from "react";
 
 /**
  * Dashboard page for a logged-in user.
- * @param user The logged-in user
  * @returns {JSX.Element}
  * @constructor
  */
 
-function Dashboard({ user }) {
+function Dashboard() {
+  const user = useContext(UserContext);
   const tableHeaders = ["Coin", "Balance", "Profit", "Price", "24h%", "7h%"];
   const tmpCoins = [
     ["BitCoin", "$134,708.65", "+87,108.42", "$47,600.23", "-0.82", "+11.27"],
@@ -22,10 +23,9 @@ function Dashboard({ user }) {
 
   return (
     <>
-      <Nav user={user} />
       <main>
         <Table
-          title="Your coins"
+          title={`Coins for ${user.username}`}
           tableHeaders={tableHeaders}
           rows={tmpCoins}
           toggleable={false}

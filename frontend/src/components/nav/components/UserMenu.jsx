@@ -1,17 +1,18 @@
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 import "./usermenu.css";
+import {useContext} from "react";
+import {UserContext} from "../../../state/UserContext";
 
 /**
  * Shows the menu for the user (profile, settings, etc.)
- * @param firstName First name of the user
- * @param lastName Last name of the user
  * @param onClick Function to call when the user menu is clicked
+ * @param onLogOut Function to call when the "Log out" link is clicked
  * @returns {JSX.Element}
  * @constructor
  */
-export function UserMenu({
-  firstName, lastName, onClick
-}) {
+export function UserMenu({onClick, onLogOut}) {
+  let user = useContext(UserContext);
+
   return <div className="user">
     <img
       className="user__img"
@@ -21,7 +22,7 @@ export function UserMenu({
     <ul className="user__dropdown">
       <li className="user__name noselect">
         <p className="user__name__text" onClick={onClick}>
-          {firstName} {lastName}
+          {user.username}
           <i className="material-icons">arrow_drop_down</i>
         </p>
         <ul
@@ -39,9 +40,9 @@ export function UserMenu({
             </Link>
           </li>
           <li className="user__dropdown__list__item">
-            <Link to="" className="user__dropdown__list__link">
+            <a href="/signin" className="user__dropdown__list__link" onClick={onLogOut}>
               Log out
-            </Link>
+            </a>
           </li>
         </ul>
       </li>

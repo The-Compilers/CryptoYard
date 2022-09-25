@@ -18,6 +18,11 @@
   border-radius: 1rem;
 }
 
+.fullscreen-form__error {
+  color: var(--clr-error);
+  margin: auto;
+}
+
 .fullscreen-form__input {
   font-size: var(--font-size-larger);
   padding: var(--spacing-small);
@@ -42,6 +47,10 @@
 
 .fullscreen-form__action-button:hover {
   background-color: var(--clr-accent-dark-3);
+}
+
+.fullscreen-form__action-button:disabled {
+  background-color: var(--clr-dark-6);
 }
 
 .fullscreen-form__footer {
