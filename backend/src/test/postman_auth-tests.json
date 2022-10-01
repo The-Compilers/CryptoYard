@@ -1033,11 +1033,13 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "const unique_part = Date.now();\r",
+              "const unique_part = \"ddd_ppp_67\";\r",
               "const username = \"chuck_\" + unique_part;\r",
               "const email = \"microsoft_\" + unique_part + \"@chuck.com\";\r",
-              "const body = JSON.stringify({\"username\": username, \"email\": email, \"password\": \"Nunchucks9\", \"repeatedPassword\": \"Nunchucks9\"});\r",
+              "const password = \"Nunchucks9\";\r",
+              "const body = JSON.stringify({\"username\": username, \"email\": email, \"password\": \"Nunchucks9\", \"repeatedPassword\": password});\r",
               "pm.environment.set(\"signup_username\", username);\r",
+              "pm.environment.set(\"signup_password\", password);\r",
               "pm.environment.set(\"signup_email\", email);\r",
               "pm.environment.set(\"signup_request_body\", body);\r",
               ""
@@ -1197,11 +1199,195 @@
         "url": "{{API_URL}}/prices/ticker"
       },
       "response": []
+    },
+    {
+      "name": "DELETE without username",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 400\", function () {\r",
+              "    pm.response.to.have.status(400);\r",
+              "});"
+            ]
+          }
+        }
+      ],
+      "id": "6e3a6ef8-37f4-4303-842c-c0badbc490fc",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": "{{API_URL}}/close-account"
+      },
+      "response": []
+    },
+    {
+      "name": "DELETE without password",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 401\", function () {\r",
+              "    pm.response.to.have.status(401);\r",
+              "});"
+            ]
+          }
+        }
+      ],
+      "id": "f9ce84dc-3194-4f20-bc39-e64d4c353196",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{ \"username\": \"chuck\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{API_URL}}/close-account"
+      },
+      "response": []
+    },
+    {
+      "name": "DELETE with incorrect password",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 401\", function () {\r",
+              "    pm.response.to.have.status(401);\r",
+              "});"
+            ]
+          }
+        }
+      ],
+      "id": "0398f011-d27f-4660-a9fe-22bcb5bd2063",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{ \"username\": \"chuck\", \"password\": \"Ddd\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{API_URL}}/close-account"
+      },
+      "response": []
+    },
+    {
+      "name": "DELETE with incorrect username",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 401\", function () {\r",
+              "    pm.response.to.have.status(401);\r",
+              "});"
+            ]
+          }
+        }
+      ],
+      "id": "514ffcaa-75bb-40ff-a237-715126f97979",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{ \"username\": \"arnold\", \"password\": \"Nunchucks\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{API_URL}}/close-account"
+      },
+      "response": []
+    },
+    {
+      "name": "Correct user account DELETE",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});"
+            ]
+          }
+        }
+      ],
+      "id": "cae762a1-736d-4d8e-a01d-021c3756c249",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{ \"username\": \"{{signup_username}}\", \"password\": \"{{signup_password}}\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{API_URL}}/close-account"
+      },
+      "response": []
+    },
+    {
+      "name": "Try to sign in with deleted user",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 401\", function () {\r",
+              "    pm.response.to.have.status(401);\r",
+              "});\r",
+              ""
+            ]
+          }
+        }
+      ],
+      "id": "bbcffb06-4741-4b60-a93a-fca843bf33fe",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"username\": \"{{signup_username}}\", \"password\": \"{{signup_password}}\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{API_URL}}/authenticate"
+      },
+      "response": []
     }
   ],
   "variable": [
     {
-      "id": "aac33645-9142-4986-abe3-529c277594ec",
+      "id": "e5d01b52-c1e0-4b43-a207-ceaf75a3ff5c",
       "key": "signup_request_body",
       "value": ""
     }

@@ -107,4 +107,18 @@ public class AccessUserService implements UserDetailsService {
             throw new Exception("Password must be 6-20 characters long and include lowercase, uppercase and digits");
         }
     }
+
+    /**
+     * Deletes a user
+     * @param username The username of the user to delete
+     * @throws IllegalArgumentException If user not found
+     */
+    public void delete(String username) throws IllegalArgumentException {
+        Optional<User> user = userRepository.findByUsername(username);
+        if (user.isPresent()) {
+            userRepository.delete(user.get());
+        } else {
+            throw new IllegalArgumentException("User not found");
+        }
+    }
 }
