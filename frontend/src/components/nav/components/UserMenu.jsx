@@ -10,7 +10,7 @@ import {UserContext} from "../../../state/UserContext";
  * @returns {JSX.Element}
  * @constructor
  */
-export function UserMenu({onClick, onLogOut}) {
+export default function UserMenu({onClick, onLogOut}) {
   let user = useContext(UserContext);
 
   return <div className="user">
@@ -35,7 +35,7 @@ export function UserMenu({onClick, onLogOut}) {
             </Link>
           </li>
           <li className="user__dropdown__list__item">
-            <Link to="" className="user__dropdown__list__link">
+            <Link to="/settings" className="user__dropdown__list__link">
               Settings
             </Link>
           </li>
