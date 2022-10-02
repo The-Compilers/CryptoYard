@@ -55,7 +55,7 @@ export default function Settings({doLogout}) {
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setDialogVisible(false)} autoFocus>Cancel</Button>
-          <Button onClick={sendDeleteRequest} disabled={!passwordOK}>
+          <Button onClick={sendDeleteRequest} disabled={!passwordOK} variant="contained" >
             Delete my account
           </Button>
         </DialogActions>
