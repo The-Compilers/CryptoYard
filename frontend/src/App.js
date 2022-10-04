@@ -1,12 +1,12 @@
 // Routing
-import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 
 // Global styles
 import "./styles/global.css";
 
 // Pages
 import Dashboard from "./pages/dashboard/Dashboard";
-import { SignInUpForm } from "./pages/signin-signup/SignInUpForm";
+import SignInUpForm from "./pages/signin-signup/SignInUpForm";
 import Market from "./pages/market/Market";
 import Settings from "./pages/settings/Settings";
 
@@ -20,8 +20,8 @@ import { useState } from "react";
 import Nav from "./components/nav/Nav";
 import NotFound from "./pages/404/NotFound";
 
-import {theme} from "./styles/theme";
-import {ThemeProvider} from "@mui/material";
+import { theme } from "./styles/theme";
+import { ThemeProvider } from "@mui/material";
 
 /**
  * The main application component
@@ -62,6 +62,10 @@ function App() {
               <Route path="/" element={<Dashboard />} />
               <Route path="/dashboard/" element={<Dashboard />} />
               <Route path="/markets" element={<Market />} />
+              <Route
+                path="/settings"
+                element={<Settings doLogout={handleLogOut} />}
+              />
             </>
           ) : (
             <>
