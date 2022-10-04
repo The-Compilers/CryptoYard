@@ -12,10 +12,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 /**
@@ -51,6 +48,25 @@ public class AuthController {
         final UserDetails userDetails = userService.loadUserByUsername(authenticationRequest.username());
         final String jwt = jwtUtil.generateToken(userDetails);
         return ResponseEntity.ok(new AuthenticationResponse(jwt));
+    }
+
+    /**
+     * HTTP DELETE request to /users/delete - delete the user
+     *
+     * @param authenticationRequest The request JSON object containing username and password
+     * @return OK; Or UNAUTHORIZED
+     */
+    @DeleteMapping("/close-account")
+    public ResponseEntity<?> closeAccount(@RequestBody AuthenticationRequest authenticationRequest) {
+        try {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                    authenticationRequest.username(),
+                    authenticationRequest.password()));
+            userService.delete(authenticationRequest.username());
+        } catch (Exception e) {
+            return new ResponseEntity<>("Invalid username or password", HttpStatus.UNAUTHORIZED);
+        }
+        return ResponseEntity.ok("User deleted");
     }
 
     @PostMapping("/signup")

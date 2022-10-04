@@ -30,6 +30,18 @@ export function sendApiPostRequest(url, callback, requestBody, errorCallback) {
   return sendApiRequest("POST", url, callback, requestBody, errorCallback);
 }
 
+/**
+ * Send an HTTP DELETE request to the backend
+ * @param {string} url relative URL of the API endpoint
+ * @param {function} callback Callback function to call on success, with response data (JSON-decoded) as the parameter
+ * @param {object} requestBody When supplied, send this data in the request body. Does not work with HTTP GET!
+ * @param {function} errorCallback A function called when the response code is not 200. Two parameters will be passed
+ * to the function: HTTP response code and response body (as text)
+ */
+export function sendApiDeleteRequest(url, callback, requestBody, errorCallback) {
+  return sendApiRequest("DELETE", url, callback, requestBody, errorCallback);
+}
+
 
 /**
  * Send a REST-API request to the backend
@@ -45,11 +57,15 @@ function sendApiRequest(method, url, callback, requestBody, errorCallback) {
   request.onreadystatechange = function () {
     if (request.readyState === XMLHttpRequest.DONE) {
       if (request.status === 200) {
-        let responseJson = "";
+        let responseBody = "";
         if (request.responseText) {
-          responseJson = JSON.parse(request.responseText);
+          try {
+            responseBody = JSON.parse(request.responseText);
+          } catch (e) {
+            responseBody = request.responseText;
+          }
         }
-        callback(responseJson);
+        callback(responseBody);
       } else if (errorCallback) {
         errorCallback(request.status, request.responseText);
       } else {

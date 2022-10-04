@@ -5,7 +5,7 @@ import Menu from "./components/Menu";
 
 // styles
 import "./nav.css";
-import {UserMenu} from "./components/UserMenu";
+import UserMenu from "./components/UserMenu";
 
 /**
  * Top navigation bar
