@@ -43,7 +43,7 @@ export default function Settings({doLogout}) {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {"Use Google's location service?"}
+          {"Do you really want to delete your account?"}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
