@@ -11,7 +11,7 @@ import { useOutsideHandler } from "../../../customHooks/useOutsideHandler";
  * @returns {JSX.Element}
  * @constructor
  */
-export function UserMenu({ onLogOut }) {
+export default function UserMenu({ onLogOut }) {
   let user = useContext(UserContext);
 
   const [expanded, setExpanded] = useState(false);
