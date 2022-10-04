@@ -9,7 +9,7 @@ import {sendAuthenticationRequest, sendSignUpRequest} from "../../services/authe
  * @param onSuccess - callback function called when the submission button is clicked
  * @constructor
  */
-export function SignInUpForm({isSignIn, onSuccess}) {
+export default function SignInUpForm({isSignIn, onSuccess}) {
   let formTitle;
   let emailInput = null;
   let repeatPasswordInput = null;
