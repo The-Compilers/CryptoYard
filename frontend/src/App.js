@@ -50,32 +50,38 @@ function App() {
 
   return (
     <UserContext.Provider value={user}>
-      {user ? (
-        <>
-          <Nav onLogOut={handleLogOut} />
-          <Routes>
+      {user ? <Nav onLogOut={handleLogOut} /> : <></>}
+      <Routes>
+        {user ? (
+          <>
+            <Route path="/" element={<Dashboard />} />
             <Route path="/dashboard/" element={<Dashboard />} />
             <Route path="/markets" element={<Market />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </>
-      ) : (
-        <Routes>
-          <Route
-            path="/signin"
-            element={
-              <SignInUpForm isSignIn={true} onSuccess={onSignInSuccess} />
-            }
-          />
-          <Route
-            path="/signup"
-            element={
-              <SignInUpForm isSignIn={false} onSuccess={onSignUpSuccess} />
-            }
-          />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      )}
+          </>
+        ) : (
+          <>
+            <Route
+              path="/"
+              element={
+                <SignInUpForm isSignIn={true} onSuccess={onSignInSuccess} />
+              }
+            />
+            <Route
+              path="/signin"
+              element={
+                <SignInUpForm isSignIn={true} onSuccess={onSignInSuccess} />
+              }
+            />
+            <Route
+              path="/signup"
+              element={
+                <SignInUpForm isSignIn={false} onSuccess={onSignUpSuccess} />
+              }
+            />
+          </>
+        )}
+        <Route path="*" element={<NotFound />} />
+      </Routes>
     </UserContext.Provider>
   );
 }
