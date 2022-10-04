@@ -6,14 +6,17 @@ import "./styles/global.css";
 
 // Pages
 import Dashboard from "./pages/dashboard/Dashboard";
-import {SignInUpForm} from "./pages/signin-signup/SignInUpForm";
+import SignInUpForm from "./pages/signin-signup/SignInUpForm";
 import Market from "./pages/market/Market";
+import Settings from "./pages/settings/Settings";
 
 // Services
 import {UserContext} from "./state/UserContext";
 import {deleteAuthorizationCookies, getAuthenticatedUser} from "./services/authentication";
 import {useState} from "react";
 import Nav from "./components/nav/Nav";
+import {theme} from "./styles/theme";
+import {ThemeProvider} from "@mui/material";
 
 /**
  * The main application component
@@ -43,25 +46,28 @@ function App() {
   }
 
   return (
-    <UserContext.Provider value={user}>
-      {
-        user ?
-          <>
-            <Nav onLogOut={handleLogOut}/>
+    <ThemeProvider theme={theme}>
+      <UserContext.Provider value={user}>
+        {
+          user ?
+            <>
+              <Nav onLogOut={handleLogOut}/>
+              <Routes>
+                <Route path="/dashboard/" element={<Dashboard/>}/>
+                <Route path="/markets" element={<Market/>}/>
+                <Route path="/settings" element={<Settings doLogout={handleLogOut}/>}/>
+                <Route path="*" element={<Navigate to="/dashboard"/>}/>
+              </Routes>
+            </>
+            :
             <Routes>
-              <Route path="/dashboard/" element={<Dashboard/>}/>
-              <Route path="/markets" element={<Market/>}/>
-              <Route path="*" element={<Navigate to="/dashboard"/>}/>
+              <Route path="/signin" element={<SignInUpForm isSignIn={true} onSuccess={onSignInSuccess}/>}/>
+              <Route path="/signup" element={<SignInUpForm isSignIn={false} onSuccess={onSignUpSuccess}/>}/>
+              <Route path="*" element={<Navigate to="/signin"/>}/>
             </Routes>
-          </>
-          :
-          <Routes>
-            <Route path="/signin" element={<SignInUpForm isSignIn={true} onSuccess={onSignInSuccess}/>}/>
-            <Route path="/signup" element={<SignInUpForm isSignIn={false} onSuccess={onSignUpSuccess}/>}/>
-            <Route path="*" element={<Navigate to="/signin"/>}/>
-          </Routes>
-      }
-    </UserContext.Provider>
+        }
+      </UserContext.Provider>
+    </ThemeProvider>
   );
 }
 
