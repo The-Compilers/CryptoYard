@@ -1,5 +1,5 @@
 // Routing
-import {Routes, Route, Navigate} from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 // Global styles
 import "./styles/global.css";
@@ -11,12 +11,15 @@ import Market from "./pages/market/Market";
 import Settings from "./pages/settings/Settings";
 
 // Services
-import {UserContext} from "./state/UserContext";
-import {deleteAuthorizationCookies, getAuthenticatedUser} from "./services/authentication";
-import {useState} from "react";
+import { UserContext } from "./state/UserContext";
+import {
+  deleteAuthorizationCookies,
+  getAuthenticatedUser,
+} from "./services/authentication";
+import { useState } from "react";
 import Nav from "./components/nav/Nav";
-import {theme} from "./styles/theme";
-import {ThemeProvider} from "@mui/material";
+import { theme } from "./styles/theme";
+import { ThemeProvider } from "@mui/material";
 
 /**
  * The main application component
@@ -48,24 +51,36 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <UserContext.Provider value={user}>
-        {
-          user ?
-            <>
-              <Nav onLogOut={handleLogOut}/>
-              <Routes>
-                <Route path="/dashboard/" element={<Dashboard/>}/>
-                <Route path="/markets" element={<Market/>}/>
-                <Route path="/settings" element={<Settings doLogout={handleLogOut}/>}/>
-                <Route path="*" element={<Navigate to="/dashboard"/>}/>
-              </Routes>
-            </>
-            :
+        {user ? (
+          <>
+            <Nav onLogOut={handleLogOut} />
             <Routes>
-              <Route path="/signin" element={<SignInUpForm isSignIn={true} onSuccess={onSignInSuccess}/>}/>
-              <Route path="/signup" element={<SignInUpForm isSignIn={false} onSuccess={onSignUpSuccess}/>}/>
-              <Route path="*" element={<Navigate to="/signin"/>}/>
+              <Route path="/dashboard/" element={<Dashboard />} />
+              <Route path="/markets" element={<Market />} />
+              <Route
+                path="/settings"
+                element={<Settings doLogout={handleLogOut} />}
+              />
+              <Route path="*" element={<Navigate to="/dashboard" />} />
             </Routes>
-        }
+          </>
+        ) : (
+          <Routes>
+            <Route
+              path="/signin"
+              element={
+                <SignInUpForm isSignIn={true} onSuccess={onSignInSuccess} />
+              }
+            />
+            <Route
+              path="/signup"
+              element={
+                <SignInUpForm isSignIn={false} onSuccess={onSignUpSuccess} />
+              }
+            />
+            <Route path="*" element={<Navigate to="/signin" />} />
+          </Routes>
+        )}
       </UserContext.Provider>
     </ThemeProvider>
   );
