@@ -1,4 +1,4 @@
-# Files or directories that should not formatted by prettier
+# Files or directories that shouldn't be formatted by prettier
 .vscode-test/
 build/
 node_modules/
