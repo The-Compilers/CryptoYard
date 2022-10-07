@@ -1,4 +1,4 @@
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 // Components
 import Menu from "./components/Menu";
@@ -12,8 +12,7 @@ import UserMenu from "./components/UserMenu";
  * @param onSignOut - a function to call when the "Log out" link has been pressed
  * @return {JSX.Element}
  */
-function Nav({onLogOut}) {
-
+function Nav({ onLogOut }) {
   const home_url = "/dashboard";
   const menuItems = [
     {
@@ -32,21 +31,15 @@ function Nav({onLogOut}) {
     },
   ];
 
-  function toggleSettings(event) {
-    document
-      .querySelector("[data-dropdown-list]")
-      .classList.toggle("user__dropdown__list--hidden");
-  }
-
   return (
     <nav className="nav">
       <div className="menu--wrapper">
         <Link to={home_url} className="logo--link">
           <h1 className="logo">CryptoYard</h1>
         </Link>
-        <Menu menuItems={menuItems}/>
+        <Menu menuItems={menuItems} />
       </div>
-      <UserMenu onClick={toggleSettings} onLogOut={onLogOut}/>
+      <UserMenu onLogOut={onLogOut} />
     </nav>
   );
 }
