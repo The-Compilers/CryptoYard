@@ -30,7 +30,7 @@ export default function UserMenu({ onLogOut }) {
     setExpanded(false);
   };
 
-  // Refrence to menu used to detect if a click outside has occured
+  // Reference to menu used to detect if a click outside has occured
   const menuRef = useRef(null);
   useOutsideHandler(menuRef, hideMenu);
 
