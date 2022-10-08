@@ -1,5 +1,5 @@
 // Routing
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
 
 // Global styles
 import "./styles/global.css";
@@ -59,7 +59,7 @@ function App() {
         <Routes>
           {user ? (
             <>
-              <Route path="/" element={<Dashboard />} />
+              <Route path="/" element={<Navigate to="/dashboard/" />} />
               <Route path="/dashboard/" element={<Dashboard />} />
               <Route path="/markets" element={<Market />} />
               <Route
@@ -69,12 +69,7 @@ function App() {
             </>
           ) : (
             <>
-              <Route
-                path="/"
-                element={
-                  <SignInUpForm isSignIn={true} onSuccess={onSignInSuccess} />
-                }
-              />
+              <Route path="/" element={<Navigate to="/signin" />} />
               <Route
                 path="/signin"
                 element={
