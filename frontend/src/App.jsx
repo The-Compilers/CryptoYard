@@ -50,6 +50,7 @@ function App() {
     console.log("Signed out");
     deleteAuthorizationCookies();
     setUser(null);
+    navigate("/signin");
   }
 
   return (
