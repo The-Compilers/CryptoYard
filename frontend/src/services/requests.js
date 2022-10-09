@@ -1,7 +1,7 @@
 // All code for sending requests to backend is stored in this file
 // The code is copied (and modified) from app-dev/security-examples/07-backend-frontend-jwt-auth
 
-import {getCookie} from "./cookies";
+import { getCookie } from "./cookies";
 
 // Import REST API BASE URL from the environment variable, see .env file
 // Note: all environment variables must start with REACT_, otherwise React will not handle them!
@@ -54,7 +54,7 @@ export function sendApiDeleteRequest(url, callback, requestBody, errorCallback) 
  */
 function sendApiRequest(method, url, callback, requestBody, errorCallback) {
   const request = new XMLHttpRequest();
-  request.onreadystatechange = function () {
+  request.onreadystatechange = function() {
     if (request.readyState === XMLHttpRequest.DONE) {
       if (request.status === 200) {
         let responseBody = "";
@@ -86,10 +86,10 @@ function sendApiRequest(method, url, callback, requestBody, errorCallback) {
   // Do we need to include data in the request?
   if (requestBody) {
     if (method.toLowerCase() !== "get") {
-      request.setRequestHeader('Content-Type', 'application/json');
+      request.setRequestHeader("Content-Type", "application/json");
       request.send(JSON.stringify(requestBody));
     } else {
-      console.error("Trying to send request data with HTTP GET, not allowed!")
+      console.error("Trying to send request data with HTTP GET, not allowed!");
       request.send();
     }
   } else {

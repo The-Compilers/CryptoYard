@@ -1,4 +1,4 @@
-import {createContext} from "react";
+import { createContext } from "react";
 
 /**
  * Store the logged-in user in a globally available context

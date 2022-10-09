@@ -1,4 +1,4 @@
-import {sendApiDeleteRequest} from "./requests";
+import { sendApiDeleteRequest } from "./requests";
 
 //////////////////////////////////////
 // API requests to the backend
@@ -13,9 +13,8 @@ import {sendApiDeleteRequest} from "./requests";
  */
 export function sendUserDeleteRequest(username, password, onSuccess, onError) {
   const postData = {
-    "username": username,
-    "password": password
+    username: username,
+    password: password,
   };
   sendApiDeleteRequest("/close-account", onSuccess, postData, onError);
-
 }

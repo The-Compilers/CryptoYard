@@ -2,6 +2,11 @@ import { Link } from "react-router-dom";
 import { getAuthenticatedUser } from "../../services/authentication";
 import "./notFound.css";
 
+/**
+ * Page to show for missing urls (404 Not Found)
+ * @return {JSX.Element}
+ * @constructor
+ */
 function NotFound() {
   return (
     <div className="not-found">

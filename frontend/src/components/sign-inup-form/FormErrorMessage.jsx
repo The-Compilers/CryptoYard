@@ -4,7 +4,7 @@
  * @return {JSX.Element|null}
  * @constructor
  */
-export function FormErrorMessage({error}) {
+export function FormErrorMessage({ error }) {
   if (error !== "") {
     return <p className="fullscreen-form__error">{error}</p>;
   } else {
