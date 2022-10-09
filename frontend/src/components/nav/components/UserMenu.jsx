@@ -61,7 +61,7 @@ export default function UserMenu({ onLogOut }) {
               </Link>
             </li>
             <li className="user__dropdown__list__item">
-              <Link to="" className="user__dropdown__list__link">
+              <Link to="/settings" className="user__dropdown__list__link">
                 Settings
               </Link>
             </li>
