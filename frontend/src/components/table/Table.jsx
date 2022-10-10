@@ -32,12 +32,17 @@ function CryptoTable({
       <table>
         <thead>
           <tr className="table__row">
-            {tableHeaders.map((header, index) =>
-              <th key={index} className={"table__column table__column--title "
-                + (index > 0 ? "table__column--align-right" : "")}>
+            {tableHeaders.map((header, index) => (
+              <th
+                key={index}
+                className={
+                  "table__column table__column--title " +
+                  (index > 0 ? "table__column--align-right" : "")
+                }
+              >
                 {header}
               </th>
-            )}
+            ))}
           </tr>
         </thead>
         <tbody>

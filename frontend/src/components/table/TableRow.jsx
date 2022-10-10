@@ -29,20 +29,20 @@ function TableRow({ rowIndex, values, toggleable, toggleFunction }) {
    */
   function createValueCells() {
     return values.map((value, index) => (
-        <td
-          key={index}
-          className={
-            "table__column" +
-            " " +
-            (index === 0 ? "" : "table__column--align-right ") +
-            (numberRegex.test(value)
-                ? parseFloat(value) > 0 ? "success" : "error"
-                : ""
-            )
-          }
-        >
-          {value}
-        </td>
+      <td
+        key={index}
+        className={
+          "table__column" +
+          " " +
+          (index === 0 ? "" : "table__column--align-right ") +
+          (numberRegex.test(value)
+              ? parseFloat(value) > 0 ? "success" : "error"
+              : ""
+          )
+        }
+      >
+        {value}
+      </td>
     ));
   }
 
@@ -53,13 +53,13 @@ function TableRow({ rowIndex, values, toggleable, toggleFunction }) {
   function createToggleCell() {
     return <td>
       <input type="checkbox" onChange={handleToggle} value={rowIndex} />
-    </td>
+    </td>;
   }
 
   return <tr className="table__row">
     {createValueCells()}
     {toggleable ? createToggleCell() : <></>}
-  </tr>
+  </tr>;
 }
 
 export default TableRow;

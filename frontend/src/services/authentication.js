@@ -1,7 +1,7 @@
 // Authentication stuff
 
-import {sendApiPostRequest} from "./requests";
-import {deleteCookie, getCookie, setCookie} from "./cookies";
+import { sendApiPostRequest } from "./requests";
+import { deleteCookie, getCookie, setCookie } from "./cookies";
 
 /**
  * Get the currently authenticated user
@@ -18,7 +18,7 @@ export function getAuthenticatedUser() {
       "firstName": "Adam", // TODO - store those in JWT? Or simply remove them
       "lastName": "Jensen",
       "roles": roles
-    }
+    };
   }
   return user;
 }
@@ -96,11 +96,11 @@ function onAuthSuccess(jwtResponse, callback) {
  * @returns {any} Decoded JWT object
  */
 function parseJwt(token) {
-  const base64Url = token.split('.')[1];
-  const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-  const jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
-    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-  }).join(''));
+  const base64Url = token.split(".")[1];
+  const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+  const jsonPayload = decodeURIComponent(atob(base64).split("").map(function(c) {
+    return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+  }).join(""));
 
   return JSON.parse(jsonPayload);
 }
@@ -117,7 +117,7 @@ function parseJwtUser(jwtString) {
     user = {
       "username": jwtObject.sub,
       "roles": jwtObject.roles.map(r => r.authority)
-    }
+    };
   }
   return user;
 }

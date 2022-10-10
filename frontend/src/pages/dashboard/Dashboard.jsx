@@ -2,15 +2,14 @@ import "./dashboard.css";
 
 import Footer from "../../components/footer/Footer";
 import Table from "../../components/table/Table";
-import {UserContext} from "../../state/UserContext";
-import {useContext} from "react";
+import { UserContext } from "../../state/UserContext";
+import { useContext } from "react";
 
 /**
  * Dashboard page for a logged-in user.
  * @returns {JSX.Element}
  * @constructor
  */
-
 function Dashboard() {
   const user = useContext(UserContext);
   const tableHeaders = ["Coin", "Balance", "Profit", "Price", "24h%", "7h%"];
