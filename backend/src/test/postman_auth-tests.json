@@ -1383,11 +1383,401 @@
         "url": "{{API_URL}}/authenticate"
       },
       "response": []
+    },
+    {
+      "name": "Try /admin with regular user",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 403\", function () {\r",
+              "    pm.response.to.have.status(403);\r",
+              "});"
+            ]
+          }
+        }
+      ],
+      "id": "61ada602-c93f-4915-9c21-e5b60ad619ab",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "token": "{{new_jwt}}"
+          }
+        },
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{API_URL}}/admin"
+      },
+      "response": []
+    },
+    {
+      "name": "Access /admin/hello with chuck user (admin)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});"
+            ]
+          }
+        }
+      ],
+      "id": "e0bcc842-aa0a-45ea-917c-8f3ac6d443c8",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "token": "{{jwt}}"
+          }
+        },
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{API_URL}}/admin/hello"
+      },
+      "response": []
+    },
+    {
+      "name": "Correct admin sign-up",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"jwt present\", function () {\r",
+              "    var jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData).to.haveOwnProperty(\"jwt\");    \r",
+              "});\r",
+              "\r",
+              "pm.test(\"Right user in the jwt\", function () {\r",
+              "    var jwt = pm.response.json().jwt;\r",
+              "    const user = parseJwtUser(jwt);\r",
+              "    pm.expect(user.username).equals((\"admin\"));\r",
+              "    pm.expect(user.password).equals(undefined);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Right permission roles in the jwt\", function () {\r",
+              "    var jwt = pm.response.json().jwt;\r",
+              "    const user = parseJwtUser(jwt);\r",
+              "    pm.expect(user.roles.length).equals(2);\r",
+              "    pm.expect(user.roles.includes(\"ROLE_USER\")).equals(true);\r",
+              "    pm.expect(user.roles.includes(\"ROLE_ADMIN\")).equals(true);\r",
+              "});\r",
+              "\r",
+              "// Helper functions from the frontend project\r",
+              "\r",
+              "/**\r",
+              " * Parse JWT string, extract information from it\r",
+              " * Code copied from https://stackoverflow.com/questions/38552003/how-to-decode-jwt-token-in-javascript-without-using-a-library\r",
+              " * @param token JWT token string\r",
+              " * @returns {any} Decoded JWT object\r",
+              " */\r",
+              "function parseJwt(token) {\r",
+              "  const base64Url = token.split('.')[1];\r",
+              "  const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');\r",
+              "  const jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {\r",
+              "    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);\r",
+              "  }).join(''));\r",
+              "\r",
+              "  return JSON.parse(jsonPayload);\r",
+              "}\r",
+              "\r",
+              "/**\r",
+              " * Parse JWT string, extract a User object\r",
+              " * @param jwtString\r",
+              " * @return User object\r",
+              " */\r",
+              "function parseJwtUser(jwtString) {\r",
+              "  let user = null;\r",
+              "  const jwtObject = parseJwt(jwtString);\r",
+              "  if (jwtObject) {\r",
+              "    user = {\r",
+              "      \"username\": jwtObject.sub,\r",
+              "      \"roles\": jwtObject.roles.map(r => r.authority)\r",
+              "    }\r",
+              "  }\r",
+              "  return user;\r",
+              "}\r",
+              ""
+            ]
+          }
+        }
+      ],
+      "id": "e98c8b0b-9702-4c44-8bca-fff91f7b1a26",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"username\": \"admin\", \"email\": \"admin@soft.com\", \"password\": \"Ddd777\", \"repeatedPassword\": \"Ddd777\" }",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{API_URL}}/signup"
+      },
+      "response": []
+    },
+    {
+      "name": "Duplicate admin sign-up fails",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 400\", function () {\r",
+              "    pm.response.to.have.status(400);\r",
+              "});\r",
+              ""
+            ]
+          }
+        }
+      ],
+      "id": "6d768c7a-1cca-4913-8489-70de51fadcb9",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"username\": \"admin\", \"email\": \"admin@soft.com\", \"password\": \"Ddd777\", \"repeatedPassword\": \"Ddd777\" }",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{API_URL}}/signup"
+      },
+      "response": []
+    },
+    {
+      "name": "Correct admin auth",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"jwt present\", function () {\r",
+              "    var jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData).to.haveOwnProperty(\"jwt\");    \r",
+              "    pm.environment.set(\"admin_jwt\", jsonData.jwt);\r",
+              "});\r",
+              "\r",
+              ""
+            ]
+          }
+        }
+      ],
+      "id": "15e4e857-c42b-483d-a9d6-e070dbf29b31",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"username\": \"admin\", \"password\": \"Ddd777\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{API_URL}}/authenticate"
+      },
+      "response": []
+    },
+    {
+      "name": "Failed /admin access with regular user",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 403\", function () {\r",
+              "    pm.response.to.have.status(403);\r",
+              "});"
+            ]
+          }
+        }
+      ],
+      "id": "1958bd5e-bcfc-4d64-a86d-844aff684148",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "token": "{{new_jwt}}"
+          }
+        },
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{API_URL}}/admin/hello"
+      },
+      "response": []
+    },
+    {
+      "name": "Success /admin access with admin user",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              ""
+            ]
+          }
+        }
+      ],
+      "id": "831022ad-16d5-44dd-b592-f84837990e4a",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "token": "{{admin_jwt}}"
+          }
+        },
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{API_URL}}/admin/hello"
+      },
+      "response": []
+    },
+    {
+      "name": "DELETE admin user",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});"
+            ]
+          }
+        }
+      ],
+      "id": "17b4e07d-56dd-4aca-a3a7-959bda9b8b69",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{ \"username\": \"admin\", \"password\": \"Ddd777\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{API_URL}}/close-account"
+      },
+      "response": []
+    },
+    {
+      "name": "Failed auth with deleted admin",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 401\", function () {\r",
+              "    pm.response.to.have.status(401);\r",
+              "});"
+            ]
+          }
+        }
+      ],
+      "id": "3b6e1ab5-0d05-4fb1-80ad-6b3cb2fcf352",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"username\": \"admin\", \"password\": \"Ddd777\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{API_URL}}/authenticate"
+      },
+      "response": []
     }
   ],
   "variable": [
     {
-      "id": "e5d01b52-c1e0-4b43-a207-ceaf75a3ff5c",
+      "id": "5cf255d7-aa3a-4160-96e0-a96404263ef0",
       "key": "signup_request_body",
       "value": ""
     }
