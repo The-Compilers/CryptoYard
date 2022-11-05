@@ -52,6 +52,10 @@ inter-process-communication between several microservices. Apache Kafka will be 
 
 [//]: # (TODO: Diagram for messaging architecture)
 
+## Users
+To create users, use `/signup` link on the frontend. 
+When you sign up with username `admin`, your users gets admin rights.
+
 ## Workflow
 
 In this project there are no specific roles among the members. You can work with something you find fun or interesting
@@ -70,7 +74,9 @@ Here's the general workflow:
 
 **Note:** The main branch should always be functional and operational.
 
-## Design guideline
+## For developers
+
+### Design guideline
 
 Check out the [design guideline](documentation/design-guidelines) for frontend user interface.
 

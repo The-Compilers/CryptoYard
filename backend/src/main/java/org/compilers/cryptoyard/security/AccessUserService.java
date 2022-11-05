@@ -1,12 +1,9 @@
 package org.compilers.cryptoyard.security;
 
-import org.compilers.cryptoyard.model.Role;
 import org.compilers.cryptoyard.model.User;
 import org.compilers.cryptoyard.repositories.UserRepository;
 import org.compilers.cryptoyard.services.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -26,6 +23,9 @@ public class AccessUserService implements UserDetailsService {
 
     @Autowired
     RoleService roleService;
+
+    // Username of the default admin user. When someone signs up with this username, they get admin rights
+    private final static String DEFAULT_ADMIN_USERNAME = "admin";
 
     private final static BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
@@ -71,9 +71,20 @@ public class AccessUserService implements UserDetailsService {
         String hashedPassword = encoder.encode(password);
         User user = new User(username, email, hashedPassword);
         user = userRepository.save(user);
-        Role userRole = roleService.getRegularUserRole();
-        user.addRole(userRole);
+        user.addRole(roleService.getRegularUserRole());
+        if (shouldGetAdminRights(username)) {
+            user.addRole(roleService.getAdminRole());
+        }
         return userRepository.save(user);
+    }
+
+    /**
+     * Check if user with the provided username should get admin rights
+     * @param username The username to check
+     * @return True if the provided username signals that this is an admin user
+     */
+    private boolean shouldGetAdminRights(String username) {
+        return DEFAULT_ADMIN_USERNAME.equals(username);
     }
 
     // Email-matching regex, from https://www.baeldung.com/java-email-validation-regex
