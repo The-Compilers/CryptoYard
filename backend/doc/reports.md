@@ -138,15 +138,15 @@ An executed buy order means that:
 * A currency has been sold (quote currency)
 * A fee has been paid
 
-Wallet changes for all buy orders:
+Wallet changes:
 
-* quoteSpentInTransaction = transaction.baseAmount * transaction.price
+* quoteSpentInTransaction = transaction.baseAmount * transaction.averagePrice
 * wallet.quote.amount -= quoteSpentInTransaction
-* usdSpentInTransaction = quoteSpentInTransaction * wallet.quote.averageObtainPriceUsd + feeInUsd
 * wallet.baseCurrency.amount += transaction.baseAmount
+* usdSpentInTransaction = quoteSpentInTransaction * wallet.quote.averageObtainPriceUsd + feeInUsd
 * totalUsdSpent = usdSpentInTransaction + (wallet.baseCurrency.averageObtainPriceUsd * wallet.baseCurrency.amount)
 * wallet.baseCurrency.averageObtainPriceUsd = totalUsdSpent / wallet.baseCurrency.amount
-* PNL is unchanged
+* transaction.profitLossInUsd is unchanged
 
 #### Sell order
 
@@ -156,17 +156,34 @@ An executed sell order means that:
 * A currency has been purchased (quote currency)
 * A fee has been paid
 
-Wallet changes for all sell orders:
+Wallet changes:
 
-* quoteObtainedInTransaction = transaction.baseAmount * transaction.price
+* quoteObtainedInTransaction = transaction.baseAmount * transaction.averagePrice
 * wallet.quote.amount += quoteObtainedInTransaction
 * wallet.baseCurrency.amount -= transaction.baseAmount
 * wallet.baseCurrency.averageObtainPrice is unchanged
-* sellPriceInUsd = transaction.price * wallet.quote.averageObtainPriceUsd
+* sellPriceInUsd = transaction.averagePrice * wallet.quote.averageObtainPriceUsd
 * priceDifferenceInUsd = sellPriceInUsd - wallet.baseCurrency.averageObtainPrice
 * transaction.profitLossInUsd = transaction.amount * priceDifferenceInUsd
 
 #### Cryptocurrency deposit
+
+An executed deposit means that the user deposits a cryptocurrency in the exchange.
+
+It is not known where and how the currency was obtained (mining, or purchase on another platform).
+
+User must enter the following information manually:
+
+* Obtain-price for the cryptocurrency, in USD
+
+Wallet changes:
+* transaction.quoteCurrency = "USD"
+* transaction.averagePrice = manualUserInput
+* wallet.baseCurrency.amount -= transaction.baseAmount
+* usdSpentInTransaction = transaction.baseAmount * transaction.averagePrice + feeInUsd
+* totalUsdSpent = usdSpentInTransaction + (wallet.baseCurrency.averageObtainPriceUsd * wallet.baseCurrency.amount)
+* wallet.baseCurrency.averageObtainPriceUsd = totalUsdSpent / wallet.baseCurrency.amount
+* transaction.profitLossInUsd is unchanged
 
 TBD
 
