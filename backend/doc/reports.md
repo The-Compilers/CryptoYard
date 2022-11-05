@@ -78,7 +78,7 @@ CurrencyBalanceSnapshot:
     timestamp: long
     currency: String
     amount: Decimal
-    averageObtainPrice: Decimal
+    averageObtainPriceUsd: Decimal
 ```
 
 Note: all money-related amounts are represented as Decimal here, to avoid rounding problems with double. The specific
@@ -110,9 +110,25 @@ Profit/Loss is converted from USD to user's home currency (for example, NOK) on:
 In buy-transactions, one currency is purchased (called _base currency_) while another currency is sold (called _quote
 currency_). In sell transactions the base currency is sold and quote currency is purchased.
 
+### Fee calculations
+
+Fee calculations are as follows:
+
+If transaction.feeCurrency is USD:
+
+* feeInUsd = transaction.fee
+* wallet.usd.amount -= feeInUsd
+
+If transaction.feeCurrency is not USD:
+
+* feeInUsd = transaction.fee * (wallet.(transaction.feeCurrency).averageObtainPriceUsd)
+* wallet.(transaction.feeCurrency).amount -= transaction.fee
+
 ### Rules for calculation for each transaction type
 
 The following calculations are performed for each transaction, based on the transaction type.
+
+Note: averageObtainPriceUsd will be 1.000 for USD currency in the wallet.
 
 #### Buy order
 
@@ -122,38 +138,33 @@ An executed buy order means that:
 * A currency has been sold (quote currency)
 * A fee has been paid
 
-If transaction.feeCurrency is USD:
-
-* feeInUsd = transaction.fee
-* wallet.usd.amount -= feeInUsd
-
-If transaction.feeCurrency is not USD:
-
-* feeInUsd = transaction.fee * (wallet.(transaction.feeCurrency).averageObtainPrice)
-* wallet.(transaction.feeCurrency).amount -= transaction.fee
-
-Wallet changes for base/USD market:
-
-* usdSpentInTransaction = transaction.baseAmount * transaction.price
-* wallet.usd.amount -= usdSpentInTransaction
-* usdSpentInTransaction += feeInUsd
-
-Wallet changes for other base/quote market:
+Wallet changes for all buy orders:
 
 * quoteSpentInTransaction = transaction.baseAmount * transaction.price
 * wallet.quote.amount -= quoteSpentInTransaction
-* usdSpentInTransaction = quoteSpentInTransaction * wallet.quote.averageObtainPrice + feeInUsd
-
-Common wallet changes for both crypto/USD and crypto/crypto buy order:
-
+* usdSpentInTransaction = quoteSpentInTransaction * wallet.quote.averageObtainPriceUsd + feeInUsd
 * wallet.baseCurrency.amount += transaction.baseAmount
-* totalUsdSpent = usdSpentInTransaction + (wallet.baseCurrency.averageObtainPrice * wallet.baseCurrency.amount)
-* wallet.baseCurrency.averageObtainPrice = totalUsdSpent / wallet.baseCurrency.amount
+* totalUsdSpent = usdSpentInTransaction + (wallet.baseCurrency.averageObtainPriceUsd * wallet.baseCurrency.amount)
+* wallet.baseCurrency.averageObtainPriceUsd = totalUsdSpent / wallet.baseCurrency.amount
 * PNL is unchanged
 
 #### Sell order
 
-TBD
+An executed sell order means that:
+
+* A currency has been sold (base currency)
+* A currency has been purchased (quote currency)
+* A fee has been paid
+
+Wallet changes for all sell orders:
+
+* quoteObtainedInTransaction = transaction.baseAmount * transaction.price
+* wallet.quote.amount += quoteObtainedInTransaction
+* wallet.baseCurrency.amount -= transaction.baseAmount
+* wallet.baseCurrency.averageObtainPrice is unchanged
+* sellPriceInUsd = transaction.price * wallet.quote.averageObtainPriceUsd
+* priceDifferenceInUsd = sellPriceInUsd - wallet.baseCurrency.averageObtainPrice
+* transaction.profitLossInUsd = transaction.amount * priceDifferenceInUsd
 
 #### Cryptocurrency deposit
 
