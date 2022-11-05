@@ -9,8 +9,8 @@ The tax authorities requests the following information:
 1. Profit/loss (PNL) report of each transaction
 2. The balance of assets (amount of each currency) in the wallet at the end of each year (December 31st 23:59:59).
 
-While individual transactions may have PNL reported in USD currency (base fiat currency in all exchanges), the final
-profit must be converted in the user's home-currency (such as NOK).
+The user specifies the home currency (HC), for example: NOK or EUR. Profit and loss (PNL) is always calculated in the
+home currency.
 
 ## Required transaction information
 
@@ -19,20 +19,17 @@ To calculate the necessary reports, the following transactions must be collected
 
 1. Executed buy-orders
 2. Executed sell-orders
-3. Cryptocurrency deposits
-4. Cryptocurrency withdrawals
-5. Fiat currency deposits
-6. Fiat currency withdrawals
-7. Fiat currency purchase with a credit card
-8. Cryptocurrency purchase with a credit card
-9. Interest on savings
-10. _Dust collection_
-11. Fiat currency exchange (such as EUR/NOK)
+3. Deposits
+4. Withdrawals
+5. Currency purchase with a credit card
+6. Interest on savings
+7. _Dust collection_
 
 ## Stored information
 
 To calculate the necessary reports, the following information must be stored on the backend:
 
+* User's home currency (HC)
 * List of all transactions
 * Wallet snapshot after each transaction
 
@@ -58,7 +55,7 @@ Transaction:
     fee: Decimal
     feeCurrency: String
     user: User
-    profitLossInUsd: Decimal
+    profitLossInHC: Decimal
 
 // The different transaction types
 TransactionTypeEnum: (BuyOrder, SellOrder, CoinDeposit, CoinWithdrawal, 
@@ -78,7 +75,7 @@ CurrencyBalanceSnapshot:
     timestamp: long
     currency: String
     amount: Decimal
-    averageObtainPriceUsd: Decimal
+    averageObtainPriceHC: Decimal
 ```
 
 Note: all money-related amounts are represented as Decimal here, to avoid rounding problems with double. The specific
@@ -91,21 +88,16 @@ The following general rules apply:
 * Transactions are collected from the exchange API
 * Some transactions may need user's manual input:
     * Fiat currency exchange - the used exchange rate
-    * Crypto deposit - the obtaining price of the deposited cryptocurrency, in USD
-    * Cryptocurrency withdrawal - the realised sell-price of the cryptocurrency, in USD
+    * Deposit - the obtaining price of the deposited currency, in HC
+    * Withdrawal - the realised sell-price of the currency, in HC
 * All the available information is collected from the exchange first, incomplete transactions are stored temporarily.
   The user is then asked to fill in the necessary information manually. Afterwards, the transactions are completed with
   the new information (Profit/Loss) and wallet snapshots are generated.
 * After each transaction, the following is re-calculated:
-    * Amount and average obtaining price for each asset involved in the transaction
-    * Profit/Loss in USD for this specific transaction (if any)
+    * Amount and average obtaining price (in HC) for each asset involved in the transaction
+    * Profit/Loss in HC for this specific transaction (if any)
     * New wallet snapshot - all the assets in the wallet
-    * Current "running" Profit/loss
-
-Profit/Loss is converted from USD to user's home currency (for example, NOK) on:
-
-* December 31st of every year
-* Withdrawal of a fiat currency (USD or EUR)
+    * Current "running" Profit/loss in HC
 
 In buy-transactions, one currency is purchased (called _base currency_) while another currency is sold (called _quote
 currency_). In sell transactions the base currency is sold and quote currency is purchased.
@@ -114,21 +106,12 @@ currency_). In sell transactions the base currency is sold and quote currency is
 
 Fee calculations are as follows:
 
-If transaction.feeCurrency is USD:
-
-* feeInUsd = transaction.fee
-* wallet.usd.amount -= feeInUsd
-
-If transaction.feeCurrency is not USD:
-
-* feeInUsd = transaction.fee * (wallet.(transaction.feeCurrency).averageObtainPriceUsd)
+* feeInHC = transaction.fee * (wallet.(transaction.feeCurrency).averageObtainPriceHC)
 * wallet.(transaction.feeCurrency).amount -= transaction.fee
 
 ### Rules for calculation for each transaction type
 
 The following calculations are performed for each transaction, based on the transaction type.
-
-Note: averageObtainPriceUsd will be 1.000 for USD currency in the wallet.
 
 #### Buy order
 
@@ -143,10 +126,10 @@ Wallet changes:
 * quoteSpentInTransaction = transaction.baseAmount * transaction.averagePrice
 * wallet.quote.amount -= quoteSpentInTransaction
 * wallet.baseCurrency.amount += transaction.baseAmount
-* usdSpentInTransaction = quoteSpentInTransaction * wallet.quote.averageObtainPriceUsd + feeInUsd
-* totalUsdSpent = usdSpentInTransaction + (wallet.baseCurrency.averageObtainPriceUsd * wallet.baseCurrency.amount)
-* wallet.baseCurrency.averageObtainPriceUsd = totalUsdSpent / wallet.baseCurrency.amount
-* transaction.profitLossInUsd is unchanged
+* hcSpentInTransaction = quoteSpentInTransaction * wallet.quote.averageObtainPriceHC + feeInHC
+* totalHCSpent = usdSpentInTransaction + (wallet.baseCurrency.averageObtainPriceUsd * wallet.baseCurrency.amount)
+* wallet.baseCurrency.averageObtainPriceHC = totalHCSpent / wallet.baseCurrency.amount
+* transaction.profitLossInHC is unchanged
 
 #### Sell order
 
@@ -161,35 +144,37 @@ Wallet changes:
 * quoteObtainedInTransaction = transaction.baseAmount * transaction.averagePrice
 * wallet.quote.amount += quoteObtainedInTransaction
 * wallet.baseCurrency.amount -= transaction.baseAmount
-* wallet.baseCurrency.averageObtainPrice is unchanged
-* sellPriceInUsd = transaction.averagePrice * wallet.quote.averageObtainPriceUsd
-* priceDifferenceInUsd = sellPriceInUsd - wallet.baseCurrency.averageObtainPrice
-* transaction.profitLossInUsd = transaction.amount * priceDifferenceInUsd
+* wallet.baseCurrency.averageObtainPriceHC is unchanged
+* sellPriceInHC = transaction.averagePrice * wallet.quote.averageObtainPriceHC
+* priceDifferenceInHC = sellPriceInHC - wallet.baseCurrency.averageObtainPrice
+* transaction.profitLossInHC = transaction.amount * priceDifferenceInHC
 
-#### Cryptocurrency deposit
+#### Deposit
 
-An executed deposit means that the user deposits a cryptocurrency in the exchange.
+The user has deposited a cryptocurrency in the exchange.
 
 It is not known where and how the currency was obtained (mining, or purchase on another platform).
 
-User must enter the following information manually:
-
-* Obtain-price for the cryptocurrency, in USD
+User must enter manually enter the transaction.averagePrice - the obtain-price for the cryptocurrency, in HC.
 
 Wallet changes:
-* transaction.quoteCurrency = "USD"
-* transaction.averagePrice = manualUserInput
-* wallet.baseCurrency.amount -= transaction.baseAmount
-* usdSpentInTransaction = transaction.baseAmount * transaction.averagePrice + feeInUsd
-* totalUsdSpent = usdSpentInTransaction + (wallet.baseCurrency.averageObtainPriceUsd * wallet.baseCurrency.amount)
-* wallet.baseCurrency.averageObtainPriceUsd = totalUsdSpent / wallet.baseCurrency.amount
-* transaction.profitLossInUsd is unchanged
 
-TBD
+* transaction.quoteCurrency = homeCurrency
+* transaction.averagePrice = [manualUserInput]
+* wallet.baseCurrency.amount -= transaction.baseAmount
+* hcSpentInTransaction = transaction.baseAmount * transaction.averagePrice
+* totalHcSpent = hcSpentInTransaction + (wallet.baseCurrency.averageObtainPriceHC * wallet.baseCurrency.amount)
+* wallet.baseCurrency.averageObtainPriceHC = totalHcSpent / wallet.baseCurrency.amount
+* transaction.profitLossInHC is unchanged
 
 #### Cryptocurrency withdrawal
 
-TBD
+The user has withdrawn a cryptocurrency from the exchange.
+
+It is now know what happens to the currency after the withdrawal, hence
+
+* We assume that it was converted to the users home-currency (HC) immediately after withdrawal
+* The user must manually specify the realised price (in HC) at which the withdrawn currency was converted
 
 #### Fiat currency deposit
 
