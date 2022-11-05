@@ -14,7 +14,7 @@
     <name>crypto-yard-backend</name>
     <description>Spring Boot backend for CryptoYard</description>
     <properties>
-        <java.version>11</java.version>
+        <java.version>17</java.version>
         <com.squareup.retrofit2.version>2.9.0</com.squareup.retrofit2.version>
     </properties>
     <dependencies>
@@ -68,6 +68,21 @@
             <version>3.12.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+
+        <!-- JWT authentication -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.9.1</version>
+        </dependency>
+        <dependency>
+            <groupId >org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
 
     </dependencies>
 

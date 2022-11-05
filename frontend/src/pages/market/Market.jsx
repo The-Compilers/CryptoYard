@@ -1,14 +1,12 @@
 // components
-import Nav from "../../components/nav/Nav";
 import Table from "../../components/table/Table";
 
 /**
  * A page showing market data
- * @param user
  * @returns {JSX.Element}
  * @constructor
  */
-export default function Market({ user }) {
+export default function Market() {
   const tableHeaders = [
     "Name",
     "Price",
@@ -27,7 +25,6 @@ export default function Market({ user }) {
 
   return (
     <>
-      <Nav user={user} />
       <main>
         <Table
           title="All coins"

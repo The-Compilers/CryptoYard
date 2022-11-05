@@ -1,4 +1,3 @@
-
 /*-----------------------------------------
   Full-screen forms: Sign up, Sign in
 -----------------------------------------*/
@@ -16,6 +15,12 @@
   background-color: var(--clr-light-6);
   padding: var(--spacing-larger);
   border-radius: 1rem;
+  width: 35rem;
+}
+
+.fullscreen-form__error {
+  color: var(--clr-error);
+  margin: auto;
 }
 
 .fullscreen-form__input {
@@ -42,6 +47,10 @@
 
 .fullscreen-form__action-button:hover {
   background-color: var(--clr-accent-dark-3);
+}
+
+.fullscreen-form__action-button:disabled {
+  background-color: var(--clr-dark-6);
 }
 
 .fullscreen-form__footer {
