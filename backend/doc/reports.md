@@ -111,7 +111,9 @@ Fee calculations are as follows:
 
 ### Rules for calculation for each transaction type
 
-The following calculations are performed for each transaction, based on the transaction type.
+Calculations are performed for each transaction, based on the transaction type. Each Transaction type is represented by
+a separate class in the code. The class implements method `updateWalletSnapshot(WalletSnapshot)`.
+The following sections describe the logic of how each transaction type must update the wallet.
 
 #### Buy order
 
@@ -228,7 +230,7 @@ Wallet changes:
 Dust collection means that the user converted a small amount of a coin into BNB coin. It is essentially a sell-order in
 the coin/BNB market.
 
-### Other transactions - TBD
+#### Other transactions
 
 Binance transaction export includes the following additional transaction types:
 
@@ -237,3 +239,5 @@ Binance transaction export includes the following additional transaction types:
 * Distribution
 * Simple Earn Flexible Redemption
 * Simple Earn Flexible Subscription
+
+These transactions also must be handled.
