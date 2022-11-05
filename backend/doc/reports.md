@@ -125,9 +125,9 @@ Wallet changes:
 
 * quoteSpentInTransaction = transaction.baseAmount * transaction.averagePrice
 * wallet.quote.amount -= quoteSpentInTransaction
-* wallet.baseCurrency.amount += transaction.baseAmount
 * hcSpentInTransaction = quoteSpentInTransaction * wallet.quote.averageObtainPriceHC + feeInHC
-* totalHCSpent = usdSpentInTransaction + (wallet.baseCurrency.averageObtainPriceUsd * wallet.baseCurrency.amount)
+* totalHCSpent = hcSpentInTransaction + (wallet.baseCurrency.averageObtainPriceHc * wallet.baseCurrency.amount)
+* wallet.baseCurrency.amount += transaction.baseAmount
 * wallet.baseCurrency.averageObtainPriceHC = totalHCSpent / wallet.baseCurrency.amount
 * transaction.profitLossInHC is unchanged
 
@@ -161,7 +161,7 @@ Wallet changes:
 
 * transaction.quoteCurrency = homeCurrency
 * transaction.averagePrice = [manualUserInput]
-* wallet.baseCurrency.amount -= transaction.baseAmount
+* wallet.baseCurrency.amount += transaction.baseAmount
 * hcSpentInTransaction = transaction.baseAmount * transaction.averagePrice
 * totalHcSpent = hcSpentInTransaction + (wallet.baseCurrency.averageObtainPriceHC * wallet.baseCurrency.amount)
 * wallet.baseCurrency.averageObtainPriceHC = totalHcSpent / wallet.baseCurrency.amount
@@ -176,14 +176,52 @@ It is now know what happens to the currency after the withdrawal, hence
 * We assume that it was converted to the users home-currency (HC) immediately after withdrawal
 * The user must manually specify the realised price (in HC) at which the withdrawn currency was converted
 
+Wallet changes:
+
+* transaction.quoteCurrency = homeCurrency
+* transaction.averagePrice = [manualUserInput]
+* wallet.baseCurrency.amount -= transaction.baseAmount
+* hcObtainedInTransaction = transaction.baseAmount * transaction.averagePrice
+* wallet.baseCurrency.averageObtainPriceHC is unchanged
+* priceDifferenceInHC = transaction.averagePrice - wallet.baseCurrency.averageObtainPrice
+* transaction.profitLossInHC = transaction.amount * priceDifferenceInHC
+
 #### Credit-card purchase
 
-TBD - Crypto
-TBD - fiat
+The user has purchased a currency, using credit card.
+
+Warning: Binance has no public API for this, but data is available on the user's website:
+https://www.binance.com/en/my/wallet/history/deposit-fiat
+Also, it seems that this API gives the necessary data, but is
+protected: https://www.binance.com/bapi/fiat/v1/private/fiatpayment/transactions/get-order-history
+
+This means, that the user must enter these transactions manually!
+
+Wallet changes:
+
+* transaction.quoteCurrency = homeCurrency
+* transaction.baseCurrency = [manualUserInput]
+* transaction.amount = [manualUserInput]
+* transaction.averagePrice = [manualUserInput]
+* transaction.timestamp = [manualUserInput]
+* transaction.fee = [manualUserInput]
+* transaction.feeCurrency = [manualUserInput]
+* wallet.baseCurrency.amount += transaction.baseAmount
+* hcSpentInTransaction = transaction.baseAmount * transaction.averagePrice
+* totalHcSpent = hcSpentInTransaction + (wallet.baseCurrency.averageObtainPriceHC * wallet.baseCurrency.amount)
+* wallet.baseCurrency.averageObtainPriceHC = totalHcSpent / wallet.baseCurrency.amount
+* transaction.profitLossInHC is unchanged
 
 #### Savings interest
 
-TBD
+Interest on savings generates new currency where the "average obtaining price" for that new currency is zero.
+
+Wallet changes:
+
+* totalHCSpent = (wallet.baseCurrency.averageObtainPriceHc * wallet.baseCurrency.amount)
+* wallet.baseCurrency.amount += transaction.baseAmount
+* wallet.baseCurrency.averageObtainPriceHC = totalHCSpent / wallet.baseCurrency.amount
+* transaction.profitLossInHC is unchanged
 
 #### Dust collection
 
