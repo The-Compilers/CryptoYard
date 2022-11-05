@@ -93,6 +93,9 @@ The following general rules apply:
     * Fiat currency exchange - the used exchange rate
     * Crypto deposit - the obtaining price of the deposited cryptocurrency, in USD
     * Cryptocurrency withdrawal - the realised sell-price of the cryptocurrency, in USD
+* All the available information is collected from the exchange first, incomplete transactions are stored temporarily.
+  The user is then asked to fill in the necessary information manually. Afterwards, the transactions are completed with
+  the new information (Profit/Loss) and wallet snapshots are generated.
 * After each transaction, the following is re-calculated:
     * Amount and average obtaining price for each asset involved in the transaction
     * Profit/Loss in USD for this specific transaction (if any)
@@ -100,8 +103,76 @@ The following general rules apply:
     * Current "running" Profit/loss
 
 Profit/Loss is converted from USD to user's home currency (for example, NOK) on:
+
 * December 31st of every year
 * Withdrawal of a fiat currency (USD or EUR)
 
+In buy-transactions, one currency is purchased (called _base currency_) while another currency is sold (called _quote
+currency_). In sell transactions the base currency is sold and quote currency is purchased.
+
 ### Rules for calculation for each transaction type
+
+The following calculations are performed for each transaction, based on the transaction type.
+
+#### Buy order
+
+An executed buy order means that:
+
+* A cryptocurrency has been purchased
+* Either fiat currency or cryptocurrency has been sold
+* A fee has been paid (in either cryptocurrency or fiat currency)
+
+Wallet changes for crypto/USD buy order:
+
+* usdSpentInTransaction = transaction.baseAmount * transaction.price
+* wallet.usd.amount -= usdSpentInTransaction
+
+Wallet changes for crypto/crypto buy order:
+
+* quoteCoinSpentInTransaction = transaction.baseAmount * transaction.price
+* wallet.quoteCoin.amount -= quoteCoinSpentInTransaction
+* usdSpentInTransaction = quoteCoinSpentInTransaction * wallet.quoteCoin.averageObtainPrice
+
+Common wallet changes for both crypto/USD and crypto/crypto buy order:
+
+* wallet.baseCurrency.amount += transaction.baseAmount
+* totalUsdSpentForCoin = usdSpentInTransaction + (wallet.baseCurrency.averageObtainPrice * wallet.baseCurrency.amount)
+* wallet.baseCurrency.averageObtainPrice = totalUsdSpentForCoin / wallet.baseCurrency.amount
+* PNL is unchanged
+
+#### Sell order
+
+TBD
+
+#### Cryptocurrency deposit
+
+TBD
+
+#### Cryptocurrency withdrawal
+
+TBD
+
+#### Fiat currency deposit
+
+TBD
+
+#### Fiat currency withdrawal
+
+TBD
+
+#### Credit-card purchase
+
+TBD - Crypto
+TBD - fiat
+
+#### Savings interest
+
+TBD
+
+#### Dust collection
+
+TBD
+
+#### Fiat currency exchange
+
 TBD
