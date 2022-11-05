@@ -118,20 +118,33 @@ The following calculations are performed for each transaction, based on the tran
 
 An executed buy order means that:
 
-* A cryptocurrency has been purchased
-* Either fiat currency or cryptocurrency has been sold
+* A cryptocurrency has been purchased (base currency)
+* Either fiat currency or cryptocurrency has been sold (quote currency)
 * A fee has been paid (in either cryptocurrency or fiat currency)
+
+Note: For EUR/USD and other fiat/USD markets the calculation would be the same as for crypto/USD market.
+
+If transaction.feeCurrency is USD:
+
+* feeInUsd = transaction.fee
+* wallet.usd.amount -= feeInUsd
+
+If transaction.feeCurrency is not USD:
+
+* feeInUsd = transaction.fee * (wallet.(transaction.feeCurrency).averageObtainPrice)
+* wallet.(transaction.feeCurrency).amount -= transaction.fee
 
 Wallet changes for crypto/USD buy order:
 
 * usdSpentInTransaction = transaction.baseAmount * transaction.price
 * wallet.usd.amount -= usdSpentInTransaction
+* usdSpentInTransaction += feeInUsd
 
 Wallet changes for crypto/crypto buy order:
 
 * quoteCoinSpentInTransaction = transaction.baseAmount * transaction.price
 * wallet.quoteCoin.amount -= quoteCoinSpentInTransaction
-* usdSpentInTransaction = quoteCoinSpentInTransaction * wallet.quoteCoin.averageObtainPrice
+* usdSpentInTransaction = quoteCoinSpentInTransaction * wallet.quoteCoin.averageObtainPrice + feeInUsd
 
 Common wallet changes for both crypto/USD and crypto/crypto buy order:
 
