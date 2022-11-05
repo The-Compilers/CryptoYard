@@ -225,4 +225,15 @@ Wallet changes:
 
 #### Dust collection
 
-TBD
+Dust collection means that the user converted a small amount of a coin into BNB coin. It is essentially a sell-order in
+the coin/BNB market.
+
+### Other transactions - TBD
+
+Binance transaction export includes the following additional transaction types:
+
+* Commission Rebate
+* Cashback Voucher
+* Distribution
+* Simple Earn Flexible Redemption
+* Simple Earn Flexible Subscription
