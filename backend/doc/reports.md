@@ -167,7 +167,7 @@ Wallet changes:
 * wallet.baseCurrency.averageObtainPriceHC = totalHcSpent / wallet.baseCurrency.amount
 * transaction.profitLossInHC is unchanged
 
-#### Cryptocurrency withdrawal
+#### Withdrawal
 
 The user has withdrawn a cryptocurrency from the exchange.
 
@@ -175,14 +175,6 @@ It is now know what happens to the currency after the withdrawal, hence
 
 * We assume that it was converted to the users home-currency (HC) immediately after withdrawal
 * The user must manually specify the realised price (in HC) at which the withdrawn currency was converted
-
-#### Fiat currency deposit
-
-TBD
-
-#### Fiat currency withdrawal
-
-TBD
 
 #### Credit-card purchase
 
@@ -194,9 +186,5 @@ TBD - fiat
 TBD
 
 #### Dust collection
-
-TBD
-
-#### Fiat currency exchange
 
 TBD
