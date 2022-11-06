@@ -239,5 +239,6 @@ Binance transaction export includes the following additional transaction types:
 * Distribution
 * Simple Earn Flexible Redemption
 * Simple Earn Flexible Subscription
+* Auto-invest transactions (new in 2022)
 
 These transactions also must be handled.
