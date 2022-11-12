@@ -59,14 +59,14 @@ export function AccountSettings({ doLogout }) {
               this action!
             </p>
             <p>Enter your password to confirm the operation.</p>
-            <TextField
-              type="password"
-              label="Your password"
-              variant="standard"
-              id="password_field"
-              onChange={checkPassword}
-            />
           </DialogContentText>
+          <TextField
+            type="password"
+            label="Your password"
+            variant="standard"
+            id="password_field"
+            onChange={checkPassword}
+          />
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setDialogVisible(false)} autoFocus>
@@ -92,12 +92,12 @@ export function AccountSettings({ doLogout }) {
             size="small"
             aria-label="close"
             color="inherit"
-            onClick={closeDeletionSnackbar}
+            onClick={closeSnackbarAndLogout}
           >
             <CloseIcon fontSize="small" />
           </IconButton>
         }
-        onClose={closeDeletionSnackbar}
+        onClose={closeSnackbarAndLogout}
       />
     </section>
   );
@@ -137,10 +137,7 @@ export function AccountSettings({ doLogout }) {
     setDeleting(false);
   }
 
-  /**
-   * This function is called when the snackbar is closed
-   */
-  function closeDeletionSnackbar() {
+  function closeSnackbarAndLogout() {
     setSnackbarVisible(false);
     if (userDeleted) {
       doLogout();
