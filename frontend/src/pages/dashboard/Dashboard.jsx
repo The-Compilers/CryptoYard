@@ -1,5 +1,3 @@
-import "./dashboard.css";
-
 import Footer from "../../components/footer/Footer";
 import Table from "../../components/table/Table";
 import { UserContext } from "../../state/UserContext";

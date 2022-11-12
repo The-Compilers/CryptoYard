@@ -83,6 +83,21 @@ body {
   background-color: var(--clr-light-4);
 }
 
+main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-medium);
+  padding: var(--spacing-larger);
+  font-size: var(--font-size-medium);
+  max-width: 100rem;
+  min-height: calc(200vh - 13.3rem);
+  margin: auto;
+}
+
+section {
+  padding: var(--spacing-medium) 0 var(--spacing-large) 0;
+}
+
 img {
   max-width: 100%;
 }
@@ -138,6 +153,8 @@ h3,
 h4,
 h5 {
   font-weight: bold;
+  margin-bottom: var(--spacing-small);
+  color: var(--clr-accent-dark-4);
 }
 
 h1 {
