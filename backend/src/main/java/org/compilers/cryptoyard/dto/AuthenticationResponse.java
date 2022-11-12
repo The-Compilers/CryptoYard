@@ -1,4 +1,4 @@
-package org.compilers.cryptoyard.security;
+package org.compilers.cryptoyard.dto;
 
 /**
  * Data that we will send as a response to the user when the authentication is successful

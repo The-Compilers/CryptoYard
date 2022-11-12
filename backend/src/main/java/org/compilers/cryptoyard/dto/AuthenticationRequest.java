@@ -1,4 +1,4 @@
-package org.compilers.cryptoyard.security;
+package org.compilers.cryptoyard.dto;
 
 /**
  * Data that the user will send in the login request

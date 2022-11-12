@@ -1,9 +1,11 @@
-package org.compilers.cryptoyard.security;
+package org.compilers.cryptoyard.services;
 
 import org.compilers.cryptoyard.model.User;
 import org.compilers.cryptoyard.repositories.UserRepository;
-import org.compilers.cryptoyard.services.RoleService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.compilers.cryptoyard.security.AccessUserDetails;
+import org.compilers.cryptoyard.security.SignUpRequest;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,32 +16,74 @@ import java.util.Optional;
 import java.util.regex.Pattern;
 
 /**
- * Provides AccessUserDetails needed for authentication
+ * Provides details and operations related to users. Also needed for Spring Security
  */
 @Service
-public class AccessUserService implements UserDetailsService {
-    @Autowired
-    UserRepository userRepository;
-
-    @Autowired
-    RoleService roleService;
+public class UserService extends CYService implements UserDetailsService {
+    private final RoleService roleService;
+    private final UserRepository userRepository;
 
     // Username of the default admin user. When someone signs up with this username, they get admin rights
     private final static String DEFAULT_ADMIN_USERNAME = "admin";
 
     private final static BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
+    public UserService(RoleService roleService, UserRepository userRepository) {
+        this.roleService = roleService;
+        this.userRepository = userRepository;
+    }
+
+    /**
+     * This function is needed for Spring Security
+     *
+     * @param usernameOrEmail the username (or email!) identifying the user whose data is required.
+     * @return The UserDetails object, needed by Spring Security
+     * @throws UsernameNotFoundException When the user with given username (or email) is not found
+     */
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> user = userRepository.findByUsername(username);
+    public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
+        Optional<User> user = findByUsernameOrEmail(usernameOrEmail);
         if (user.isEmpty()) {
-            // Did not find the user by username? Try email! The sign-in form allows to enter either username or email!
-            user = userRepository.findByEmail(username);
-            if (user.isEmpty()) {
-                throw new UsernameNotFoundException("User " + username + "not found");
-            }
+            throw new UsernameNotFoundException("User " + usernameOrEmail + "not found");
         }
         return new AccessUserDetails(user.get());
+    }
+
+    /**
+     * Find a user by username, or email (in the database)
+     *
+     * @return The user or Optional.empty() if it is not found in the database
+     */
+    public Optional<User> findByUsernameOrEmail(String usernameOrEmail) {
+        Optional<User> user = userRepository.findByUsername(usernameOrEmail);
+        if (user.isEmpty()) {
+            // Did not find the user by username? Try email! The sign-in form allows to enter either username or email!
+            user = userRepository.findByEmail(usernameOrEmail);
+        }
+        return user;
+    }
+
+    /**
+     * Find a user by username (in the database)
+     *
+     * @return The user or Optional.empty() if it is not found in the database
+     */
+    public Optional<User> findByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+    /**
+     * Get the currently authenticated user, Optional.empty() if no authenticated user in this session
+     */
+    public Optional<AccessUserDetails> getAuthenticatedUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Optional<AccessUserDetails> userDetails;
+        if (authentication != null) {
+            userDetails = Optional.of((AccessUserDetails) authentication.getPrincipal());
+        } else {
+            userDetails = Optional.empty();
+        }
+        return userDetails;
     }
 
     public User createNewUser(SignUpRequest request) throws Exception {
@@ -80,6 +124,7 @@ public class AccessUserService implements UserDetailsService {
 
     /**
      * Check if user with the provided username should get admin rights
+     *
      * @param username The username to check
      * @return True if the provided username signals that this is an admin user
      */
@@ -121,6 +166,7 @@ public class AccessUserService implements UserDetailsService {
 
     /**
      * Deletes a user
+     *
      * @param username The username of the user to delete
      * @throws IllegalArgumentException If user not found
      */
