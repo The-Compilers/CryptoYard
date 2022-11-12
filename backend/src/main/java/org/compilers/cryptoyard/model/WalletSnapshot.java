@@ -6,6 +6,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import java.util.List;
 
+/**
+ * Snapshot of the whole wallet for a specific user at the specific time moment.
+ * Contains balances of all the currencies in the wallet at that moment.
+ */
 @Entity
 public class WalletSnapshot {
     @Id
