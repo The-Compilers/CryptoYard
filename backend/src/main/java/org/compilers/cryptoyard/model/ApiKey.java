@@ -5,6 +5,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+/**
+ * Exchange API key for a user
+ */
 @Entity
 public class ApiKey {
     @Id
