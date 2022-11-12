@@ -1,4 +1,5 @@
 import { AccountSettings } from "../../components/nav/components/AccountSettings";
+import { ApiKeySettings } from "../../components/settings/ApiKeySettings";
 
 /**
  * The settings page
@@ -11,9 +12,9 @@ export default function Settings({ doLogout }) {
     <main>
       <div className="box">
         <h2>Settings</h2>
+        <ApiKeySettings />
         <AccountSettings doLogout={doLogout} />
       </div>
     </main>
   );
-
 }
