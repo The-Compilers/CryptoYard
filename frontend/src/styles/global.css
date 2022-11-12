@@ -182,3 +182,31 @@ a {
   font-size: var(--font-size-medium);
   line-height: 1.5em;
 }
+
+/*---------------
+  Forms
+---------------*/
+
+.form-input {
+  font-size: var(--font-size-larger);
+  padding: var(--spacing-small);
+  border-radius: 0.5rem;
+  border: solid;
+  border-color: var(--clr-light-3);
+}
+
+.action-button {
+  font-size: var(--font-size-larger);
+  padding: var(--spacing-small);
+  border-radius: 0.5rem;
+  background-color: var(--clr-accent-dark-1);
+  color: var(--clr-light-6);
+}
+
+.action-button:hover {
+  background-color: var(--clr-accent-dark-3);
+}
+
+.action-button:disabled {
+  background-color: var(--clr-dark-6);
+}

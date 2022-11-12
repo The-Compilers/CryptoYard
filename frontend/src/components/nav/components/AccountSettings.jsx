@@ -5,8 +5,10 @@ import {
   DialogActions,
   DialogContent,
   DialogContentText,
-  DialogTitle, IconButton, Snackbar,
-  TextField
+  DialogTitle,
+  IconButton,
+  Snackbar,
+  TextField,
 } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import CloseIcon from "@mui/icons-material/Close";
@@ -26,74 +28,79 @@ export function AccountSettings({ doLogout }) {
   const [userDeleted, setUserDeleted] = useState(false);
   const [passwordOK, setPasswordOK] = useState(false);
 
-  return <section>
-    <h3>Account control</h3>
-    {deleting ? (
-      <CircularProgress />
-    ) : (
-      <Button variant="contained" onClick={() => setDialogVisible(true)}>
-        Delete account
-      </Button>
-    )}
-
-    {/* The dialog will be shown only when necessary - to ask for password and confirmation */}
-    <Dialog
-      open={dialogVisible}
-      onClose={() => setDialogVisible(false)}
-      aria-labelledby="alert-dialog-title"
-      aria-describedby="alert-dialog-description"
-    >
-      <DialogTitle id="alert-dialog-title">
-        {"Do you really want to delete your account?"}
-      </DialogTitle>
-      <DialogContent>
-        <DialogContentText id="alert-dialog-description">
-          <p>
-            If you delete your account, all data will be lost. You can't
-            undo this action!
-          </p>
-          <p>Enter your password to confirm the operation.</p>
-          <TextField
-            type="password"
-            label="Your password"
-            variant="standard"
-            id="password_field"
-            onChange={checkPassword}
-          />
-        </DialogContentText>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={() => setDialogVisible(false)} autoFocus>
-          Cancel
-        </Button>
-        <Button
-          onClick={sendDeleteRequest}
-          disabled={!passwordOK}
-          variant="contained"
+  return (
+    <section>
+      <h3>Account control</h3>
+      {deleting ? (
+        <CircularProgress />
+      ) : (
+        <button
+          className="action-button"
+          onClick={() => setDialogVisible(true)}
         >
-          Delete my account
-        </Button>
-      </DialogActions>
-    </Dialog>
+          Delete account
+        </button>
+      )}
 
-    {/* The snackbar will be shown only when necessary - when the user-delete operation is complete */}
-    <Snackbar
-      open={snackbarVisible}
-      autoHideDuration={5000}
-      message={userDeleted ? "User deleted" : "Failed to delete the user"}
-      action={
-        <IconButton
-          size="small"
-          aria-label="close"
-          color="inherit"
-          onClick={closeDeletionSnackbar}
-        >
-          <CloseIcon fontSize="small" />
-        </IconButton>
-      }
-      onClose={closeDeletionSnackbar}
-    />
-  </section>;
+      {/* The dialog will be shown only when necessary - to ask for password and confirmation */}
+      <Dialog
+        open={dialogVisible}
+        onClose={() => setDialogVisible(false)}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Do you really want to delete your account?"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            <p>
+              If you delete your account, all data will be lost. You can't undo
+              this action!
+            </p>
+            <p>Enter your password to confirm the operation.</p>
+            <TextField
+              type="password"
+              label="Your password"
+              variant="standard"
+              id="password_field"
+              onChange={checkPassword}
+            />
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setDialogVisible(false)} autoFocus>
+            Cancel
+          </Button>
+          <Button
+            onClick={sendDeleteRequest}
+            disabled={!passwordOK}
+            variant="contained"
+          >
+            Delete my account
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* The snackbar will be shown only when necessary - when the user-delete operation is complete */}
+      <Snackbar
+        open={snackbarVisible}
+        autoHideDuration={5000}
+        message={userDeleted ? "User deleted" : "Failed to delete the user"}
+        action={
+          <IconButton
+            size="small"
+            aria-label="close"
+            color="inherit"
+            onClick={closeDeletionSnackbar}
+          >
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        }
+        onClose={closeDeletionSnackbar}
+      />
+    </section>
+  );
 
   /**
    * Check whether the current password can be accepted (satisfies minimum requirements)

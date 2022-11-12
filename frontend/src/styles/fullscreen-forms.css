@@ -23,34 +23,10 @@
   margin: auto;
 }
 
-.fullscreen-form__input {
-  font-size: var(--font-size-larger);
-  padding: var(--spacing-small);
-  border-radius: 0.5rem;
-  border: solid;
-  border-color: var(--clr-light-3);
-}
-
 .fullscreen-form__header {
   font-size: var(--font-size-extra-large);
   text-align: center;
   color: black;
-}
-
-.fullscreen-form__action-button {
-  font-size: var(--font-size-larger);
-  padding: var(--spacing-small);
-  border-radius: 0.5rem;
-  background-color: var(--clr-accent-dark-1);
-  color: var(--clr-light-6);
-}
-
-.fullscreen-form__action-button:hover {
-  background-color: var(--clr-accent-dark-3);
-}
-
-.fullscreen-form__action-button:disabled {
-  background-color: var(--clr-dark-6);
 }
 
 .fullscreen-form__footer {
