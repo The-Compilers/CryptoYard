@@ -17,5 +17,11 @@ public class ApiKey {
     private String apiSecret;
     @ManyToOne
     private User user;
+    public ApiKey() {}
 
+    public ApiKey(String apiKey, String apiSecret, User user) {
+        this.apiKey = apiKey;
+        this.apiSecret = apiSecret;
+        this.user = user;
+    }
 }
