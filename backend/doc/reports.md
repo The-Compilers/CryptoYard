@@ -76,6 +76,7 @@ CurrencyBalanceSnapshot:
     currency: String
     amount: Decimal
     averageObtainPriceHC: Decimal
+    walletSnapshot: WalletSnapshot
 ```
 
 Note: all money-related amounts are represented as Decimal here, to avoid rounding problems with double. The specific
