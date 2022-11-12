@@ -7,22 +7,21 @@ import { useState } from "react";
 import Dialog from "@mui/material/Dialog";
 import {
   Button,
+  CircularProgress,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
-  IconButton,
-  Snackbar,
   TextField,
 } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
+import { sendApiKeySaveRequest } from "../../services/api";
 
 export function ApiKeySettings() {
   // TODO - load the key from the API
   const [currentApiKey, setCurrentApiKey] = useState("SomeApiKey");
 
   const [dialogVisible, setDialogVisible] = useState(false);
-  const [snackbarVisible, setSnackbarVisible] = useState(false);
+  const [apiCallInProgress, setApiCallInProgress] = useState(false);
 
   return (
     <section>
@@ -32,115 +31,142 @@ export function ApiKeySettings() {
       ) : (
         <p>API key not configured</p>
       )}
-      <button
-        className="action-button action-button__wide"
-        type="submit"
-        onClick={() => setDialogVisible(true)}
-      >
-        Set new API key
-      </button>
+      {!apiCallInProgress ? (
+        <button
+          className="action-button action-button__wide"
+          type="submit"
+          onClick={() => setDialogVisible(true)}
+        >
+          Set new API key
+        </button>
+      ) : (
+        <CircularProgress />
+      )}
 
       {/* The dialog will be shown only when necessary - to ask for 
       API key and secret */}
-      <KeyEditDialog visible={dialogVisible} setVisible={setDialogVisible} />
-
-      {/* The snackbar will be shown only when necessary - when the API key
-      is saved on the server */}
-      <KeyEditSnackbar
-        visible={snackbarVisible}
-        setVisible={setSnackbarVisible}
+      <KeyEditDialog
+        visible={dialogVisible}
+        setVisible={setDialogVisible}
+        inProgress={apiCallInProgress}
+        setInProgress={setApiCallInProgress}
+        setApiKey={setCurrentApiKey}
       />
     </section>
   );
 }
 
-function KeyEditDialog({ visible, setVisible }) {
+function KeyEditDialog({
+  visible,
+  setVisible,
+  setInProgress,
+  inProgress,
+  setApiKey,
+}) {
   const API_KEY_LENGTH = 64;
   const API_SECRET_LENGTH = 64;
 
   const [apiKeyOk, setApiKeyOk] = useState(false);
   const [apiSecretOk, setApiSecretOk] = useState(false);
 
+  const [error, setError] = useState("");
+
   return (
-    <Dialog
-      open={visible}
-      onClose={() => setVisible(false)}
-      aria-labelledby="alert-dialog-title"
-      aria-describedby="alert-dialog-description"
-    >
-      <DialogTitle id="alert-dialog-title">New API key</DialogTitle>
-      <DialogContent>
-        <DialogContentText id="alert-dialog-description">
-          Enter your Binance API key and secret.
-        </DialogContentText>
-        <TextField
-          type="text"
-          label="Key"
-          variant="standard"
-          id="api_key_input"
-          fullWidth={true}
-          onChange={checkApiKeyFormat}
-        />
-        <br />
-        <TextField
-          type="text"
-          label="Secret"
-          variant="standard"
-          fullWidth={true}
-          id="api_secret_input"
-          onChange={checkApiSecretFormat}
-        />
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={() => setVisible(false)} autoFocus>
-          Cancel
-        </Button>
-        <Button
-          onClick={saveApiKey}
-          disabled={!apiKeyOk || !apiSecretOk}
-          variant="contained"
-        >
-          Save key
-        </Button>
-      </DialogActions>
-    </Dialog>
+    <>
+      <Dialog
+        open={visible}
+        onClose={() => setVisible(false)}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        fullWidth={true}
+      >
+        <DialogTitle id="alert-dialog-title">New API key</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Enter your Binance API key and secret.
+          </DialogContentText>
+          <TextField
+            type="text"
+            label="Key"
+            variant="standard"
+            id="api_key_input"
+            fullWidth={true}
+            onChange={checkApiKeyFormat}
+            disabled={inProgress}
+          />
+          <br />
+          <TextField
+            type="text"
+            label="Secret"
+            variant="standard"
+            fullWidth={true}
+            id="api_secret_input"
+            onChange={checkApiSecretFormat}
+            disabled={inProgress}
+          />
+          <p className="error">{error}</p>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={close} autoFocus>
+            Cancel
+          </Button>
+          <Button
+            onClick={saveApiKey}
+            disabled={!apiKeyOk || !apiSecretOk || inProgress}
+            variant="contained"
+          >
+            Save key
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
   );
+
+  function close() {
+    setVisible(false);
+    setError("");
+    setApiKeyOk(false);
+    setApiSecretOk(false);
+  }
 
   function checkApiKeyFormat(event) {
     const apiKey = event.target.value;
-    setApiKeyOk(apiKey !== "" && apiKey.length === API_KEY_LENGTH);
+    const formatOK = apiKey !== "" && apiKey.length === API_KEY_LENGTH;
+    setApiKeyOk(formatOK);
   }
 
   function checkApiSecretFormat(event) {
-    const apiSecret = event.target.value;
-    setApiSecretOk(apiSecret !== "" && apiSecret.length === API_SECRET_LENGTH);
+    const secret = event.target.value;
+    const formatOK = secret !== "" && secret.length === API_SECRET_LENGTH;
+    setApiSecretOk(formatOK);
   }
 
   function saveApiKey() {
     console.log("Saving key...");
-    // TODO - send API request to save the key
+    setInProgress(true);
+    setError("");
+    const apiKey = document.getElementById("api_key_input").value;
+    const apiSecret = document.getElementById("api_secret_input").value;
+    sendApiKeySaveRequest(
+      apiKey,
+      apiSecret,
+      () => onApiResponse(true, ""),
+      (status, error) => onApiResponse(false, error)
+    );
   }
-}
 
-function KeyEditSnackbar({ visible, setVisible }) {
-  const [successfullySaved, setSuccessfullySaved] = useState(false);
-
-  return (
-    <Snackbar
-      open={visible}
-      autoHideDuration={5000}
-      message={successfullySaved ? "API key saved" : "Failed to save the key"}
-      action={
-        <IconButton
-          size="small"
-          aria-label="close"
-          color="inherit"
-          onClick={() => setVisible(false)}
-        >
-          <CloseIcon fontSize="small" />
-        </IconButton>
-      }
-      onClose={() => setVisible(false)}
-    />
-  );
+  /**
+   * This function is called when the response from the key-save API endpoint comes
+   * @param {boolean} success True when the key is saved, false on error
+   * @param {string} error Error message received from the server
+   */
+  function onApiResponse(success, error) {
+    if (success) {
+      setApiKey(document.getElementById("api_key_input").value);
+      close();
+    } else {
+      setError(error);
+    }
+    setInProgress(false);
+  }
 }
