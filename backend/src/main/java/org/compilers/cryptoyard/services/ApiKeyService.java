@@ -5,6 +5,8 @@ import org.compilers.cryptoyard.model.User;
 import org.compilers.cryptoyard.repositories.ApiKeyRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 /**
  * Handles Binance API keys
  */
@@ -17,14 +19,17 @@ public class ApiKeyService extends CYService {
     }
 
     /**
-     * Save API key and secret to the database
+     * Save API key and secret to the database. If a key exists already, it is replaced.
      *
      * @param apiKey    API key
      * @param apiSecret API secret
      * @param user      The owner of the key
      */
     public void saveKey(String apiKey, String apiSecret, User user) {
-        ApiKey key = new ApiKey(apiKey, apiSecret, user);
+        Optional<ApiKey> existingKey = apiKeyRepository.findFirstOneByUserId(user.getId());
+        ApiKey key = existingKey.orElse(new ApiKey());
+        key.setApiKey(apiKey);
+        key.setApiSecret(apiSecret);
         apiKeyRepository.save(key);
     }
 }

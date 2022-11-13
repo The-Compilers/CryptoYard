@@ -1,5 +1,7 @@
 package org.compilers.cryptoyard.model;
 
+import lombok.Data;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -9,6 +11,7 @@ import javax.persistence.ManyToOne;
  * Exchange API key for a user
  */
 @Entity
+@Data
 public class ApiKey {
     @Id
     @GeneratedValue
