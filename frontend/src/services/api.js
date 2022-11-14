@@ -1,4 +1,8 @@
-import { sendApiDeleteRequest, sendApiPostRequest } from "./requests";
+import {
+  asyncApiGet,
+  sendApiDeleteRequest,
+  sendApiPostRequest,
+} from "./requests";
 import { getAuthenticatedUser } from "./authentication";
 
 //////////////////////////////////////
@@ -41,4 +45,14 @@ export function sendApiKeySaveRequest(apiKey, apiSecret, onSuccess, onError) {
     postData,
     onError
   );
+}
+
+/**
+ * Fetch API key from the server
+ */
+export async function fetchApiKey() {
+  const user = getAuthenticatedUser();
+  if (!user) throw new Error("User must be authenticated to save API key");
+  const username = user.username;
+  return await asyncApiGet(`/usersz/${username}/api-key`);
 }

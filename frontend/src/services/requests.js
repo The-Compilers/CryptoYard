@@ -38,10 +38,14 @@ export function sendApiPostRequest(url, callback, requestBody, errorCallback) {
  * @param {function} errorCallback A function called when the response code is not 200. Two parameters will be passed
  * to the function: HTTP response code and response body (as text)
  */
-export function sendApiDeleteRequest(url, callback, requestBody, errorCallback) {
+export function sendApiDeleteRequest(
+  url,
+  callback,
+  requestBody,
+  errorCallback
+) {
   return sendApiRequest("DELETE", url, callback, requestBody, errorCallback);
 }
-
 
 /**
  * Send a REST-API request to the backend
@@ -54,7 +58,7 @@ export function sendApiDeleteRequest(url, callback, requestBody, errorCallback) 
  */
 function sendApiRequest(method, url, callback, requestBody, errorCallback) {
   const request = new XMLHttpRequest();
-  request.onreadystatechange = function() {
+  request.onreadystatechange = function () {
     if (request.readyState === XMLHttpRequest.DONE) {
       if (request.status === 200) {
         let responseBody = "";
@@ -95,4 +99,31 @@ function sendApiRequest(method, url, callback, requestBody, errorCallback) {
   } else {
     request.send();
   }
+}
+
+export async function asyncApiGet(url) {
+  return asyncApiRequest("GET", url, []);
+}
+
+export async function asyncApiRequest(method, url, requestBody) {
+  const fullUrl = API_BASE_URL + url;
+  const jwtToken = getCookie("jwt");
+  let headers = {};
+  if (jwtToken) {
+    headers["Authorization"] = "Bearer " + jwtToken;
+  }
+  let body = null;
+  if (method.toLowerCase() !== "get" && requestBody) {
+    headers["Content-Type"] = "application/json";
+    body = JSON.stringify(requestBody);
+  }
+
+  const response = await fetch(fullUrl, {
+    method: method,
+    mode: "cors",
+    headers: headers,
+    body: body,
+  });
+
+  return response.text();
 }

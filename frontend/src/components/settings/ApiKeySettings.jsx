@@ -6,19 +6,24 @@
 import { useState } from "react";
 import { CircularProgress } from "@mui/material";
 import { ApiKeyEditDialog } from "./ApiKeyEditDialog";
+import { useQuery } from "@tanstack/react-query";
+import { fetchApiKey } from "../../services/api";
 
 export function ApiKeySettings() {
-  // TODO - load the key from the API
-  const [currentApiKey, setCurrentApiKey] = useState("SomeApiKey");
-
   const [dialogVisible, setDialogVisible] = useState(false);
   const [apiCallInProgress, setApiCallInProgress] = useState(false);
+  //const [currentApiKey, setCurrentApiKey] = useState("");
+
+  const query = useQuery({
+    queryKey: ["api_key"],
+    queryFn: fetchApiKey,
+  });
 
   return (
     <section>
       <h3>API key configuration</h3>
-      {currentApiKey ? (
-        <p>Key: {currentApiKey}</p>
+      {query.isSuccess ? (
+        <p>Key: {query.data}</p>
       ) : (
         <p>API key not configured</p>
       )}
@@ -33,6 +38,9 @@ export function ApiKeySettings() {
       ) : (
         <CircularProgress />
       )}
+      {query.isLoading ? "Loading..." :
+        query.isError ? "Error:" + query.error : }
+      { ""}
 
       {/* The dialog will be shown only when necessary - to ask for 
       API key and secret */}
@@ -41,7 +49,7 @@ export function ApiKeySettings() {
         setVisible={setDialogVisible}
         inProgress={apiCallInProgress}
         setInProgress={setApiCallInProgress}
-        setApiKey={setCurrentApiKey}
+        // setApiKey={setCurrentApiKey}
       />
     </section>
   );
