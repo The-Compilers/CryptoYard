@@ -82,7 +82,7 @@ public class UserController {
             User user = getKeyOwner(username);
             apiKeyService.saveKey(request.apiKey(), request.apiSecret(), user);
         } catch (HttpClientErrorException e) {
-            return new ResponseEntity<>(e.getMessage(), e.getStatusCode());
+            return new ResponseEntity<>(e.getStatusText(), e.getStatusCode());
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
