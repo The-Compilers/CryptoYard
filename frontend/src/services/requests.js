@@ -146,7 +146,7 @@ function getAuthenticationHeaders() {
 async function handleErrors(response) {
   if (!response.ok) {
     const responseText = await response.text();
-    throw new HttpResponseError(response.statusCode, responseText);
+    throw new HttpResponseError(response.status, responseText);
   }
   return response;
 }
