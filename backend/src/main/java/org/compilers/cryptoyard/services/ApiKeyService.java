@@ -24,8 +24,12 @@ public class ApiKeyService extends CYService {
      * @param apiKey    API key
      * @param apiSecret API secret
      * @param user      The owner of the key
+     * @throws IllegalArgumentException When some passed arguments are incorrect
      */
-    public void saveKey(String apiKey, String apiSecret, User user) {
+    public void saveKey(String apiKey, String apiSecret, User user) throws IllegalArgumentException {
+        if (apiKey == null || "".equals(apiKey)) throw new IllegalArgumentException("API key can't be null");
+        if (apiSecret == null || "".equals(apiSecret)) throw new IllegalArgumentException("API secret can't be null");
+        if (user == null) throw new IllegalArgumentException("API key owner can't be null");
         Optional<ApiKey> existingKey = apiKeyRepository.findFirstOneByUserId(user.getId());
         ApiKey key = existingKey.orElse(new ApiKey());
         key.setApiKey(apiKey);
