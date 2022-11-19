@@ -1,0 +1,855 @@
+{
+  "info": {
+    "_postman_id": "3b04a902-df81-4714-a10c-39cb64e63a50",
+    "name": "API key",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "1534868"
+  },
+  "item": [
+    {
+      "name": "Sign up",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"jwt present\", function () {\r",
+              "    var jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData).to.haveOwnProperty(\"jwt\");    \r",
+              "    pm.environment.set(\"jwt\", jsonData.jwt);\r",
+              "});\r",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"username\": \"{{KEY_TEST_USERNAME}}\", \"email\": \"testing@signup.com\", \"password\": \"Nunchucks9\", \"repeatedPassword\": \"Nunchucks9\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{API_URL}}/signup",
+          "host": [
+            "{{API_URL}}"
+          ],
+          "path": [
+            "signup"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Missing all key data",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 400\", function () {\r",
+              "    pm.response.to.have.status(400);\r",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{jwt}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{API_URL}}/users/{{KEY_TEST_USERNAME}}/api-key",
+          "host": [
+            "{{API_URL}}"
+          ],
+          "path": [
+            "users",
+            "{{KEY_TEST_USERNAME}}",
+            "api-key"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Missing secret",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 400\", function () {\r",
+              "    pm.response.to.have.status(400);\r",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{jwt}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"apiKey\": \"12345678abcdefgh12345678abcdefgh12345678abcdefgh12345678abcdefgh\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{API_URL}}/users/{{KEY_TEST_USERNAME}}/api-key",
+          "host": [
+            "{{API_URL}}"
+          ],
+          "path": [
+            "users",
+            "{{KEY_TEST_USERNAME}}",
+            "api-key"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Missing key",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 400\", function () {\r",
+              "    pm.response.to.have.status(400);\r",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{jwt}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"apiSecret\": \"12345678abcdefgh12345678abcdefgh12345678abcdefgh12345678abcdefgh\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{API_URL}}/users/{{KEY_TEST_USERNAME}}/api-key",
+          "host": [
+            "{{API_URL}}"
+          ],
+          "path": [
+            "users",
+            "{{KEY_TEST_USERNAME}}",
+            "api-key"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Missing username",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 403\", function () {\r",
+              "    pm.response.to.have.status(403);\r",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{jwt}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"apiSecret\": \"12345678abcdefgh12345678abcdefgh12345678abcdefgh12345678abcdefgh\", \"apiKey\": \"12345678abcdefgh12345678abcdefgh12345678abcdefgh12345678abcdefgh\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{API_URL}}/users//api-key",
+          "host": [
+            "{{API_URL}}"
+          ],
+          "path": [
+            "users",
+            "",
+            "api-key"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Wrong username",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 401\", function () {\r",
+              "    pm.response.to.have.status(401);\r",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{jwt}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"apiSecret\": \"12345678abcdefgh12345678abcdefgh12345678abcdefgh12345678abcdefgh\", \"apiKey\": \"12345678abcdefgh12345678abcdefgh12345678abcdefgh12345678abcdefgh\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{API_URL}}/users/chuck/api-key",
+          "host": [
+            "{{API_URL}}"
+          ],
+          "path": [
+            "users",
+            "chuck",
+            "api-key"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Unauthorized",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 401\", function () {\r",
+              "    pm.response.to.have.status(401);\r",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{jwt}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"apiSecret\": \"12345678abcdefgh12345678abcdefgh12345678abcdefgh12345678abcdefgh\", \"apiKey\": \"12345678abcdefgh12345678abcdefgh12345678abcdefgh12345678abcdefgh\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{API_URL}}/users/chuck/api-key",
+          "host": [
+            "{{API_URL}}"
+          ],
+          "path": [
+            "users",
+            "chuck",
+            "api-key"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get key - empty",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Body is empty\", function () {\r",
+              "    pm.expect(pm.response.text()).equals(\"\");\r",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{jwt}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{API_URL}}/users/{{KEY_TEST_USERNAME}}/api-key",
+          "host": [
+            "{{API_URL}}"
+          ],
+          "path": [
+            "users",
+            "{{KEY_TEST_USERNAME}}",
+            "api-key"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Successfully save API key",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "pm.environment.set(\"temp_api_key\", \"12345678abcdefgh12345678abcdefgh12345678abcdefgh12345678abcdefgh\");\r",
+              "pm.environment.set(\"temp_api_secret\", \"secret22secret22secret22secret22secret22secret22secret22secret22\");"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{jwt}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"apiKey\": \"{{temp_api_key}}\", \"apiSecret\": \"{{temp_api_secret}}\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{API_URL}}/users/{{KEY_TEST_USERNAME}}/api-key",
+          "host": [
+            "{{API_URL}}"
+          ],
+          "path": [
+            "users",
+            "{{KEY_TEST_USERNAME}}",
+            "api-key"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get key",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Correct key received\", function () {\r",
+              "    pm.expect(pm.response.text()).equals(pm.environment.get(\"temp_api_key\"));\r",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{jwt}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{API_URL}}/users/{{KEY_TEST_USERNAME}}/api-key",
+          "host": [
+            "{{API_URL}}"
+          ],
+          "path": [
+            "users",
+            "{{KEY_TEST_USERNAME}}",
+            "api-key"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update key",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "pm.environment.set(\"temp_api_key\", \"DddKkkLLDddKkkLLDddKkkLLDddKkkLLDddKkkLLDddKkkLLDddKkkLLDddKkkLL\");\r",
+              "pm.environment.set(\"temp_api_secret\", \"secret33secret33secret33secret33secret33secret33secret33secret33\");"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{jwt}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"apiKey\": \"{{temp_api_key}}\", \"apiSecret\": \"{{temp_api_secret}}\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{API_URL}}/users/{{KEY_TEST_USERNAME}}/api-key",
+          "host": [
+            "{{API_URL}}"
+          ],
+          "path": [
+            "users",
+            "{{KEY_TEST_USERNAME}}",
+            "api-key"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get updated key",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Correct key received\", function () {\r",
+              "    pm.expect(pm.response.text()).equals(pm.environment.get(\"temp_api_key\"));\r",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{jwt}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{API_URL}}/users/{{KEY_TEST_USERNAME}}/api-key",
+          "host": [
+            "{{API_URL}}"
+          ],
+          "path": [
+            "users",
+            "{{KEY_TEST_USERNAME}}",
+            "api-key"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete key",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{jwt}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{API_URL}}/users/{{KEY_TEST_USERNAME}}/api-key",
+          "host": [
+            "{{API_URL}}"
+          ],
+          "path": [
+            "users",
+            "{{KEY_TEST_USERNAME}}",
+            "api-key"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get deleted key - empty",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Body is empty\", function () {\r",
+              "    pm.expect(pm.response.text()).equals(\"\");\r",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{jwt}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{API_URL}}/users/{{KEY_TEST_USERNAME}}/api-key",
+          "host": [
+            "{{API_URL}}"
+          ],
+          "path": [
+            "users",
+            "{{KEY_TEST_USERNAME}}",
+            "api-key"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Try delete again",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 400\", function () {\r",
+              "    pm.response.to.have.status(400);\r",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{jwt}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{API_URL}}/users/{{KEY_TEST_USERNAME}}/api-key",
+          "host": [
+            "{{API_URL}}"
+          ],
+          "path": [
+            "users",
+            "{{KEY_TEST_USERNAME}}",
+            "api-key"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Remove temporary user",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{ \"username\": \"{{KEY_TEST_USERNAME}}\", \"password\": \"Nunchucks9\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{API_URL}}/close-account",
+          "host": [
+            "{{API_URL}}"
+          ],
+          "path": [
+            "close-account"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get deleted key - empty",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 403\", function () {\r",
+              "    pm.response.to.have.status(403);\r",
+              "});\r",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{jwt}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{API_URL}}/users/{{KEY_TEST_USERNAME}}/api-key",
+          "host": [
+            "{{API_URL}}"
+          ],
+          "path": [
+            "users",
+            "{{KEY_TEST_USERNAME}}",
+            "api-key"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
