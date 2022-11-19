@@ -48,11 +48,12 @@ export function sendApiKeySaveRequest(apiKey, apiSecret, onSuccess, onError) {
 }
 
 /**
- * Fetch API key from the server
+ * Fetch Exchange-API key from the backend API
+ * @return {Promise<string>} API key, as a single string
  */
-export async function fetchApiKey() {
+export async function fetchKeyFromApi() {
   const user = getAuthenticatedUser();
-  if (!user) throw new Error("User must be authenticated to save API key");
+  if (!user) throw new Error("User must be authenticated to fetch API key");
   const username = user.username;
-  return await asyncApiGet(`/usersz/${username}/api-key`);
+  return asyncApiGet(`/users/${username}/api-key`);
 }

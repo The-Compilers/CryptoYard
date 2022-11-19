@@ -1,22 +1,10 @@
 // All code for sending requests to backend is stored in this file
-// The code is copied (and modified) from app-dev/security-examples/07-backend-frontend-jwt-auth
 
 import { getCookie } from "./cookies";
 
 // Import REST API BASE URL from the environment variable, see .env file
 // Note: all environment variables must start with REACT_, otherwise React will not handle them!
 export const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
-
-/**
- * Send an HTTP GET request to the backend
- * @param {string} url relative URL of the API endpoint
- * @param {function} callback Callback function to call on success, with response data (JSON-decoded) as the parameter
- * @param {function} errorCallback A function called when the response code is not 200. Two parameters will be passed
- * to the function: HTTP response code and response body (as text)
- */
-export function sendApiGetRequest(url, callback, errorCallback) {
-  return sendApiRequest("GET", url, callback, null, errorCallback);
-}
 
 /**
  * Send an HTTP POST request to the backend
@@ -101,29 +89,52 @@ function sendApiRequest(method, url, callback, requestBody, errorCallback) {
   }
 }
 
+/**
+ * Send an asynchronous HTTP GET request to the remote API (backend)
+ * @param {string} url Relative backend API url
+ * @return {Promise<string>} The response text (body) received from the API.
+ * Throws an exception on error.
+ */
 export async function asyncApiGet(url) {
   return asyncApiRequest("GET", url, []);
 }
 
-export async function asyncApiRequest(method, url, requestBody) {
+/**
+ * Send and asynchronous request to the remote API.
+ * Add the JWT token automatically (if one is available).
+ * @param {string} method the HTTP method to use: GET, POST, PUT. Case-insensitive.
+ * @param {string} url The relative API url (base URL is added automatically)
+ * @param {object} requestBody The data to send in request body. Ignored for HTTP GET.
+ * @return {Promise<string>} The response text received from the API.
+ * Throws an exception on error.
+ */
+async function asyncApiRequest(method, url, requestBody) {
   const fullUrl = API_BASE_URL + url;
-  const jwtToken = getCookie("jwt");
-  let headers = {};
-  if (jwtToken) {
-    headers["Authorization"] = "Bearer " + jwtToken;
-  }
+  let headers = getAuthenticationHeaders();
   let body = null;
   if (method.toLowerCase() !== "get" && requestBody) {
     headers["Content-Type"] = "application/json";
     body = JSON.stringify(requestBody);
   }
 
-  const response = await fetch(fullUrl, {
+  return fetch(fullUrl, {
     method: method,
     mode: "cors",
     headers: headers,
     body: body,
-  });
+  }).then((response) => response.text());
+}
 
-  return response.text();
+/**
+ * Get HTTP request headers with authentication info, if it is available
+ * @return {object} Header object, which will include an "Authorization" header,
+ * if JWT token is available.
+ */
+function getAuthenticationHeaders() {
+  let headers = {};
+  const jwtToken = getCookie("jwt");
+  if (jwtToken) {
+    headers["Authorization"] = "Bearer " + jwtToken;
+  }
+  return headers;
 }
