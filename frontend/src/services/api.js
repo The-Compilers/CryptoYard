@@ -49,3 +49,15 @@ export async function apiFetchApiKey() {
   const username = user.username;
   return asyncApiGet(`/users/${username}/api-key`);
 }
+
+/**
+ * Delete Exchange-API key from the backend API
+ * @return {Promise<string>} The text in the HTTP response
+ * @throws {HttpResponseError} Error code and message from the response body
+ */
+export async function apiDeleteApiKey() {
+  const user = getAuthenticatedUser();
+  if (!user) throw new Error("User must be authenticated to delete API key");
+  const username = user.username;
+  return asyncApiDelete(`/users/${username}/api-key`);
+}

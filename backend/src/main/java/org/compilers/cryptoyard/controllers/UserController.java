@@ -80,7 +80,27 @@ public class UserController {
     public ResponseEntity<?> setApiKey(@PathVariable String username, @RequestBody ApiKeyRequest request) {
         try {
             User user = getKeyOwner(username);
-            apiKeyService.saveKey(request.apiKey(), request.apiSecret(), user.getId());
+            apiKeyService.saveKey(request.apiKey(), request.apiSecret(), user);
+        } catch (HttpClientErrorException e) {
+            return new ResponseEntity<>(e.getMessage(), e.getStatusCode());
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
+        return ResponseEntity.ok("");
+    }
+
+    /**
+     * Delete the currently stored API key for the current user
+     *
+     * @param username Username of the key owner, must match the current user
+     * @return empty 200 OK response or error codes (unauthorized, bad request)
+     */
+    @DeleteMapping("{username}/api-key")
+    public ResponseEntity<?> deleteApiKey(@PathVariable String username) {
+        try {
+            User user = getKeyOwner(username);
+            apiKeyService.deleteKey(user.getId());
         } catch (HttpClientErrorException e) {
             return new ResponseEntity<>(e.getMessage(), e.getStatusCode());
         } catch (Exception e) {

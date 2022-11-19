@@ -1,6 +1,7 @@
 package org.compilers.cryptoyard.services;
 
 import org.compilers.cryptoyard.model.ApiKey;
+import org.compilers.cryptoyard.model.User;
 import org.compilers.cryptoyard.repositories.ApiKeyRepository;
 import org.springframework.stereotype.Service;
 
@@ -22,18 +23,20 @@ public class ApiKeyService extends CYService {
      *
      * @param apiKey    API key
      * @param apiSecret API secret
-     * @param userId    ID of the key's owning user
+     * @param user      The owner of the key
      */
-    public void saveKey(String apiKey, String apiSecret, long userId) {
-        Optional<ApiKey> existingKey = apiKeyRepository.findFirstOneByUserId(userId);
+    public void saveKey(String apiKey, String apiSecret, User user) {
+        Optional<ApiKey> existingKey = apiKeyRepository.findFirstOneByUserId(user.getId());
         ApiKey key = existingKey.orElse(new ApiKey());
         key.setApiKey(apiKey);
         key.setApiSecret(apiSecret);
+        key.setUser(user);
         apiKeyRepository.save(key);
     }
 
     /**
      * Get the key from the database
+     *
      * @param userId ID of the owner user
      * @return ApiKey object
      * @throws NullPointerException When key not found for given user
@@ -44,5 +47,19 @@ public class ApiKeyService extends CYService {
             throw new NullPointerException("Key not found");
         }
         return key.get();
+    }
+
+    /**
+     * Delete the key for a given user from the database
+     *
+     * @param userId ID of the owner of the key
+     * @throws NullPointerException When key not found for given user
+     */
+    public void deleteKey(Long userId) {
+        Optional<ApiKey> key = apiKeyRepository.findFirstOneByUserId(userId);
+        if (key.isEmpty()) {
+            throw new NullPointerException("Key not found");
+        }
+        apiKeyRepository.delete(key.get());
     }
 }

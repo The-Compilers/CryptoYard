@@ -13,6 +13,11 @@ button {
   cursor: pointer;
 }
 
+html {
+  font-size: 62.5%;
+  scroll-behavior: smooth;
+}
+
 /*---------------
   Global
 ---------------*/
@@ -74,11 +79,6 @@ button {
   --spacing-gigantic: 12.8rem;
 }
 
-html {
-  font-size: 62.5%;
-  scroll-behavior: smooth;
-}
-
 body {
   background-color: var(--clr-light-4);
 }
@@ -129,6 +129,11 @@ img {
   -moz-user-select: none; /* Old versions of Firefox */
   -ms-user-select: none; /* Internet Explorer/Edge */
   user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+}
+
+.small-horizontal-spacing {
+  width: var(--spacing-small);
+  display: inline-block;
 }
 
 .success {
