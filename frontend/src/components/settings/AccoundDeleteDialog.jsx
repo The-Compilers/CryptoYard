@@ -9,7 +9,7 @@ import {
   TextField,
 } from "@mui/material";
 import { getAuthenticatedUser } from "../../services/authentication";
-import { sendUserDeleteRequest } from "../../services/api";
+import { apiDeleteUser } from "../../services/api";
 import { MessageSnackbar } from "../snackbar/MessageSnackbar";
 
 /**
@@ -98,7 +98,7 @@ export function AccountDeleteDialog({
     setVisible(false);
     const username = getAuthenticatedUser().username;
     const password = document.getElementById("password_field").value;
-    sendUserDeleteRequest(username, password)
+    apiDeleteUser(username, password)
       .then(() => onDeleteResponse(null))
       .catch((error) => onDeleteResponse(error));
   }

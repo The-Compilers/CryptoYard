@@ -8,7 +8,7 @@ import {
   DialogTitle,
   TextField,
 } from "@mui/material";
-import { sendApiKeySaveRequest } from "../../services/api";
+import { apiSaveApiKey } from "../../services/api";
 
 /**
  * Dialog window for editing API key
@@ -110,21 +110,17 @@ export function ApiKeyEditDialog({
     setError("");
     const apiKey = document.getElementById("api_key_input").value;
     const apiSecret = document.getElementById("api_secret_input").value;
-    sendApiKeySaveRequest(
-      apiKey,
-      apiSecret,
-      () => onApiResponse(true, ""),
-      (status, error) => onApiResponse(false, error)
-    );
+    apiSaveApiKey(apiKey, apiSecret)
+      .then(() => onApiResponse(null))
+      .catch((error) => onApiResponse(error));
   }
 
   /**
    * This function is called when the response from the key-save API endpoint comes
-   * @param {boolean} success True when the key is saved, false on error
-   * @param {string} error Error message received from the server
+   * @param {HttpResponseError} error Error error received from the API. Null on success.
    */
-  function onApiResponse(success, error) {
-    if (success) {
+  function onApiResponse(error) {
+    if (!error) {
       setApiKey(document.getElementById("api_key_input").value);
       close();
     } else {

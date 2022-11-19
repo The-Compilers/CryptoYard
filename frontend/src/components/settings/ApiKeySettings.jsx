@@ -7,7 +7,7 @@ import { useState } from "react";
 import { CircularProgress } from "@mui/material";
 import { ApiKeyEditDialog } from "./ApiKeyEditDialog";
 import { useQuery } from "@tanstack/react-query";
-import { fetchKeyFromApi } from "../../services/api";
+import { apiFetchApiKey } from "../../services/api";
 
 /**
  * Component showing API Key settings section
@@ -21,7 +21,7 @@ export function ApiKeySettings() {
 
   const { isLoading, isError, isSuccess } = useQuery({
     queryKey: ["api_key"],
-    queryFn: fetchKeyFromApi,
+    queryFn: apiFetchApiKey,
     onSuccess: (data) => setCurrentApiKey(data),
   });
 

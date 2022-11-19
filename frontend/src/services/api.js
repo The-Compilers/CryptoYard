@@ -1,4 +1,4 @@
-import { asyncApiDelete, asyncApiGet, sendApiPostRequest } from "./requests";
+import { asyncApiDelete, asyncApiGet, asyncApiPost } from "./requests";
 import { getAuthenticatedUser } from "./authentication";
 
 //////////////////////////////////////
@@ -12,7 +12,7 @@ import { getAuthenticatedUser } from "./authentication";
  * @return {Promise<string>} Promise to return the response body as a string
  * Throws and exception on error
  */
-export function sendUserDeleteRequest(username, password) {
+export function apiDeleteUser(username, password) {
   const postData = {
     username: username,
     password: password,
@@ -24,10 +24,10 @@ export function sendUserDeleteRequest(username, password) {
  * Send request to API - save API key
  * @param {string} apiKey API key
  * @param {string} apiSecret API key secret
- * @param {function} onSuccess Callback function to call on success
- * @param {function} onError Callback function to call on failure
+ * @return {Promise<string>} The response text (body) received from the API
+ * @throws {HttpResponseError} Error code and message from the response body
  */
-export function sendApiKeySaveRequest(apiKey, apiSecret, onSuccess, onError) {
+export function apiSaveApiKey(apiKey, apiSecret) {
   const user = getAuthenticatedUser();
   if (!user) throw new Error("User must be authenticated to save API key");
   const username = user.username;
@@ -35,20 +35,15 @@ export function sendApiKeySaveRequest(apiKey, apiSecret, onSuccess, onError) {
     apiKey: apiKey,
     apiSecret: apiSecret,
   };
-  sendApiPostRequest(
-    `/users/${username}/api-key`,
-    onSuccess,
-    postData,
-    onError
-  );
+  return asyncApiPost(`/users/${username}/api-key`, postData);
 }
 
 /**
  * Fetch Exchange-API key from the backend API
  * @return {Promise<string>} API key, as a single string
- * Throws and exception on error
+ * @throws {HttpResponseError} Error code and message from the response body
  */
-export async function fetchKeyFromApi() {
+export async function apiFetchApiKey() {
   const user = getAuthenticatedUser();
   if (!user) throw new Error("User must be authenticated to fetch API key");
   const username = user.username;
