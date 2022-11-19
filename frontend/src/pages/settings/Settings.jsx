@@ -1,4 +1,4 @@
-import { AccountSettings } from "../../components/nav/components/AccountSettings";
+import { AccountSettings } from "../../components/settings/AccountSettings";
 import { ApiKeySettings } from "../../components/settings/ApiKeySettings";
 
 /**

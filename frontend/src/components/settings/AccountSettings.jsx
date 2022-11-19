@@ -12,8 +12,8 @@ import {
 } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import CloseIcon from "@mui/icons-material/Close";
-import { getAuthenticatedUser } from "../../../services/authentication";
-import { sendUserDeleteRequest } from "../../../services/api";
+import { getAuthenticatedUser } from "../../services/authentication";
+import { sendUserDeleteRequest } from "../../services/api";
 
 /**
  * Component for controlling the user account (deleting it, etc.)
@@ -54,12 +54,10 @@ export function AccountSettings({ doLogout }) {
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            <p>
-              If you delete your account, all data will be lost. You can't undo
-              this action!
-            </p>
-            <p>Enter your password to confirm the operation.</p>
+            If you delete your account, all data will be lost. You can't undo
+            this action!
           </DialogContentText>
+          <p>Enter your password to confirm the operation.</p>
           <TextField
             type="password"
             label="Your password"
@@ -119,12 +117,9 @@ export function AccountSettings({ doLogout }) {
     setDialogVisible(false);
     const username = getAuthenticatedUser().username;
     const password = document.getElementById("password_field").value;
-    sendUserDeleteRequest(
-      username,
-      password,
-      () => onDeleteResponse(true),
-      () => onDeleteResponse(false)
-    );
+    sendUserDeleteRequest(username, password)
+      .then(() => onDeleteResponse(true))
+      .catch(() => onDeleteResponse(false));
   }
 
   /**
@@ -132,6 +127,7 @@ export function AccountSettings({ doLogout }) {
    * @param {boolean} success True when the user is deleted, false on error
    */
   function onDeleteResponse(success) {
+    console.log(`onDeleteResponse(${success})`);
     setUserDeleted(success);
     setSnackbarVisible(true);
     setDeleting(false);
