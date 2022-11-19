@@ -28,7 +28,7 @@ function CryptoTable({
 }) {
   return (
     <div className="box">
-      <h2 className="box__title">{title}</h2>
+      <h2>{title}</h2>
       <table>
         <thead>
           <tr className="table__row">

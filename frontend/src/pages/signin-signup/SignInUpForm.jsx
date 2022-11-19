@@ -5,6 +5,7 @@ import {
   sendAuthenticationRequest,
   sendSignUpRequest,
 } from "../../services/authentication";
+import { ActionButton } from "../../components/common/ActionButton";
 
 /**
  * A form that is used for both sign-in and sign-up
@@ -36,7 +37,7 @@ export default function SignInUpForm({ isSignIn, onSuccess }) {
     usernamePlaceholder = "Username";
     emailInput = (
       <input
-        className="fullscreen-form__input"
+        className="form-input"
         type="text"
         placeholder="Email"
         id="signinup_email"
@@ -44,7 +45,7 @@ export default function SignInUpForm({ isSignIn, onSuccess }) {
     );
     repeatPasswordInput = (
       <input
-        className="fullscreen-form__input"
+        className="form-input"
         type="password"
         placeholder="Repeat Password"
         id="signinup_repeated_password"
@@ -98,28 +99,21 @@ export default function SignInUpForm({ isSignIn, onSuccess }) {
       <form className="fullscreen-form box">
         <h1 className="fullscreen-form__header">{formTitle}</h1>
         <input
-          className="fullscreen-form__input"
+          className="form-input"
           type="text"
           placeholder={usernamePlaceholder}
           id="signinup_username"
         />
         {emailInput}
         <input
-          className="fullscreen-form__input"
+          className="form-input"
           type="password"
           placeholder="Password"
           id="signinup_password"
         />
         {repeatPasswordInput}
         {error ? <FormErrorMessage error={error} /> : <></>}
-        <button
-          className="fullscreen-form__action-button"
-          type="submit"
-          disabled={buttonDisabled}
-          onClick={handleSubmit}
-        >
-          {submitButtonTitle}
-        </button>
+        <ActionButton text={submitButtonTitle} onClick={handleSubmit} />
         <div className="fullscreen-form__footer">
           <p>{alternativeDescription}</p>
           <a href={alternativeUrl} className="fullscreen-form__anchor">

@@ -1,10 +1,14 @@
 package org.compilers.cryptoyard.controllers;
 
+import org.compilers.cryptoyard.dto.AuthenticationRequest;
+import org.compilers.cryptoyard.dto.AuthenticationResponse;
 import org.compilers.cryptoyard.model.User;
 import org.compilers.cryptoyard.security.*;
+import org.compilers.cryptoyard.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +28,7 @@ public class AuthController {
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
-    private AccessUserService userService;
+    private UserService userService;
     @Autowired
     private JwtUtil jwtUtil;
 
@@ -64,7 +68,12 @@ public class AuthController {
                     authenticationRequest.password()));
             userService.delete(authenticationRequest.username());
         } catch (Exception e) {
-            return new ResponseEntity<>("Invalid username or password", HttpStatus.UNAUTHORIZED);
+            if (e instanceof DataAccessException) {
+                return new ResponseEntity<>("Something wrong with the database, contact the developers!",
+                        HttpStatus.INTERNAL_SERVER_ERROR);
+            } else {
+                return new ResponseEntity<>("Invalid username or password", HttpStatus.UNAUTHORIZED);
+            }
         }
         return ResponseEntity.ok("User deleted");
     }

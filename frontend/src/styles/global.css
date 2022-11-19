@@ -13,6 +13,11 @@ button {
   cursor: pointer;
 }
 
+html {
+  font-size: 62.5%;
+  scroll-behavior: smooth;
+}
+
 /*---------------
   Global
 ---------------*/
@@ -74,13 +79,23 @@ button {
   --spacing-gigantic: 12.8rem;
 }
 
-html {
-  font-size: 62.5%;
-  scroll-behavior: smooth;
-}
-
 body {
   background-color: var(--clr-light-4);
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-medium);
+  padding: var(--spacing-larger);
+  font-size: var(--font-size-medium);
+  max-width: 100rem;
+  min-height: calc(200vh - 13.3rem);
+  margin: auto;
+}
+
+section {
+  padding: var(--spacing-medium) 0 var(--spacing-large) 0;
 }
 
 img {
@@ -116,6 +131,11 @@ img {
   user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
 }
 
+.small-horizontal-spacing {
+  width: var(--spacing-small);
+  display: inline-block;
+}
+
 .success {
   color: var(--clr-success);
 }
@@ -138,6 +158,8 @@ h3,
 h4,
 h5 {
   font-weight: bold;
+  margin-bottom: var(--spacing-small);
+  color: var(--clr-accent-dark-4);
 }
 
 h1 {
@@ -164,4 +186,32 @@ p,
 a {
   font-size: var(--font-size-medium);
   line-height: 1.5em;
+}
+
+/*---------------
+  Forms
+---------------*/
+
+.form-input {
+  font-size: var(--font-size-larger);
+  padding: var(--spacing-small);
+  border-radius: 0.5rem;
+  border: solid;
+  border-color: var(--clr-light-3);
+}
+
+.action-button {
+  font-size: var(--font-size-larger);
+  padding: var(--spacing-small);
+  border-radius: 0.5rem;
+  background-color: var(--clr-accent-dark-1);
+  color: var(--clr-light-6);
+}
+
+.action-button:hover {
+  background-color: var(--clr-accent-dark-3);
+}
+
+.action-button:disabled {
+  background-color: var(--clr-dark-6);
 }

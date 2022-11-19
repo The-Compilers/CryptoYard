@@ -22,6 +22,10 @@ import NotFound from "./pages/404/NotFound";
 
 import { theme } from "./styles/theme";
 import { ThemeProvider } from "@mui/material";
+import { QueryClient } from "@tanstack/react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 /**
  * The main application component
@@ -55,39 +59,44 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <UserContext.Provider value={user}>
-        {user ? <Nav onLogOut={handleLogOut} /> : <></>}
-        <Routes>
-          {user ? (
-            <>
-              <Route path="/" element={<Navigate to="/dashboard/" />} />
-              <Route path="/dashboard/" element={<Dashboard />} />
-              <Route path="/markets" element={<Market />} />
-              <Route
-                path="/settings"
-                element={<Settings doLogout={handleLogOut} />}
-              />
-            </>
-          ) : (
-            <>
-              <Route path="/" element={<Navigate to="/signin" />} />
-              <Route
-                path="/signin"
-                element={
-                  <SignInUpForm isSignIn={true} onSuccess={onSignInSuccess} />
-                }
-              />
-              <Route
-                path="/signup"
-                element={
-                  <SignInUpForm isSignIn={false} onSuccess={onSignUpSuccess} />
-                }
-              />
-            </>
-          )}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </UserContext.Provider>
+      <QueryClientProvider client={queryClient}>
+        <UserContext.Provider value={user}>
+          {user ? <Nav onLogOut={handleLogOut} /> : <></>}
+          <Routes>
+            {user ? (
+              <>
+                <Route path="/" element={<Navigate to="/dashboard/" />} />
+                <Route path="/dashboard/" element={<Dashboard />} />
+                <Route path="/markets" element={<Market />} />
+                <Route
+                  path="/settings"
+                  element={<Settings doLogout={handleLogOut} />}
+                />
+              </>
+            ) : (
+              <>
+                <Route path="/" element={<Navigate to="/signin" />} />
+                <Route
+                  path="/signin"
+                  element={
+                    <SignInUpForm isSignIn={true} onSuccess={onSignInSuccess} />
+                  }
+                />
+                <Route
+                  path="/signup"
+                  element={
+                    <SignInUpForm
+                      isSignIn={false}
+                      onSuccess={onSignUpSuccess}
+                    />
+                  }
+                />
+              </>
+            )}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </UserContext.Provider>
+      </QueryClientProvider>
     </ThemeProvider>
   );
 }

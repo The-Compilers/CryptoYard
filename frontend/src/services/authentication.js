@@ -1,7 +1,7 @@
 // Authentication stuff
 
-import { sendApiPostRequest } from "./requests";
 import { deleteCookie, getCookie, setCookie } from "./cookies";
+import { asyncApiPost } from "./requests";
 
 /**
  * Get the currently authenticated user
@@ -14,10 +14,10 @@ export function getAuthenticatedUser() {
   if (username && commaSeparatedRoles) {
     const roles = commaSeparatedRoles.split(",");
     user = {
-      "username": username,
-      "firstName": "Adam", // TODO - store those in JWT? Or simply remove them
-      "lastName": "Jensen",
-      "roles": roles
+      username: username,
+      firstName: "Adam", // TODO - store those in JWT? Or simply remove them
+      lastName: "Jensen",
+      roles: roles,
     };
   }
   return user;
@@ -39,17 +39,22 @@ export function isAdmin(user) {
  * @param successCallback Function to call on success
  * @param errorCallback Function to call on error, with error code and response text as parameters
  */
-export function sendAuthenticationRequest(username, password, successCallback, errorCallback) {
+export function sendAuthenticationRequest(
+  username,
+  password,
+  successCallback,
+  errorCallback
+) {
   const postData = {
-    "username": username,
-    "password": password
+    username: username,
+    password: password,
   };
-  sendApiPostRequest(
-    "/authenticate",
-    (jwtResponse) => onAuthSuccess(jwtResponse, successCallback),
-    postData,
-    errorCallback
-  );
+  asyncApiPost("/authenticate", postData)
+    .then((responseText) => {
+      const jwtResponse = JSON.parse(responseText);
+      onAuthSuccess(jwtResponse, successCallback);
+    })
+    .catch((error) => errorCallback(error.getErrorCode(), error.message));
 }
 
 /**
@@ -61,17 +66,27 @@ export function sendAuthenticationRequest(username, password, successCallback, e
  * @param {function} successCallback Function to call on success
  * @param {function} errorCallback Function to call on error, with error code and response text as parameters
  */
-export function sendSignUpRequest(username, email, password, repeatPassword, successCallback, errorCallback) {
+export function sendSignUpRequest(
+  username,
+  email,
+  password,
+  repeatPassword,
+  successCallback,
+  errorCallback
+) {
   const postData = {
-    "username": username,
-    "email": email,
-    "password": password,
-    "repeatedPassword": repeatPassword
+    username: username,
+    email: email,
+    password: password,
+    repeatedPassword: repeatPassword,
   };
-  sendApiPostRequest("/signup", (jwtResponse) => onAuthSuccess(jwtResponse, successCallback),
-    postData, errorCallback);
+  asyncApiPost("/signup", postData)
+    .then((responseText) => {
+      const jwtResponse = JSON.parse(responseText);
+      onAuthSuccess(jwtResponse, successCallback);
+    })
+    .catch((error) => errorCallback(error.getErrorCode(), error.message));
 }
-
 
 /**
  * Function called when authentication has been successful and JWT is received from the API
@@ -98,9 +113,14 @@ function onAuthSuccess(jwtResponse, callback) {
 function parseJwt(token) {
   const base64Url = token.split(".")[1];
   const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-  const jsonPayload = decodeURIComponent(atob(base64).split("").map(function(c) {
-    return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-  }).join(""));
+  const jsonPayload = decodeURIComponent(
+    atob(base64)
+      .split("")
+      .map(function (c) {
+        return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+      })
+      .join("")
+  );
 
   return JSON.parse(jsonPayload);
 }
@@ -115,13 +135,12 @@ function parseJwtUser(jwtString) {
   const jwtObject = parseJwt(jwtString);
   if (jwtObject) {
     user = {
-      "username": jwtObject.sub,
-      "roles": jwtObject.roles.map(r => r.authority)
+      username: jwtObject.sub,
+      roles: jwtObject.roles.map((r) => r.authority),
     };
   }
   return user;
 }
-
 
 /**
  * Delete all cookies related to authorization (user session)
