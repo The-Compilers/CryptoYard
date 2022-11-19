@@ -5,6 +5,7 @@ import {
   sendAuthenticationRequest,
   sendSignUpRequest,
 } from "../../services/authentication";
+import { ActionButton } from "../../components/common/ActionButton";
 
 /**
  * A form that is used for both sign-in and sign-up
@@ -112,14 +113,7 @@ export default function SignInUpForm({ isSignIn, onSuccess }) {
         />
         {repeatPasswordInput}
         {error ? <FormErrorMessage error={error} /> : <></>}
-        <button
-          className="action-button"
-          type="submit"
-          disabled={buttonDisabled}
-          onClick={handleSubmit}
-        >
-          {submitButtonTitle}
-        </button>
+        <ActionButton text={submitButtonTitle} onClick={handleSubmit} />
         <div className="fullscreen-form__footer">
           <p>{alternativeDescription}</p>
           <a href={alternativeUrl} className="fullscreen-form__anchor">

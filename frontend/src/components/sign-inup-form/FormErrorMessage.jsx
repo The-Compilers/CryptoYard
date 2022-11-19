@@ -1,6 +1,6 @@
 /**
  * Displays an error message in a form
- * @param {string}e rror Error message to show
+ * @param {string} error Error message to show
  * @return {JSX.Element|null}
  * @constructor
  */
