@@ -1,8 +1,4 @@
-import {
-  asyncApiGet,
-  sendApiDeleteRequest,
-  sendApiPostRequest,
-} from "./requests";
+import { asyncApiDelete, asyncApiGet, sendApiPostRequest } from "./requests";
 import { getAuthenticatedUser } from "./authentication";
 
 //////////////////////////////////////
@@ -13,15 +9,15 @@ import { getAuthenticatedUser } from "./authentication";
  * Send request to API - delete user account
  * @param {string} username Username of the user to delete
  * @param {string} password Password of the user to delete
- * @param {function} onSuccess Callback function to call on success
- * @param {function} onError Callback function to call on failure
+ * @return {Promise<string>} Promise to return the response body as a string
+ * Throws and exception on error
  */
-export function sendUserDeleteRequest(username, password, onSuccess, onError) {
+export function sendUserDeleteRequest(username, password) {
   const postData = {
     username: username,
     password: password,
   };
-  sendApiDeleteRequest("/close-account", onSuccess, postData, onError);
+  return asyncApiDelete("/close-account", postData);
 }
 
 /**
@@ -50,6 +46,7 @@ export function sendApiKeySaveRequest(apiKey, apiSecret, onSuccess, onError) {
 /**
  * Fetch Exchange-API key from the backend API
  * @return {Promise<string>} API key, as a single string
+ * Throws and exception on error
  */
 export async function fetchKeyFromApi() {
   const user = getAuthenticatedUser();

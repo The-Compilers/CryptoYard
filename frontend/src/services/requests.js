@@ -1,6 +1,7 @@
 // All code for sending requests to backend is stored in this file
 
 import { getCookie } from "./cookies";
+import { HttpResponseError } from "./requests/HttpResponseError";
 
 // Import REST API BASE URL from the environment variable, see .env file
 // Note: all environment variables must start with REACT_, otherwise React will not handle them!
@@ -16,23 +17,6 @@ export const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
  */
 export function sendApiPostRequest(url, callback, requestBody, errorCallback) {
   return sendApiRequest("POST", url, callback, requestBody, errorCallback);
-}
-
-/**
- * Send an HTTP DELETE request to the backend
- * @param {string} url relative URL of the API endpoint
- * @param {function} callback Callback function to call on success, with response data (JSON-decoded) as the parameter
- * @param {object} requestBody When supplied, send this data in the request body. Does not work with HTTP GET!
- * @param {function} errorCallback A function called when the response code is not 200. Two parameters will be passed
- * to the function: HTTP response code and response body (as text)
- */
-export function sendApiDeleteRequest(
-  url,
-  callback,
-  requestBody,
-  errorCallback
-) {
-  return sendApiRequest("DELETE", url, callback, requestBody, errorCallback);
 }
 
 /**
@@ -93,10 +77,21 @@ function sendApiRequest(method, url, callback, requestBody, errorCallback) {
  * Send an asynchronous HTTP GET request to the remote API (backend)
  * @param {string} url Relative backend API url
  * @return {Promise<string>} The response text (body) received from the API.
- * Throws an exception on error.
+ * @throws {HttpResponseError} Error code and message from the response body
  */
 export async function asyncApiGet(url) {
-  return asyncApiRequest("GET", url, []);
+  return asyncApiRequest("GET", url, null);
+}
+
+/**
+ * Send an asynchronous HTTP DELETE request to the remote API (backend)
+ * @param {string} url Relative backend API url
+ * @param requestBody The parameters to include in the request body
+ * @return {Promise<string>} The response text (body) received from the API.
+ * @throws {HttpResponseError} Error code and message from the response body
+ */
+export async function asyncApiDelete(url, requestBody) {
+  return asyncApiRequest("DELETE", url, requestBody);
 }
 
 /**
@@ -106,7 +101,7 @@ export async function asyncApiGet(url) {
  * @param {string} url The relative API url (base URL is added automatically)
  * @param {object} requestBody The data to send in request body. Ignored for HTTP GET.
  * @return {Promise<string>} The response text received from the API.
- * Throws an exception on error.
+ * @throws {HttpResponseError} Error code and message from the response body
  */
 async function asyncApiRequest(method, url, requestBody) {
   const fullUrl = API_BASE_URL + url;
@@ -122,7 +117,9 @@ async function asyncApiRequest(method, url, requestBody) {
     mode: "cors",
     headers: headers,
     body: body,
-  }).then((response) => response.text());
+  })
+    .then(handleErrors)
+    .then((response) => response.text());
 }
 
 /**
@@ -137,4 +134,19 @@ function getAuthenticationHeaders() {
     headers["Authorization"] = "Bearer " + jwtToken;
   }
   return headers;
+}
+
+/**
+ * Check whether the HTTP response has a 200 OK status. If it does, return the
+ * response. If it does not, throw an Error
+ * @param response
+ * @return {response} The response (if all was OK)
+ * @throws Error containing the response code and text from the response body
+ */
+async function handleErrors(response) {
+  if (!response.ok) {
+    const responseText = await response.text();
+    throw new HttpResponseError(response.statusCode, responseText);
+  }
+  return response;
 }

@@ -27,6 +27,7 @@ export function AccountSettings({ doLogout }) {
   const [deleting, setDeleting] = useState(false);
   const [userDeleted, setUserDeleted] = useState(false);
   const [passwordOK, setPasswordOK] = useState(false);
+  const [apiError, setApiError] = useState(null);
 
   return (
     <section>
@@ -84,7 +85,7 @@ export function AccountSettings({ doLogout }) {
       <Snackbar
         open={snackbarVisible}
         autoHideDuration={5000}
-        message={userDeleted ? "User deleted" : "Failed to delete the user"}
+        message={userDeleted ? "User deleted" : apiError}
         action={
           <IconButton
             size="small"
@@ -119,16 +120,18 @@ export function AccountSettings({ doLogout }) {
     const password = document.getElementById("password_field").value;
     sendUserDeleteRequest(username, password)
       .then(() => onDeleteResponse(true))
-      .catch(() => onDeleteResponse(false));
+      .catch((error) => onDeleteResponse(error));
   }
 
   /**
    * This function is called when the response from the user deletion API endpoint comes
-   * @param {boolean} success True when the user is deleted, false on error
+   * @param {HttpResponseError} error Non-null when an error has happened
    */
-  function onDeleteResponse(success) {
-    console.log(`onDeleteResponse(${success})`);
-    setUserDeleted(success);
+  function onDeleteResponse(error) {
+    if (error) {
+      setApiError(error.message);
+    }
+    setUserDeleted(!error);
     setSnackbarVisible(true);
     setDeleting(false);
   }
