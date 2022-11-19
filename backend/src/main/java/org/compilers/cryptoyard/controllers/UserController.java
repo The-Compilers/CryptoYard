@@ -44,7 +44,7 @@ public class UserController {
         } catch (HttpClientErrorException e) {
             return new ResponseEntity<>(e.getMessage(), e.getStatusCode());
         } catch (NullPointerException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+            return ResponseEntity.ok("");
         } catch (InterruptedException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
