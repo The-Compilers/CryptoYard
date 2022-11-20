@@ -113,7 +113,11 @@ export default function SignInUpForm({ isSignIn, onSuccess }) {
         />
         {repeatPasswordInput}
         {error ? <FormErrorMessage error={error} /> : <></>}
-        <ActionButton text={submitButtonTitle} onClick={handleSubmit} />
+        <ActionButton
+          text={submitButtonTitle}
+          onClick={handleSubmit}
+          disabled={buttonDisabled}
+        />
         <div className="fullscreen-form__footer">
           <p>{alternativeDescription}</p>
           <a href={alternativeUrl} className="fullscreen-form__anchor">
