@@ -66,7 +66,9 @@ public class ExchangeApiService extends CYService {
                 BinanceApiWebSocketClient client = factory.newWebSocketClient();
                 String symbols = getWatchedCoinSymbols();
                 logger.info("Subscribing to ticker price updates for " + symbols);
-                client.onTickerEvent(symbols, this::onTickerPriceUpdate);
+                client.onTickerEvent(symbols, event -> {
+                    dispatcher.send(new ETickerPriceUpdate(convertEventToTickerPrice(event)));
+                });
                 break;
         }
         return true;
@@ -80,15 +82,6 @@ public class ExchangeApiService extends CYService {
     private String getWatchedCoinSymbols() {
         return Arrays.stream(this.watchedCoins).map(s -> s.toLowerCase() + "usdt")
                 .collect(Collectors.joining(","));
-    }
-
-    /**
-     * This method is called when new ticker price is received from the exchange.
-     *
-     * @param event Ticker price event from the exchange
-     */
-    private void onTickerPriceUpdate(TickerEvent event) {
-        dispatcher.send(new ETickerPriceUpdate(convertEventToTickerPrice(event)));
     }
 
     /**
