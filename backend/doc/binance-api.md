@@ -11,7 +11,7 @@ API: [All Orders](https://binance-docs.github.io/apidocs/spot/en/#all-orders-use
 URL: `HTTP GET /api/v3/allOrders`
 
 Support in the Binance Java
-library: [`BinanceApiService.getAllOrders`](https://github.com/binance-exchange/binance-java-api/blob/master/src/main/java/com/binance/api/client/impl/BinanceApiRestClientImpl.java#L119)
+library: [`BinanceApiService.getAllOrders`](https://github.com/The-Compilers/binance-java-api/blob/master/src/main/java/com/binance/api/client/impl/BinanceApiRestClientImpl.java#L166)
 
 ## Deposits
 
@@ -21,7 +21,7 @@ API: [Deposit History](https://binance-docs.github.io/apidocs/spot/en/#deposit-h
 URL: `HTTP GET /sapi/v1/capital/deposit/hisrec`
 
 Support in the Binance Java
-library: [`BinanceApiService.getDepositHistory`](https://github.com/binance-exchange/binance-java-api/blob/master/src/main/java/com/binance/api/client/impl/BinanceApiRestClientImpl.java#L162)
+library: [`BinanceApiService.getDepositHistory`](https://github.com/The-Compilers/binance-java-api/blob/master/src/main/java/com/binance/api/client/impl/BinanceApiRestClientImpl.java#L237)
 
 ## Withdrawals
 
@@ -30,10 +30,7 @@ API: [Withdraw History](https://binance-docs.github.io/apidocs/spot/en/#withdraw
 
 URL: `HTTP GET /sapi/v1/capital/withdraw/history`
 
-Warning: Binance Java library uses OLD endpoint: `/wapi/v3/withdrawHistory.html`
-
-The deprecated API implementation (must be
-tested): [`BinanceApiService.getWithdrawHistory`](https://github.com/binance-exchange/binance-java-api/blob/master/src/main/java/com/binance/api/client/impl/BinanceApiService.java#L166)
+Support in the Binance Java library: [`BinanceApiService.getWithdrawHistory`](https://github.com/The-Compilers/binance-java-api/blob/master/src/main/java/com/binance/api/client/impl/BinanceApiRestClientImpl.java#L245)
 
 See [this pull request](https://github.com/binance-exchange/binance-java-api/pull/397) for patches.
 
