@@ -28,7 +28,7 @@ library: [`BinanceApiService.getDepositHistory`](https://github.com/binance-exch
 Wallet Endpoints
 API: [Withdraw History](https://binance-docs.github.io/apidocs/spot/en/#withdraw-history-supporting-network-user_data)
 
-URL: `HTTP GET /wapi/v3/withdrawHistory.html`
+URL: `HTTP GET /sapi/v1/capital/withdraw/history`
 
 Warning: Binance Java library uses OLD endpoint: `/wapi/v3/withdrawHistory.html`
 
