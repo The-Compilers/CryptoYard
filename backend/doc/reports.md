@@ -24,6 +24,12 @@ To calculate the necessary reports, the following transactions must be collected
 5. Currency purchase with a credit card
 6. Interest on savings
 7. _Dust collection_
+8. Asset dividends
+9. Auto-invest
+
+TODO - introduce Asset dividend transaction in all data structures and algorithms
+
+TODO - introduce Auto-invest transaction in all data structures and algorithms
 
 ## Stored information
 

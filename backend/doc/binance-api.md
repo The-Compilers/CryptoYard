@@ -10,29 +10,46 @@ API: [All Orders](https://binance-docs.github.io/apidocs/spot/en/#all-orders-use
 
 URL: `HTTP GET /api/v3/allOrders`
 
-Support in the Binance Java
-library: [`BinanceApiService.getAllOrders`](https://github.com/The-Compilers/binance-java-api/blob/master/src/main/java/com/binance/api/client/impl/BinanceApiRestClientImpl.java#L166)
+Support in the Binance Java library:
+
+* API:
+  [`BinanceApiService.getAllOrders`](https://github.com/The-Compilers/binance-java-api/blob/master/src/main/java/com/binance/api/client/impl/BinanceApiRestClientImpl.java#L166)
+* REST
+  client: [`BinanceApiRestClient.getAllOrders`](https://github.com/The-Compilers/binance-java-api/blob/master/src/main/java/com/binance/api/client/BinanceApiRestClient.java#L198)
 
 ## Deposits
+
+Only for crypto-deposits!
 
 Wallet Endpoints
 API: [Deposit History](https://binance-docs.github.io/apidocs/spot/en/#deposit-history-supporting-network-user_data)
 
 URL: `HTTP GET /sapi/v1/capital/deposit/hisrec`
 
-Support in the Binance Java
-library: [`BinanceApiService.getDepositHistory`](https://github.com/The-Compilers/binance-java-api/blob/master/src/main/java/com/binance/api/client/impl/BinanceApiRestClientImpl.java#L237)
+Support in the Binance Java library:
+
+* API:
+  [`BinanceApiService.getDepositHistory`](https://github.com/The-Compilers/binance-java-api/blob/master/src/main/java/com/binance/api/client/impl/BinanceApiRestClientImpl.java#L237)
+* REST
+  client: [`BinanceApiRestClient.getDepositHistory`](https://github.com/The-Compilers/binance-java-api/blob/master/src/main/java/com/binance/api/client/BinanceApiRestClient.java#L302)
 
 ## Withdrawals
+
+Only for crypto-withdrawals!
 
 Wallet Endpoints
 API: [Withdraw History](https://binance-docs.github.io/apidocs/spot/en/#withdraw-history-supporting-network-user_data)
 
 URL: `HTTP GET /sapi/v1/capital/withdraw/history`
 
-Support in the Binance Java library: [`BinanceApiService.getWithdrawHistory`](https://github.com/The-Compilers/binance-java-api/blob/master/src/main/java/com/binance/api/client/impl/BinanceApiRestClientImpl.java#L245)
+Support in the Binance Java library:
 
-See [this pull request](https://github.com/binance-exchange/binance-java-api/pull/397) for patches.
+* API:
+  [`BinanceApiService.getWithdrawHistory`](https://github.com/The-Compilers/binance-java-api/blob/master/src/main/java/com/binance/api/client/impl/BinanceApiRestClientImpl.java#L245)
+* REST client:
+    * [`BinanceApiRestClient.getWithdrawHistory`](https://github.com/The-Compilers/binance-java-api/blob/master/src/main/java/com/binance/api/client/BinanceApiRestClient.java#L346)
+    * [`BinanceApiRestClient.getWithdrawHistory`](https://github.com/The-Compilers/binance-java-api/blob/master/src/main/java/com/binance/api/client/BinanceApiRestClient.java#L356) (
+      with default values)
 
 ## Fiat Deposits and Withdrawals
 
@@ -41,20 +58,37 @@ API: [Get Fiat Deposit/Withdraw History](https://binance-docs.github.io/apidocs/
 
 URL: `GET /sapi/v1/fiat/orders`
 
-Note: this must be tested! Unclear, which transactions show up here.
+Note: this endpoint must be used both for SEPA-bank-transfer deposits and EUR/USD purchases with
+credit card!
 
-Not supported in Binance Java library !!!
+Support in the Binance Java library:
 
-## Currency purchase with a credit card
+* API:
+  [`BinanceApiService.getFiatDepositOrWithdrawalHistory`](https://github.com/The-Compilers/binance-java-api/blob/master/src/main/java/com/binance/api/client/impl/BinanceApiService.java#L307)
+* REST client:
+    * [`BinanceApiRestClient.getFiatDepositHistory`](https://github.com/The-Compilers/binance-java-api/blob/master/src/main/java/com/binance/api/client/BinanceApiRestClient.java#L443)
+    * [`BinanceApiRestClient.getRecentFiatDepositHistory`](https://github.com/The-Compilers/binance-java-api/blob/master/src/main/java/com/binance/api/client/BinanceApiRestClient.java#L460)
+    * [`BinanceApiRestClient.getFiatWithdrawHistory`](https://github.com/The-Compilers/binance-java-api/blob/master/src/main/java/com/binance/api/client/BinanceApiRestClient.java#L471)
+    * [`BinanceApiRestClient.getRecentFiatWithdrawHistory`](https://github.com/The-Compilers/binance-java-api/blob/master/src/main/java/com/binance/api/client/BinanceApiRestClient.java#L489)
+
+## Cryptocurrency purchase with a credit card
+
+Note: this endpoint reports only BTC (and other crypto) purchases with a credit card (or other
+fiat-payment type). For Fiat-currency purchase with a credit card (for example, when you transfer
+EUR from your credit card to Binance), use the endpoint for Fiat deposit history.
 
 Fiat Endpoints
 API: [Get Fiat Payments History](https://binance-docs.github.io/apidocs/spot/en/#get-fiat-payments-history-user_data)
 
 URL: `GET /sapi/v1/fiat/payments`
 
-Note: this must be tested! Unclear, which transactions show up here.
+Support in the Binance Java library:
 
-Not supported in Binance Java library !!!
+* API:
+  [`BinanceApiService.getFiatPaymentHistory`](https://github.com/The-Compilers/binance-java-api/blob/master/src/main/java/com/binance/api/client/impl/BinanceApiService.java#L319)
+* REST client:
+    * [`BinanceApiRestClient.getFiatPaymentHistory`](https://github.com/The-Compilers/binance-java-api/blob/master/src/main/java/com/binance/api/client/BinanceApiRestClient.java#L501)
+    * [`BinanceApiRestClient.getRecentFiatPaymentHistory`](https://github.com/The-Compilers/binance-java-api/blob/master/src/main/java/com/binance/api/client/BinanceApiRestClient.java#L520)
 
 ## Interest on savings
 
@@ -63,10 +97,13 @@ API: [Get Interest History](https://binance-docs.github.io/apidocs/spot/en/#get-
 
 URL: `GET /sapi/v1/lending/union/interestHistory`
 
-Not supported in Binance Java library !!!
+Support in the Binance Java library:
 
-Also: check out this: Wallet
-Endpoints - [Asset Dividend Record](https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data)
+* API:
+  [`BinanceApiService.getSavingsInterestHistory`](https://github.com/The-Compilers/binance-java-api/blob/master/src/main/java/com/binance/api/client/impl/BinanceApiService.java#L349)
+* REST client:
+    * [`BinanceApiRestClient.getSavingsInterestHistory`](https://github.com/The-Compilers/binance-java-api/blob/master/src/main/java/com/binance/api/client/BinanceApiRestClient.java#L535)
+    * [`BinanceApiRestClient.getRecentSavingsInterestHistory`](https://github.com/The-Compilers/binance-java-api/blob/master/src/main/java/com/binance/api/client/BinanceApiRestClient.java#L557)
 
 ## _Dust collection_
 
@@ -74,4 +111,37 @@ Wallet Endpoints API: [DustLog](https://binance-docs.github.io/apidocs/spot/en/#
 
 URL: `GET /sapi/v1/asset/dribblet`
 
-Not supported in Binance Java library !!!
+Support in the Binance Java library:
+
+* API:
+  [`BinanceApiService.getDustLog`](https://github.com/The-Compilers/binance-java-api/blob/master/src/main/java/com/binance/api/client/impl/BinanceApiService.java#L251)
+* REST client:
+    * [`BinanceApiRestClient.getDustTransferHistory`](https://github.com/The-Compilers/binance-java-api/blob/master/src/main/java/com/binance/api/client/BinanceApiRestClient.java#L282)
+    * [`BinanceApiRestClient.getRecentDustTransferHistory`](https://github.com/The-Compilers/binance-java-api/blob/master/src/main/java/com/binance/api/client/BinanceApiRestClient.java#L288)
+
+## Asset dividends
+
+Wallet Endpoints
+API: [Asset Dividend Record](https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data)
+
+URL: `GET /sapi/v1/asset/assetDividend`
+
+Support in the Binance Java library:
+
+* API:
+  [`BinanceApiService.getAssetDividendRecord`](https://github.com/The-Compilers/binance-java-api/blob/master/src/main/java/com/binance/api/client/impl/BinanceApiService.java#L273)
+* REST client:
+    * [`BinanceApiRestClient.getAssetDividendHistory`](https://github.com/The-Compilers/binance-java-api/blob/master/src/main/java/com/binance/api/client/BinanceApiRestClient.java#L387)
+    * [`BinanceApiRestClient.getRecentAssetDividendHistory`](https://github.com/The-Compilers/binance-java-api/blob/master/src/main/java/com/binance/api/client/BinanceApiRestClient.java#L406)
+
+## Auto-invest transactions
+
+TODO - support those.
+
+It seems that currently there is no API for
+it: https://dev.binance.vision/t/is-auto-invest-supported-by-api/10122/2
+
+The transactions are exported in the CSV file exported by the "Generate all statements" operation.
+
+Also, [this endpoint](https://binance-docs.github.io/apidocs/spot/en/#lending-account-user_data)
+includes the current summary of the auto-invest balances, but no transaction log: 
