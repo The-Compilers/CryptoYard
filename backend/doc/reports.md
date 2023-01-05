@@ -66,7 +66,7 @@ Transaction:
 // The different transaction types
 TransactionTypeEnum: (BuyOrder, SellOrder, CoinDeposit, CoinWithdrawal, 
     FiatDeposit, FiathWithdrawal, FiatCardPurchase, CoinCardPurchase,
-    SavingsInterest, DustCollection, FiatExchange)
+    SavingsInterest, DustCollection, FiatExchange, AutoInvest)
 
 // Snapshot of the whole wallet after a specific transaction. Contains a list of CurrencyBalanceSnapshot objects
 WalletSnapshot:
@@ -139,6 +139,11 @@ Wallet changes:
 * wallet.baseCurrency.amount += transaction.baseAmount
 * wallet.baseCurrency.averageObtainPriceHC = totalHCSpent / wallet.baseCurrency.amount
 * transaction.profitLossInHC is unchanged
+
+#### Auto-invest
+
+An auto-invest transaction is handled the same way as a buy-transaction - a coin is purchased 
+at scheduled moments.
 
 #### Sell order
 
