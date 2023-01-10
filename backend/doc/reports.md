@@ -27,10 +27,6 @@ To calculate the necessary reports, the following transactions must be collected
 8. Asset dividends
 9. Auto-invest
 
-TODO - introduce Asset dividend transaction in all data structures and algorithms
-
-TODO - introduce Auto-invest transaction in all data structures and algorithms
-
 ## Stored information
 
 To calculate the necessary reports, the following information must be stored on the backend:
@@ -66,7 +62,7 @@ Transaction:
 // The different transaction types
 TransactionTypeEnum: (BuyOrder, SellOrder, CoinDeposit, CoinWithdrawal, 
     FiatDeposit, FiathWithdrawal, FiatCardPurchase, CoinCardPurchase,
-    SavingsInterest, DustCollection, FiatExchange, AutoInvest)
+    SavingsInterest, DustCollection, FiatExchange, AutoInvest, AssetDividend)
 
 // Snapshot of the whole wallet after a specific transaction. Contains a list of CurrencyBalanceSnapshot objects
 WalletSnapshot:
@@ -204,22 +200,9 @@ Wallet changes:
 
 The user has purchased a currency, using credit card.
 
-Warning: Binance has no public API for this, but data is available on the user's website:
-https://www.binance.com/en/my/wallet/history/deposit-fiat
-Also, it seems that this API gives the necessary data, but is
-protected: https://www.binance.com/bapi/fiat/v1/private/fiatpayment/transactions/get-order-history
-
-This means, that the user must enter these transactions manually!
-
 Wallet changes:
 
 * transaction.quoteCurrency = homeCurrency
-* transaction.baseCurrency = [manualUserInput]
-* transaction.amount = [manualUserInput]
-* transaction.averagePrice = [manualUserInput]
-* transaction.timestamp = [manualUserInput]
-* transaction.fee = [manualUserInput]
-* transaction.feeCurrency = [manualUserInput]
 * wallet.baseCurrency.amount += transaction.baseAmount
 * hcSpentInTransaction = transaction.baseAmount * transaction.averagePrice
 * totalHcSpent = hcSpentInTransaction + (wallet.baseCurrency.averageObtainPriceHC * wallet.baseCurrency.amount)
@@ -241,6 +224,12 @@ Wallet changes:
 
 Dust collection means that the user converted a small amount of a coin into BNB coin. It is essentially a sell-order in
 the coin/BNB market.
+
+#### Asset dividends
+
+Asset dividend means that the user gets a "free token" because of her holding a specific asset in 
+the wallet for a specific amount of time. The algorithm for wallet updates is the same as for 
+the savings interest, because we get an extra amount of asset (coin) for free. 
 
 #### Other transactions
 

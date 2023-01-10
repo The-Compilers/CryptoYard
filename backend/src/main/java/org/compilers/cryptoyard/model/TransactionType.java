@@ -10,7 +10,10 @@ public enum TransactionType {
     Withdrawal("withdraw"),
     CardPurchase("card_purchase"),
     SavingsInterest("interest"),
-    DustCollection("dust");
+    DustCollection("dust"),
+    FiatExchange("fiat_exchange"),
+    AutoInvest("auto_invest"),
+    AssetDividend("dividend");
     final String value;
     TransactionType(String value) {
         this.value = value;
