@@ -144,4 +144,37 @@ it: https://dev.binance.vision/t/is-auto-invest-supported-by-api/10122/2
 The transactions are exported in the CSV file exported by the "Generate all statements" operation.
 
 Also, [this endpoint](https://binance-docs.github.io/apidocs/spot/en/#lending-account-user_data)
-includes the current summary of the auto-invest balances, but no transaction log: 
+includes the current summary of the auto-invest balances, but no transaction log:
+
+## API limits
+
+Binance has [API rate limits](https://binance-docs.github.io/apidocs/spot/en/#limits) for protection
+against spam. The limitations vary based on the type of the request, with the following options:
+
+* Limitation per IP address
+* Limitation per user account (UID)
+
+Each endpoint has a specification - it's weight and the type of used rate limit (IP or account).
+
+The following limits apply currently (Last checked January 2023):
+
+* Endpoints related to /api/*:
+    * IP-limits:
+        * 1200 weight per minute
+        * 6100 weight per 5 minutes
+    * Order-related requests:
+        * 50 weight per 10 seconds
+        * 160000 weight per day (24 hours)
+* Endpoints related to /sapi/*:
+    * Common IP-limit: 12000 weight per minute
+    * UID limit: 180000 weight per minute
+
+In every successful response the following headers are included letting the user know the currently
+used weights:
+
+* For `/api/*` endpoints:
+    * For IP-limits: X-MBX-USED-WEIGHT-(intervalNum)(intervalLetter)
+    * For order-limits per UID: X-MBX-ORDER-COUNT-(intervalNum)(intervalLetter)
+* For `/sapi/*` endpoints:
+    * For IP-limits: X-SAPI-USED-IP-WEIGHT-1M
+    * For UID-limits: X-SAPI-USED-UID-WEIGHT-1M
