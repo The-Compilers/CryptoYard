@@ -9,6 +9,14 @@
     <description>Command-line tool for generating Profit/Loss (PNL) report from the Transaction log
         CSV files provided by Binance.
     </description>
+    <dependencies>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>RELEASE</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
