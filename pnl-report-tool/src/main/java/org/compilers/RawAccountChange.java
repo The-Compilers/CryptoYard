@@ -1,5 +1,7 @@
 package org.compilers;
 
+import static org.compilers.Converter.utcTimeToString;
+
 /**
  * One single, atomic account change (part of a larger transaction).
  */
@@ -44,7 +46,7 @@ public class RawAccountChange {
   @Override
   public String toString() {
     return "RawAccountChange{"
-        + "utcTime=" + utcTime
+        + "utcTime=" + utcTimeToString(utcTime)
         + ", account=" + account
         + ", operation=" + operation
         + ", asset='" + asset + '\''

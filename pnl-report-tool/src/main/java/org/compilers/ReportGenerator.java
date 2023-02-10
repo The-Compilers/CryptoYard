@@ -63,7 +63,7 @@ public class ReportGenerator {
     if (row.length != 7) {
       throw new IOException("Invalid row format: " + String.join(",", row));
     }
-    long utcTimestamp = Converter.stringToTimestamp(row[1]);
+    long utcTimestamp = Converter.stringToUtcTimestamp(row[1]);
     AccountType accountType = AccountType.fromString(row[2]);
     Operation operation = Operation.fromString(row[3]);
     String asset = row[4];
@@ -83,7 +83,18 @@ public class ReportGenerator {
   }
 
   private List<Transaction> groupTransactionsByTimestamp(List<RawAccountChange> accountChanges) {
-    throw new UnsupportedOperationException();
+    List<Transaction> transactions = new LinkedList<>();
+    RawAccountChange lastChange = null;
+    Transaction transaction = null;
+    for (RawAccountChange change : accountChanges) {
+      if (lastChange == null || lastChange.getUtcTime() != change.getUtcTime()) {
+        transaction = new Transaction(change.getUtcTime());
+        transactions.add(transaction);
+      }
+      transaction.append(change);
+      lastChange = change;
+    }
+    return transactions;
   }
 
   private Report generateReport(List<Transaction> transactions) {
