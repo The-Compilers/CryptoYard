@@ -18,8 +18,11 @@ public class Runner {
     try {
       String inputFilePath = getInputFilePath(args);
       String outputFilePath = getOutputFilePath(args);
-      ReportGenerator reportGenerator = new ReportGenerator();
-      reportGenerator.createReport(inputFilePath, outputFilePath);
+      String homeCurrency = getCurrency(args);
+      String extraFilePath = getExtraFilePath(args);
+      ReportGenerator reportGenerator = new ReportGenerator(inputFilePath, outputFilePath,
+          homeCurrency, extraFilePath);
+      reportGenerator.createReport();
     } catch (IOException e) {
       System.out.println("Report generation failed: " + e.getMessage());
     }
@@ -39,6 +42,22 @@ public class Runner {
       throw new IOException(
           "The second command-line argument must contain path to the output file");
     }
-    return args[0];
+    return args[1];
+  }
+
+  private static String getCurrency(String[] args) throws IOException {
+    if (args.length < 3) {
+      throw new IOException(
+          "The third command-line argument must contain the accounting currency (example: NOK)");
+    }
+    return args[2];
+  }
+
+  private static String getExtraFilePath(String[] args) throws IOException {
+    if (args.length < 4) {
+      throw new IOException(
+          "The 4th command-line argument must contain path to CSV file with extra information");
+    }
+    return args[3];
   }
 }

@@ -83,4 +83,14 @@ public class Transaction {
     List<RawAccountChange> changes = atomicAccountChanges.get(operation);
     return changes != null && !changes.isEmpty() ? changes.get(0) : null;
   }
+
+  /**
+   * Get necessary extra information needed to process this transaction. The information
+   * must be provided by the user.
+   *
+   * @return Necessary extra information or null if no extra information is necessary.
+   */
+  public ExtraInfoEntry getNecessaryExtraInfo() {
+    return null;
+  }
 }

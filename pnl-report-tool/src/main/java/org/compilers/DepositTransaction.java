@@ -19,4 +19,10 @@ public class DepositTransaction extends Transaction {
     return getFirstChangeOfType(Operation.DEPOSIT);
   }
 
+  @Override
+  public ExtraInfoEntry getNecessaryExtraInfo() {
+    String date = Converter.utcTimeToDateString(utcTime);
+    String hint = "<" + getChange().getAsset() + " price in home currency on " + date + ">";
+    return new ExtraInfoEntry(utcTime, ExtraInfoType.ASSET_PRICE, hint);
+  }
 }

@@ -8,21 +8,92 @@ import java.util.List;
  * Logic for generation of the PNL report.
  */
 public class ReportGenerator {
+  private final String inputFilePath;
+  private final String outputFilePath;
+  private final String homeCurrency;
+  private final String extraFilePath;
+
+  /**
+   * Create a new report generator.
+   *
+   * @param inputFilePath  Path to the CVS input file (exported from Binance)
+   * @param outputFilePath Path to the output file where the report will be written
+   * @param homeCurrency   Home currency - used for profit-and-loss calculations
+   * @param extraFilePath  Path to a CSV file where necessary extra information is stored
+   * @throws IOException When some error happened during input file reading or output file writing
+   */
+  public ReportGenerator(String inputFilePath, String outputFilePath,
+                         String homeCurrency, String extraFilePath) throws IOException {
+
+    this.inputFilePath = inputFilePath;
+    this.outputFilePath = outputFilePath;
+    this.homeCurrency = homeCurrency;
+    this.extraFilePath = extraFilePath;
+  }
 
   /**
    * Analyze Transaction CSV file exported from Binance, generate a report, write it in
    * the output file.
-   *
-   * @param inputFilePath  Path to the CVS input file (exported from Binance)
-   * @param outputFilePath Path to the output file where the report will be written
-   * @throws IOException When some error happened during input file reading or output file writing
    */
-  public void createReport(String inputFilePath, String outputFilePath) throws IOException {
+  public void createReport() throws IOException {
     List<RawAccountChange> accountChanges = readAccountChanges(inputFilePath);
     List<Transaction> rawTransactions = groupTransactionsByTimestamp(accountChanges);
     List<Transaction> transactions = clarifyTransactionTypes(rawTransactions);
-    Report report = generateReport(transactions);
-    writeReportToFile(report, outputFilePath);
+    ExtraInfo necessaryUserInfo = detectNecessaryExtraInfo(transactions);
+    ExtraInfo providedUserInfo = readUserProvidedExtraInfo();
+    ExtraInfo missingInfo = detectMissingInfo(necessaryUserInfo, providedUserInfo);
+    if (missingInfo.isEmpty()) {
+      Report report = generateReport(transactions);
+      writeReportToFile(report, outputFilePath);
+    } else {
+      printMissingInfoRequirement(missingInfo);
+    }
+  }
+
+  private ExtraInfo detectNecessaryExtraInfo(List<Transaction> transactions) {
+    ExtraInfo necessaryInfo = new ExtraInfo();
+    for (Transaction t : transactions) {
+      ExtraInfoEntry necessaryExtraInfo = t.getNecessaryExtraInfo();
+      if (necessaryExtraInfo != null) {
+        necessaryInfo.add(necessaryExtraInfo);
+      }
+    }
+    return necessaryInfo;
+  }
+
+  private ExtraInfo detectMissingInfo(ExtraInfo necessaryInfo, ExtraInfo providedInfo) {
+    ExtraInfo missingInfo = new ExtraInfo();
+    for (ExtraInfoEntry necessaryEntry : necessaryInfo.getAllEntries()) {
+      if (!providedInfo.contains(necessaryEntry)) {
+        missingInfo.add(necessaryEntry);
+      }
+    }
+    return missingInfo;
+  }
+
+  private ExtraInfo readUserProvidedExtraInfo() throws IOException {
+    CsvFileParser csvParser = new CsvFileParser(extraFilePath);
+
+    ExtraInfo extraInfo = new ExtraInfo();
+
+    while (csvParser.hasMoreRows()) {
+      extraInfo.add(createExtraInfoEntryFromCsvRow(csvParser.readNextRow()));
+    }
+
+    return extraInfo;
+  }
+
+  private ExtraInfoEntry createExtraInfoEntryFromCsvRow(String[] csvRow) throws IOException {
+    return new ExtraInfoEntry(parseLong(csvRow[0]), ExtraInfoType.fromString(csvRow[1]),
+        parseDecimalString(csvRow[2]));
+  }
+
+  private void printMissingInfoRequirement(ExtraInfo missingInfo) {
+    System.out.println("Provide the necessary information in the extra-info file `"
+        + extraFilePath + "`: ");
+    for (ExtraInfoEntry mi : missingInfo.getAllEntries()) {
+      System.out.println(mi.utcTimestamp() + "," + mi.type() + "," + mi.hint());
+    }
   }
 
   /**
@@ -101,6 +172,14 @@ public class ReportGenerator {
     }
   }
 
+  private static Long parseLong(String s) throws IOException {
+    try {
+      return Long.parseLong(s);
+    } catch (NumberFormatException e) {
+      throw new IOException("Invalid number format: " + s);
+    }
+  }
+
   private List<Transaction> groupTransactionsByTimestamp(List<RawAccountChange> accountChanges) {
     List<Transaction> transactions = new LinkedList<>();
     RawAccountChange lastChange = null;
@@ -117,10 +196,12 @@ public class ReportGenerator {
   }
 
   private Report generateReport(List<Transaction> transactions) {
+    // TODO
     throw new UnsupportedOperationException();
   }
 
   private void writeReportToFile(Report report, String outputFilePath) {
+    // TODO
     throw new UnsupportedOperationException();
   }
 }
