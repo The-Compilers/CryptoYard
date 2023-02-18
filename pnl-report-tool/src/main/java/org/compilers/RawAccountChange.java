@@ -43,6 +43,24 @@ public class RawAccountChange {
     return utcTime;
   }
 
+  /**
+   * Get the type of the operation.
+   *
+   * @return The type of the operation performed in this change
+   */
+  public Operation getOperation() {
+    return operation;
+  }
+
+  /**
+   * Get the asset.
+   *
+   * @return The asset involved in the account change action
+   */
+  public String getAsset() {
+    return asset;
+  }
+
   @Override
   public String toString() {
     return "RawAccountChange{"
@@ -53,5 +71,14 @@ public class RawAccountChange {
         + ", changeAmount='" + changeAmount + '\''
         + ", remark='" + remark + '\''
         + '}';
+  }
+
+  /**
+   * Get amount of asset change.
+   *
+   * @return The amount of the asset. A decimal formatted as a string. Can be negative.
+   */
+  public String getAmount() {
+    return changeAmount;
   }
 }

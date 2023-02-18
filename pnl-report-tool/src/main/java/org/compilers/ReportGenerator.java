@@ -19,9 +19,28 @@ public class ReportGenerator {
    */
   public void createReport(String inputFilePath, String outputFilePath) throws IOException {
     List<RawAccountChange> accountChanges = readAccountChanges(inputFilePath);
-    List<Transaction> transactions = groupTransactionsByTimestamp(accountChanges);
+    List<Transaction> rawTransactions = groupTransactionsByTimestamp(accountChanges);
+    List<Transaction> transactions = clarifyTransactionTypes(rawTransactions);
     Report report = generateReport(transactions);
     writeReportToFile(report, outputFilePath);
+  }
+
+  /**
+   * Go through a list of raw transactions, look at their atomic changes, decide the type of each
+   * transaction: Deposit, Buy, Saving interest, etc.
+   *
+   * @param rawTransactions Raw transactions
+   * @return List of the same transactions, but with specific types
+   */
+  private List<Transaction> clarifyTransactionTypes(List<Transaction> rawTransactions) {
+    List<Transaction> transactions = new LinkedList<>();
+    for (Transaction rawTransaction : rawTransactions) {
+      Transaction transaction = rawTransaction.clarifyTransactionType();
+      if (transaction != null) {
+        transactions.add(transaction);
+      }
+    }
+    return transactions;
   }
 
 
