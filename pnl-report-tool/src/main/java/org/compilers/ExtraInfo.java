@@ -10,7 +10,9 @@ import java.util.TreeMap;
  * Extra user-provided information.
  */
 public class ExtraInfo {
-  private Map<Long, List<ExtraInfoEntry>> entries = new TreeMap<>();
+  private final Map<Long, List<ExtraInfoEntry>> entries = new TreeMap<>();
+  // Copy of all the entries
+  private final List<ExtraInfoEntry> allEntries = new LinkedList<>();
 
   /**
    * Add an entry to the info storage.
@@ -24,6 +26,7 @@ public class ExtraInfo {
       entries.put(infoEntry.utcTimestamp(), entryList);
     }
     entryList.add(infoEntry);
+    allEntries.add(infoEntry);
   }
 
   /**
@@ -41,10 +44,6 @@ public class ExtraInfo {
    * @return All the extra info entries, ordered by timestamp.
    */
   public List<ExtraInfoEntry> getAllEntries() {
-    List<ExtraInfoEntry> allEntries = new LinkedList<>();
-    for (List<ExtraInfoEntry> entryList : entries.values()) {
-      allEntries.addAll(entryList);
-    }
     return allEntries;
   }
 
