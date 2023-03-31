@@ -158,14 +158,14 @@ Each endpoint has a specification - it's weight and the type of used rate limit 
 
 The following limits apply currently (Last checked January 2023):
 
-* Endpoints related to /api/*:
+* Endpoints related to `/api/*`:
     * IP-limits:
         * 1200 weight per minute
         * 6100 weight per 5 minutes
     * Order-related requests:
         * 50 weight per 10 seconds
         * 160000 weight per day (24 hours)
-* Endpoints related to /sapi/*:
+* Endpoints related to `/sapi/*`:
     * Common IP-limit: 12000 weight per minute
     * UID limit: 180000 weight per minute
 
