@@ -66,6 +66,4 @@ backend/src/main/resources/application-dev.properties
 backend/doc/.$messaging.drawio.bkp
 backend/doc/.$messaging.drawio.dtmp
 
-pnl-report-tool/*.csv
-
-.DS_Store
+*.DS_Store
